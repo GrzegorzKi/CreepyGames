@@ -1,0 +1,105 @@
+:: CreepyChess - program do losowań szachowych
+:: * By CreepyNinja_ (Grzegorz Kita) *
+::
+:: Tutaj pojawią się informacje odnośnie zmian w programie.
+::
+:: [+] - Dodano funkcję
+:: [-] - Usunięto (błędy, funkcję)
+:: [*] - Zmieniono, usprawiono funkcję
+:: [==] - Rozwinięcie danego punktu
+::
+
+CreepyChess v0.1
+* Początkowe wydanie programu
++ Dodano ustawianie liczby graczy i rund (do 10 graczy)
+
+CreepyChess v0.2
++ Dodano możliwość nadawania imion - zamiast cyfr (1,2,...) w typowaniach pojawią się imiona
++ Utworzono skrypt losowania - w fazie testów
+- Poprawki błędów
+
+CreepyChess v0.3
++ Przyznawanie punktów jest teraz możliwe
+* Pierwsza faza kompresji programu w celu przyspieszenia działania i zmniejszenia rozmiaru pliku
+
+CreepyChess v0.4
+* Losowanie zostało usprawnione
+- Poprawki błędów
+
+CreepyChess v1.0 beta (Size: 31,4 KB, Modified: 15/12/14)
+# Pierwsze oficjalne wydanie programu
++ Dodano podliczanie punktów koćcowych i przyznawanie miejsc
++ Dodano możliwosc nazwania sesji (okna)
+* Losowanie i korekcja błędów w losowaniach działają już prawidłowo
+# Za niedługo zostaną dodane nowe opcje oraz rozszerzy się maksymalna liczba grających (skutkujące we wzroście rozmiaru pliku)
+- Poprawki błędów
+
+CreepyChess v1.1 beta (Size: 32,3 KB, Modified 16/12/14)
++ Dodano skróty (można od razu ustawić liczbę graczy i rund, bez robienia tego w programie)
+
+CreepyChess v1.1.1 (Size: 29,2 KB, Modified 22/12/14)
+* Od teraz może wspierać większą liczbę graczy (wymagane użycie "Generatora kodu" - niedostępne)
+- Usunięto zbędne linijki kodu i zoptymalizowano działanie programu
+
+!!# CreepyChess v1.2 (Size: 12,8 KB, Modified 26/12/14) #!!
+* Drastycznie zmniejszono rozmiar pliku
+* Losowanie zostało zoptymalizowane tak, aby działało jak najszybciej
+* Zastosowany nowy skrypt umożliwia wprowadzenie nieograniczonej (!) liczby grających! Pamiętaj, ze im większa ilość graczy, tym wolniejsze będą losowania.
+- Poprawki wielu błędów
+
+CreepyChess v1.3 (Size: 15,6 KB, Modified 26/12/14)
++ Dodano menu, w którym można ustawić wiele rzeczy bez potrzeby korzystania z tzw. "skrotów"
+== Można ustawić m.in. kolor tła i tekstu, drukowanie list i losowań itp. itd. ...
+== Ustawienia można zapisać do pliku .ini, przez co nie trzeba ciągle ustawiac np. rozmiaru czy nazwy okna
+
+CreepyChess v1.3.1 (Size: 15,7 KB, Modified 28/12/14)
++ Program wyposażono w liczenie tzw. Buchholza (uzupełniająca ocena jednakowych końcowych wyników dwóch lub więcej zawodników w turnieju polegająca na zsumowaniu punktów zdobytych przez przeciwników ~~Wikipedia)
+== Na ten czas liczy tylko tzw. pełnego Buchholza
+== Nie redukuje punktów przy walkowerze przeciwnika (brak takiej funkcji w programie)
+- "Skróty" zostaly usunięte (do wersji 1.5.0), ponieważ menu w programie zastępuje je doskonale
+
+CreepyChess v1.3.2 (Size: 17,8 KB, Modified 29/12/14)
++ W przypadku niepowodzenia losowania można samodzielnie ustalić typowania
+== UWAGA!! Zdarzają się przypadki, gdy dalsze *poprawne* typowania nie są możliwe - są to sporadyczne przypadki i tylko wtedy, gdy [liczba osób] = [liczba rund] i pauzowania są aktywne!!
+* Poprawiono interfejs menu
+- Poprawiono wiele błędóww
+
+CreepyChess v1.4 (Size: 17,2 KB, Modified 30/12/14)
++ Wprowadzono nowy interfejs box'owy (program będzie wymagał modułu Batch# do działania)
+== W przypadku braku modułu Batch#, program nie uruchomi się
+== Z racji wprowadzenia nowego interfejsu, ustawianie koloru tła i tekstu jest NIEMOŻLIWE!
+- Poprawki błędów
+
+CreepyChess v1.4.1 (Size: 16,2 KB, Modified 06/01/15)
++ Zastosowano interfejs box'owy we wszystkich częściach programu
++ Wprowadzono opcję wyłączenia SplashScreen'a (czyli intra)
++ Możliwe jest wyłączenie czyszczenia list przy każdym uruchomieniu
++ Dodano możliwość podglądu wyników po każdej rundzie
+
+CreepyChess v1.4.2 (Size: 17,9 KB, Modified 10/01/15)
+# Pierwsza publiczna wersja programu
++ Dodano wprowadzanie imion graczy na podstawie pliku "Gracze.ini" (lub innego zdefiniowanego w konfiguracji programu)
+* Poprawiono algorytm liczenia Buchholza
+* Usprawniono tworzenie list
+== Od teraz listy i wyniki są tworzone w folderach o nazwie takiej jak tytuł
+* Pod komendą 'CreepyChess /?' kryją się informacje o programie ;)
+
+CreepyChess v1.4.3 (Size: 18,6 KB, Modified 12/01/15)
+- Usunięto krytyczny błąd powodujący wyświtlenie błędu losowania przy losowaniach z włączoną pauzą
+- Usunięto błąd przy podliczaniu wyników turnieju powodujący złe przydzielanie miejsc i zapętlenie się kodu
+
+CreepyChess v1.5.0 (Size: 25,8 KB, Modified 13/01/15)
++ Dodano dział pomocy (informacje o programie, funkcjach itp.)
++ Przywrócono skróty programu (dostepne: /? /about /title /osob /rund /ini /bch /print /nomenu)
+
+CreepyChess v1.5.1 (Size: 28,6 KB, Modified 16/01/15)
+# Na ten czas finalna wersja programu (ze względu na wystarczający rozwój programu)
++ Dodano kreator skrótów (umieszczony w dziale pomocy)
++ Dodano kolejne pytania do działu pomocy
+- Poprawki błędów
+
+CreepyChess v1.5.2 FINAL (Size: 29,3 KB, Modified 24/01/15)
+* Poprawiono system Buchholza i przydzielanie miejsc
+
+CreepyChess v1.5.2 Security Update (Modified 15/02/15)
++ Dodano możliwość zablokowania programu hasłem
