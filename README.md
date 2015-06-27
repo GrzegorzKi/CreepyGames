@@ -41,6 +41,11 @@ więc autor w praktyce nieznany.
 
 Podziękowania
 -------------
+- ansicon.exe/ANSI32.dll - [Adoxa](https://github.com/adoxa/ansicon) -
+  wsparcie dla użycia kolorów poprzez użycie ANSI escape sequences
+  (dla zgodności ze starszymi systemami)
 - BatBox - [TheBATeam](https://github.com/TheBATeam/BATBOX-An-Awesome-Batch-Plugin) -
   animacja, obsługa myszki i klawiatury
 - Batch# - autor nieznany (niemniej dzięki wielkie!)
+- Batch of Pi - [cosinekitty](https://github.com/cosinekitty)
+- Pic Editor - [Honguito98](https://github.com/Honguito98/pic-editor-batch)
