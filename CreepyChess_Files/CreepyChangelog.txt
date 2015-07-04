@@ -101,5 +101,5 @@ CreepyChess v1.5.1 (Size: 28,6 KB, Modified 16/01/15)
 CreepyChess v1.5.2 FINAL (Size: 29,3 KB, Modified 24/01/15)
 * Poprawiono system Buchholza i przydzielanie miejsc
 
-CreepyChess v1.5.2 Security Update (Modified 15/02/15)
+CreepyChess v1.5.2 Security Update (Size: 30,6 KB, Modified 15/02/15)
 + Dodano możliwość zablokowania programu hasłem

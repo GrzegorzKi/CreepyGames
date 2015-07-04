@@ -31,3 +31,15 @@ v1.1.0 (2015-06-27)
     głównie [szyfrów polialfabetycznych](https://pl.wikipedia.org/wiki/Szyfr_polialfabetyczny)
 - CreepyGames oraz gry i programy zaczną obsługiwać **moduł ANSIcon**,
   ułatwiając przy tym moją pracę xD (oraz sprawiając, że tekst jest ładniejszy)
+
+v1.2.0 (2015-07-05)
+-------------------
+
+- Ulepszono Touch Menu pod względem czytelności oraz zawijania wysuwanego menu
+- Dodano grę Kółko i krzyżyk by Szagajew
+- CreepyGames Core - Dodano zakładkę **USTAWIENIA I CREDITSY**
+  - About CreepyGames trafiło do zakładki powyżej
+  - Dodano Ustawienia (ubogie, niestety...)
+  - Dodano Creditsy
+  - Dodano tzw. Statystyki dla nerdów (menu zawiera odnośnik do Changelogu
+    oraz historii aktualizacji programów)
