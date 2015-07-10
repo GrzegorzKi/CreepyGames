@@ -43,3 +43,14 @@ v1.2.0 (2015-07-05)
   - Dodano Creditsy
   - Dodano tzw. Statystyki dla nerdów (menu zawiera odnośnik do Changelogu
     oraz historii aktualizacji programów)
+
+v1.3.0 BIG UPDATE (2015-07-10)
+------------------------------
+
+- Poprawiono kilka błędów (m.in. w CreepyChess)
+- Dodano grę **CraftBatcher** by Sucharowiec
+- Program otrzymał **DRUGI JĘZYK** - Angielski rzecz jasna
+  - W związku z tym dodano menu wyboru języka (i te ładne flagi... :D)
+  - Wraz z przebudowaniem programu doszła możliwość "bezproblemowego"
+    tłumaczenia programu na inne języki :P
+- Wisielec wciąż wymaga roboty. Brakuje plików ze słówkami do gry po angielsku

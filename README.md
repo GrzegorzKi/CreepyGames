@@ -46,6 +46,7 @@ Podziękowania
   (dla zgodności ze starszymi systemami)
 - BatBox - [TheBATeam](https://github.com/TheBATeam/BATBOX-An-Awesome-Batch-Plugin) -
   animacja, obsługa myszki i klawiatury
-- Batch# - autor nieznany (niemniej dzięki wielkie!)
+- Batch# - MrKris7100
 - Batch of Pi - [cosinekitty](https://github.com/cosinekitty)
+- CraftBatcher - by Sucharowiec (oryginalny kod nie znaleziono)
 - Pic Editor - [Honguito98](https://github.com/Honguito98/pic-editor-batch)
