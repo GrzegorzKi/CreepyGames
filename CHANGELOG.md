@@ -54,3 +54,10 @@ v1.3.0 BIG UPDATE (2015-07-10)
   - Wraz z przebudowaniem programu doszła możliwość "bezproblemowego"
     tłumaczenia programu na inne języki :P
 - Wisielec wciąż wymaga roboty. Brakuje plików ze słówkami do gry po angielsku
+
+v1.3.1 (2015-07-10)
+-------------------
+
+- Drobne poprawki programu
+- Poprawne tłumaczenie programu **Zbiór szyfrów** w j. angielskim
+- Aktualizacja **CraftBatcher**

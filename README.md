@@ -36,8 +36,8 @@ zastosowałem to, co było mi znane — minimoduły typu Batbox czy Batch#.
 A jak wyszło? Myślę, że jeden z bardziej udanych projektów (choć w środku...).
 
 Program wykorzystuje do działania narzędzie Batch#, stworzone przez dobrych
-kolegów z forum programistycznego o Batchu.  Niestety nie istnieje już ono,
-więc autor w praktyce nieznany.
+kolegów z forum programistycznego o Batchu.  Ułatwia znacząco tworzenie
+"okienek" w programie CreepyChess.
 
 Podziękowania
 -------------
@@ -46,7 +46,7 @@ Podziękowania
   (dla zgodności ze starszymi systemami)
 - BatBox - [TheBATeam](https://github.com/TheBATeam/BATBOX-An-Awesome-Batch-Plugin) -
   animacja, obsługa myszki i klawiatury
-- Batch# - MrKris7100
+- Batch# - [MrKris7100](https://github.com/MrKris7100)
 - Batch of Pi - [cosinekitty](https://github.com/cosinekitty)
 - CraftBatcher - by Sucharowiec (oryginalny kod nie znaleziono)
 - Pic Editor - [Honguito98](https://github.com/Honguito98/pic-editor-batch)

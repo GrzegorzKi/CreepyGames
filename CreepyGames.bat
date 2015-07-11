@@ -49,11 +49,12 @@ cls & mode con cols=80 lines=43 & (for %%a in (%__ChangeLog%) do echo. %%~a) & e
 	@if /i exist Settings.ini for /f "tokens=*" %%a in (Settings.ini) do set %%a
 	@set notouch=NO
 	@if defined DefaultMenu (if /i "%DefaultMenu%"=="Hybrid" (set notouch=YES) else set notouch=NO)
+	@set Version=v1.3.1
+	@if defined staticanim (set /a wait=0,wait1=0) else (set /a wait=10,wait1=25)
 	set next=
 	set launch=
 	set return=
 	set ANSIcon_Enabled=
-	@if defined staticanim (set /a wait=0,wait1=0) else (set /a wait=10,wait1=25)
 
 if "%~1"=="/?" call :MenuShortcutUsage & exit /b 0
 for %%a in (%*) do (
@@ -99,11 +100,13 @@ pushd "%MDIR%"
 	)
 popd
 
+set LangChange=
+title CreepyGames
 if /i "%__CGLanguage%"=="Polski" echo [0;1;40;33mPoczekaj chwilฉ, adujฉ ustawienia jฉzyka...[0;1;40;37m&call :LanguageSet_pl
 if /i "%__CGLanguage%"=="English" echo [0;1;40;36mWait a moment, applying language settings...[0;1;40;37m&call :LanguageSet_en
 if /i not "%__CGLanguage%"=="Polski" (
 if /i not "%__CGLanguage%"=="English" (
-title CreepyGames&call :Language))
+call :Language))
 
 if defined launch (
 	%launch%
@@ -115,11 +118,10 @@ if defined launch (
 
 :: Strefa zmiennych ::
 call :Var
-	@mode con cols=80 lines=30
+@mode con cols=80 lines=30
 goto MenuIntro
 
 :Var
-	@set Version=v1.3.0
 	@title %__Title% (%Version%)
 	@if /i not "%NoLoadAnim%"=="Y" (set Macro_Loading=cls^&batbox.exe /h 0 /o 0 0 /w 150 /d "------------------------------------------------------------------" /w 50 /g 0 0 /d "                                                                  " /g 0 1 /d "------------------------------------------------------------------" /w 50 /g 0 1 /d "                                                                  " /g 1 1 /d "%__MacroLoading%" /g 0 2 /d "------------------------------------------------------------------" /w 50 /g 0 2 /d "                                                                  " /g 0 3 "------------------------------------------------------------------" /w 50 /g 0 3 /d "[                                                                ]" /g 0 4 /d "==================================================================" /g 1 3 /c 0x04 /d "#####################" /c 0x06 /d "######################" /c 0x02 /d "#####################" /w 150 /c 0x0C /g 1 3 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /c 0x0E /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /c 0x0E /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /c 0x0A /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /c 0x0A /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 300 /c 0x0F /g 0 4 /d "                                                                  " /g 0 3 /d "------------------------------------------------------------------" /w 50 /g 0 3 /d "                                                                  " /g 0 2 /d "------------------------------------------------------------------" /w 50 /g 0 2 /d "                                                                  " /g 0 1 /d "------------------------------------------------------------------" /w 50 /g 0 1 /d "                                                                  " /g 0 0 /d "------------------------------------------------------------------" /w 50 /g 0 0 /d "                                                                  " /w 150 /h 1 /c 0x07^&cls) else (set Macro_Loading=)
 goto :EOF
@@ -502,17 +504,22 @@ echo   ศออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ[0;1;40;37
 goto :EOF
 
 :MenuStatsCreepyGames
-mode con cols=66 lines=37
+mode con cols=66 lines=38
 setlocal
 
 set /a ProgramCount=5+4+3+2
-set /a Versions=3
+set /a Versions=4
 set /a Length1=20
 set /a Length2=6
 
 set Version_1=v1.1.0
 set Version_2=v1.2.0
 set Version_3=v1.3.0
+set Version_4=v1.3.1
+set Version_1C=37
+set Version_2C=32
+set Version_3C=36
+set Version_4C=33
 
 set Program1=%__Menu1Name1_1%
 set Program2=%__Menu1Name2_1%
@@ -570,15 +577,33 @@ set Program8_3=------
 set Program9_3=------
 set Program10_3=  v4
 set Program11_3=v1.1.0
-set Program12_3= v0.6
+set Program12_3= v0.1
 set Program13_3=  v5
 set Program14_3=  v5
+
+set Program1_4=v1.3.0
+set Program2_4=v1.2.0
+set Program3_4=------
+set Program4_4=------
+set Program5_4=v1.5.2
+set Program6_4=------
+set Program7_4=v0.5.0
+set Program8_4=------
+set Program9_4=------
+set Program10_4=  v4
+set Program11_4=v1.1.0
+set Program12_4= v0.2
+set Program13_4=  v5
+set Program14_4=  v5
 
 :: Auto-config ::
 	set "A=                                                  "
 	set "B=ออออออออออออออออออออออออออออออออออออออออออออออออออ"
 	set /a X=1
-	set /a X2=%X%+1,X3=%X%+2
+:MenuStats0CreepyGames
+	if %X% LSS 1 set X=1
+	set /a X2=%X%+1,X3=%X%+2,X0=%X%-1
+	if %X3% GTR %Versions% set /a X=%Versions%-2&goto MenuStats0CreepyGames
 	for /l %%# in (%X%,1,%X3%) do set "VVersion_%%#=!A:~0,%Length2%!"
 	for /l %%# in (1,1,%Versions%) do set VVersion_%%#=!Version_%%#!!A:~0,%Length2%!
 :MenuStats1CreepyGames
@@ -586,8 +611,9 @@ set Program14_3=  v5
 	echo                  [0;1;40;32m%__MenuStats1%
 	echo                  %__MenuStats2%[0;1;40;37m
 	echo.
+	echo  ^< Prev               ESC - Exit              Next ^>
 echo  ษอ!B:~0,%Length1%!อหอ!B:~0,%Length2%!อหอ!B:~0,%Length2%!อหอ!B:~0,%Length2%!อป
-echo  บ !A:~0,%Length1%! บ [0;1;40;33m!VVersion_%X%:~0,%Length2%![0;1;40;37m บ [0;1;40;33m!VVersion_%X2%:~0,%Length2%![0;1;40;37m บ [0;1;40;33m!VVersion_%X3%:~0,%Length2%![0;1;40;37m บ
+echo  บ !A:~0,%Length1%! บ [0;1;40;!Version_%X%C!m!VVersion_%X%:~0,%Length2%![0;1;40;37m บ [0;1;40;!Version_%X2%C!m!VVersion_%X2%:~0,%Length2%![0;1;40;37m บ [0;1;40;!Version_%X3%C!m!VVersion_%X3%:~0,%Length2%![0;1;40;37m บ
 echo  ฬอ!B:~0,%Length1%!อฮอ!B:~0,%Length2%!อฮอ!B:~0,%Length2%!อฮอ!B:~0,%Length2%!อน
 	echo  บ !A:~0,%Length1%! บ !A:~0,%Length2%! บ !A:~0,%Length2%! บ !A:~0,%Length2%! บ
 	for /l %%# in (1,1,%ProgramCount%) do (
@@ -595,15 +621,20 @@ echo  ฬอ!B:~0,%Length1%!อฮอ!B:~0,%Length2%!อฮอ!B:~0,%Length2%!อฮอ!B:~0,%Length2%
 		set "Line2=!Program%%#_%X%!!A:~0,%Length1%!"
 		set "Line3=!Program%%#_%X2%!!A:~0,%Length1%!"
 		set "Line4=!Program%%#_%X3%!!A:~0,%Length1%!"
+		if not "!Program%%#_%X0%!"=="!Program%%#_%X%!" (if "!Program%%#_%X0%!"=="" (if %X0% Equ 0 (set color0=1;37) else set color0=1;36) else set color0=1;32) else set color0=37
 		if not "!Program%%#_%X%!"=="!Program%%#_%X2%!" (if "!Program%%#_%X%!"=="" (set color1=1;36) else set color1=1;32) else set color1=37
 		if not "!Program%%#_%X2%!"=="!Program%%#_%X3%!" (if "!Program%%#_%X2%!"=="" (set color2=1;36) else set color2=1;32) else set color2=37
-		echo  บ [0;1;40;33m!Line1:~0,%Length1%![0;1;40;37m บ [0;1;40;37m!Line2:~0,%Length2%![0;1;40;37m บ [0;!color1!;40m!Line3:~0,%Length2%![0;1;40;37m บ [0;!color2!;40m!Line4:~0,%Length2%![0;1;40;37m บ
+		echo  บ [0;1;40;37m!Line1:~0,%Length1%![0;1;40;37m บ [0;!color0!;40m!Line2:~0,%Length2%![0;1;40;37m บ [0;!color1!;40m!Line3:~0,%Length2%![0;1;40;37m บ [0;!color2!;40m!Line4:~0,%Length2%![0;1;40;37m บ
 		echo  บ !A:~0,%Length1%! บ !A:~0,%Length2%! บ !A:~0,%Length2%! บ !A:~0,%Length2%! บ
 	)
-	echo  ศอ!B:~0,%Length1%!อสอ!B:~0,%Length2%!อสอ!B:~0,%Length2%!อสอ!B:~0,%Length2%!อผ
-batbox /m>nul
-endlocal
-goto :EOF
+echo  ศอ!B:~0,%Length1%!อสอ!B:~0,%Length2%!อสอ!B:~0,%Length2%!อสอ!B:~0,%Length2%!อผ
+:MenuStats2CreepyGames
+batbox /k
+set cho=%errorlevel%
+if %cho%==330 set /a X-=1&goto MenuStats0CreepyGames
+if %cho%==332 set /a X+=1&goto MenuStats0CreepyGames
+if %cho%==27 endlocal & goto :EOF
+goto MenuStats2CreepyGames
 
 :MenuSettings
 cls
@@ -782,8 +813,8 @@ for /f "tokens=1,2,3 delims=:" %%a in (bridgem) do (
 	if not "%%c"=="1" if not "%%c"=="3" goto LanguageInput
 )
 if %Y% GTR 6 if %Y% LSS 20 (
-	if %X% GTR 4 if %X% LSS 38 set /p "=[0;5;47;30m[13;14HStosujฉ jฉzyk...[20;1H"<nul & goto LanguageSet_pl
-	if %X% GTR 43 if %X% LSS 77 set /p "=[0;1;44;37m[13;51HApplying[0;1;5;41;37m language...[20;1H"<nul & goto LanguageSet_en
+	if %X% GTR 4 if %X% LSS 38 set /p "=[0;5;47;30m[13;14HStosujฉ jฉzyk...[20;1H"<nul &set __LangChange=Y& goto LanguageSet_pl
+	if %X% GTR 43 if %X% LSS 77 set /p "=[0;1;44;37m[13;51HApplying[0;1;5;41;37m language...[20;1H"<nul &set __LangChange=Y& goto LanguageSet_en
 )
 goto LanguageInput
 
@@ -916,10 +947,10 @@ for %%a in (
 set "__PressToContinue=Wcinij dowolny klawisz, aby kontynuowa..."
 set "__ClickToMenu=Kliknij gdziekolwiek, by wrขci do gขwnego menu"
 set "__NoBatboxPTC=Modu BatBox.exe niedostฉpny. Kliknij cokolwiek, aby kontynuowa..."
-set "__MenuStats1=Historia aktualizacji programขw"
-set "__MenuStats2=Kliknij GDZIEKOLWIEK, aby wyj"
+set "__MenuStats1=Historia aktualizacji programขw,"
+set "__MenuStats2=Sterowanie masz wypisane poniพej"
 set "__MenuSettings01=Ustawienia programu. Wybierz opcje za pomocฅ myszki"
-set "__MenuSettings02=Uwaga^^^^^! Niekt๓re zmiany wymagajฅ restartu^^^^^!"
+set "__MenuSettings02=Uwaga^^^^^! Niektขre zmiany wymagajฅ restartu^^^^^!"
 set "__MenuSettings1=Uพywaj domylnie "Touch Menu""
 set "__MenuSettings2=Uพywaj domylnie "Hybrid Menu""
 set "__MenuSettings3=Brak ustawieไ domylnych"
@@ -1273,7 +1304,7 @@ set "__SZ_ABType1=Polski"
 set "__SZ_ABType2=Angielski"
 set "__SZ_Default=domylny"
 set "__SZ_Code1=Podaj o ile majฅ by przesuniฉte litery (ujemna liczba - deszyfracja): "
-set "__SZ_Code2=Wpisz tekst do przetworzenia:"
+set "__SZ_Code2=Wpisz tekst do przetworzenia"
 set "__SZ_Code3=Czekaj, przetwarzam wpisany tekst. Parametry:"
 set "__SZ_Code4=Rodzaj szyfrowania:"
 set "__SZ_Code5=Typ alfabetu:"
@@ -1299,8 +1330,9 @@ set "__SZ_Code22=Podaj klucz do zaszyfrowania tekstu. Litery w kluczu nie mogฅ s
 set "__SZ_Code23=Czekaj, sprawdzam haslo..."
 set "__SZ_Code24=Oto przetworzony tekst:"
 
-set __CGLanguage=Polski
-	(echo DefaultMenu=%DefaultMenu%
+	set __CGLanguage=Polski
+	if "%__LangChange%"=="Y" (
+	echo DefaultMenu=%DefaultMenu%
 	echo NoLoadAnim=%NoLoadAnim%
 	echo NoIntro=%NoIntro%
 	echo __CGLanguage=%__CGLanguage%
@@ -1438,7 +1470,7 @@ set "__PressToContinue=Press any key to continue..."
 set "__ClickToMenu=   Click anywhere to return to the main menu    "
 set "__NoBatboxPTC=BatBox.exe module is unavailable. %__PressToContinue%"
 set "__MenuStats1=  History of updated programs"
-set "__MenuStats2=    Click ANYWHERE to exit"
+set "__MenuStats2=        Controls below."
 set "__MenuSettings01=Program settings. Select options with the mouse"
 set "__MenuSettings02=Warning^^^^^! Some changes require a restart^^^^^!"
 set "__MenuSettings1=Use by default "Touch Menu""
@@ -1795,7 +1827,7 @@ set "__SZ_ABType1=Polish"
 set "__SZ_ABType2=English"
 set "__SZ_Default=default"
 set "__SZ_Code1=Enter the offset value (negative vaule - decoding): "
-set "__SZ_Code2=Enter the text to be processed:"
+set "__SZ_Code2=Enter the text to be processed"
 set "__SZ_Code3=Wait, processing typed text. Parameters:"
 set "__SZ_Code4=Encryption name:"
 set "__SZ_Code5=Alphabet type:"
@@ -1822,7 +1854,8 @@ set "__SZ_Code23=Wait, checking key..."
 set "__SZ_Code24=Here is processed text:"
 
 set __CGLanguage=English
-	(echo DefaultMenu=%DefaultMenu%
+	if "%__LangChange%"=="Y" (
+	echo DefaultMenu=%DefaultMenu%
 	echo NoLoadAnim=%NoLoadAnim%
 	echo NoIntro=%NoIntro%
 	echo __CGLanguage=%__CGLanguage%
@@ -4972,13 +5005,13 @@ echo   Q) %__SZ_MenuQ%
 echo.
 set CodeType=
 set /p "CodeType=> "
-if "%CodeType%"=="1" set title=Szyfr Cezara&call :SZ_Code
-if "%CodeType%"=="2" set title=Szyfr Vigenera&call :SZ_Code
-if "%CodeType%"=="3" set title=Szyfr Bacona&call :SZ_3Code
-if "%CodeType%"=="4" set title=Szyfr AtBash&call :SZ_Code
-if "%CodeType%"=="5" set title=Szyfr Trithemiusa&call :SZ_5Code
-if "%CodeType%"=="6" set title=Szyfr Beauforta&call :SZ_Code
-if "%CodeType%"=="7" set title=Szyfr "Gaderypoluki"&call :SZ_7Code
+if "%CodeType%"=="1" set title=%__SZ_Menu1%&call :SZ_Code
+if "%CodeType%"=="2" set title=%__SZ_Menu2%&call :SZ_Code
+if "%CodeType%"=="3" set title=%__SZ_Menu3%&call :SZ_3Code
+if "%CodeType%"=="4" set title=%__SZ_Menu4%&call :SZ_Code
+if "%CodeType%"=="5" set title=%__SZ_Menu5%&call :SZ_5Code
+if "%CodeType%"=="6" set title=%__SZ_Menu6%&call :SZ_Code
+if "%CodeType%"=="7" set title=%__SZ_Menu7%&call :SZ_7Code
 if "%CodeType%"=="?" start http://cmdteam.esy.es/index.php?/topic/99-zbi%C3%B3r-szyfr%C3%B3w-7-szyfr%C3%B3w-i-wci%C4%85%C5%BC-ro%C5%9Bnie/
 if /i "%CodeType%"=="Q" endlocal&exit /b 0
 goto SZ_Menu
@@ -5583,8 +5616,7 @@ exit /b 0
 :CB_Init
 setlocal enabledelayedexpansion
 title CraftBatcher - Comeback
-Color F0
-mode con cols=13 lines=12
+color F0
 set o=1
 set o1=Move
 set o2=Mine
@@ -5594,34 +5626,39 @@ set i=1
 set i1=0
 set i2=0
 set i3=0
+set i4=0
+Set i5=0
 set itcr=0
-Set p=0
+set i6=0
+set p=0
 set opc=0
-
+Set nic=0
 :CB_menu
 cls
 echo  CraftBatcher 
-echo ------------
-echo 1) Play
-echo 2) Settings
-echo 3) About
-echo 4) Quit
-echo ------------
-choice /c 1234 /n
+echo -------------------
+echo 1) Gra
+echo 2) Opcje
+echo 3) O autorze
+Echo 4) Zaladuj
+echo 5) Wyjscie
+echo -------------------
+choice /c 12345 /n
 if %errorlevel%==1 goto CB_play
 if %errorlevel%==2 goto CB_settings
 if %errorlevel%==3 goto CB_about
-if %errorlevel%==4 exit /b
+if %errorlevel%==4 goto CB_load
+if %errorlevel%==5 exit /b
 goto CB_menu
 
 :CB_play
 cls
 echo  CraftBatcher 
 echo --------------------
-echo How big should be your world^?
-echo 1) Small
-echo 2) Medium
-echo 3) Big
+echo Jak wielki jest twoj swiat?
+echo 1) Maly
+echo 2) Sredni
+echo 3) Duzy
 echo --------------------
 choice /c 123 /n
 if %errorlevel%==1 goto CB_gensmall
@@ -5630,7 +5667,7 @@ if %errorlevel%==3 goto CB_genbig
 goto CB_play
 
 :CB_gensmall
-echo World is generating...
+echo Swiat sie generuje...
 for /l %%y in (1,1,20) do (
 for /l %%x in (1,1,20) do (
 set /a r=!random!*6/32768
@@ -5645,7 +5682,7 @@ if !r!==5 set x%%xy%%y=þ
 goto CB_spawn
 
 :CB_genmed
-echo World is generating...
+echo Swiat sie generuje...
 for /l %%y in (1,1,50) do (
 for /l %%x in (1,1,50) do (
 set /a r=!random!*6/32768
@@ -5660,7 +5697,7 @@ if !r!==5 set x%%xy%%y=þ
 goto CB_spawn
 
 :CB_genbig
-echo World is generating...
+echo Swiat sie generuje...
 for /l %%y in (1,1,100) do (
 for /l %%x in (1,1,100) do (
 set /a r=!random!*6/32768
@@ -5680,7 +5717,19 @@ set /a ry=!random!*20/32768+1
 if not "!x%rx%y%ry%!"==" " goto CB_spawn
 set x=%rx%
 set y=%ry%
+:CB_sp2
+set /a dx=!random!*20/32768+1
+set /a dy=!random!*20/32768+1
+if not "!x%dx%y%dy%!"==" " goto CB_sp2
+set wx=%dx%
+set wy=%dy%
+goto CB_scr
 
+:CB_load
+cls
+if exist zapis.bat (call zapis.bat) else goto CB_menu
+set x=%x: =%
+set y=%y: =%
 :CB_scr
 set /a bx=%x%-4
 set /a ex=%x%+4
@@ -5688,6 +5737,7 @@ set /a by=%y%-3
 set /a ey=%y%+3
 set v=!x%x%y%y%!
 set x%x%y%y%=
+set x%wx%y%wy%=
 set b=0
 cls
 echo.
@@ -5703,7 +5753,7 @@ echo  บ!l!บ
 echo  ศอออออออออผ
 echo   Mode:!o%o%!
 set x%x%y%y%=%v%
-choice /c wsade1234q /n >nul
+choice /c wsade1234p /n
 if %errorlevel%==1 (set vx=%x%&set /a vy=%y%-1&goto CB_key)
 if %errorlevel%==2 (set vx=%x%&set /a vy=%y%+1&goto CB_key)
 if %errorlevel%==3 (set /a vx=%x%-1&set vy=%y%&goto CB_key)
@@ -5713,75 +5763,175 @@ if %errorlevel%==6 set o=1
 if %errorlevel%==7 set o=2
 if %errorlevel%==8 set o=3
 if %errorlevel%==9 set o=4
-if %errorlevel%==10 exit /b
+if %errorlevel%==10 goto CB_pause
 goto CB_scr
 
 :CB_key
 if %o%==1 if "!x%vx%y%vy%!"==" " (set x=%vx%&set y=%vy%)
+if %o%==1 if "!x%vx%y%vy%!"=="" goto CB_bot
 if %o%==2 if "!x%vx%y%vy%!"=="" if not %i1%==99 (set x%vx%y%vy%= &set /a i1+=1)
 if %o%==2 if "!x%vx%y%vy%!"=="Û" if not %i2%==99 (set x%vx%y%vy%= &set /a i2+=1)
 if %o%==2 if %itcr%==1 if "!x%vx%y%vy%!"=="þ" if not %i3%==99 (set x%vx%y%vy%= &set /a i3+=1)
 if %o%==3 if "!x%vx%y%vy%!"==" " if %i%==1 if not %i1%==0 (set x%vx%y%vy%=&set /a i1-=1)
 if %o%==3 if "!x%vx%y%vy%!"==" " if %i%==2 if not %i2%==0 (set x%vx%y%vy%=Û&set /a i2-=1)
-if %o%==3 if "!x%vx%y%vy%!"==" " if %i%==3 if not %i3%==0 (set x%vx%y%vy%=þ&set /a i2-=1)
+if %o%==3 if "!x%vx%y%vy%!"==" " if %i%==3 if not %i3%==0 (set x%vx%y%vy%=þ&set /a i3-=1)
+if %o%==3 if "!x%vx%y%vy%!"==" " if %i%==5 if not %i5%==0 (set x%vx%y%vy%=Ü&set /a i5-=1)
+if %o%==3 if "!x%vx%y%vy%!"==" " if %i%==6 if not %i6%==0 (set x%vx%y%vy%=&set /a i6-=1)
 if %o%==4 goto CB_crafting
+if %o%==4 if "!x%vx%y%vy%!"=="Ü" goto CB_piecyk
 goto CB_scr
 
 :CB_items
-for /l %%a in (1,1,3) do (set c%%a= &set z%%a=!i%%a! )
-set c%i%=^^^>
+for /l %%a in (1,1,6) do (set c%%a= &set z%%a=!i%%a! )
+set c%i%=
 cls
 echo.
 echo  ษออออออออออป
-echo  บ  Items   บ
-echo  บ%c1%Wood x%z1:~0,2% บ
-echo  บ%c2%Rock x%z2:~0,2% บ
-echo  บ%c3%Coal x%z3:~0,2% บ
+echo  บ  Itemy   บ
+echo  บ%c1%Drew x%z1:~0,2% บ
+echo  บ%c2%Kami x%z2:~0,2% บ
+echo  บ%c3%Wegi x%z3:~0,2% บ
+Echo  บ%c4%NOre x%z4:~0,2% บ
+Echo  บ%c5%Piec x%z5:~0,2% บ
+echo  บ%c6%Ogni x%z6:~0,2% บ
 echo  ศออออออออออผ
-choice /c wse /n >nul
+choice /c wse /n
 if %errorlevel%==1 if not %i%==1 set /a i-=1
-if %errorlevel%==2 if not %i%==2 set /a i+=1
+if %errorlevel%==2 if not %i%==4 set /a i+=1
 if %errorlevel%==3 goto CB_scr
 goto CB_items
 
 :CB_crafting
 cls
-echo Welcome to crafting, u should
-echo have materials to create anything.
-echo Items u can create:
+echo Witam w craftingu, powinienes
+echo miec materialy do stworzenia wszystkiego
+echo Itemy ktore mozesz zrobic:
 if %i2% GEQ 3 if %i1% GEQ 2 (
-echo 1] Pickaxe
+echo 1] Kilof
 set p=1 
-set itemcr=pickaxe
+set itemcr=kilof
+)
+if %i2% GEQ 10 if %i3% GEQ 2 (
+echo 2]Piecyk
+set p=1
+set itemcr=Piecyk
 )
 if %p%==1 set /p opc=
 if %opc%==1 goto CB_craft
-if %opc%==2 goto CB_scr
-choice /c e /n >nul
+if %opc%==2 goto CB_craft
+if %opc%==q goto CB_scr
+choice /c e /n
 if %errorlevel%==1 goto CB_scr
 goto CB_scr
 
-:CB_craft
+:craft
 cls
-echo We craft %itemcr%... please wait...
+echo Tworzymy %itemcr%... prosze poczekac...
+if /i %itemcr%==kilof (
 set/a i1=%i1%-2
 set/a i2=%i2%-3
 Set itcr=1
+)
+if /i %itemcr%==piecyk (
+set/a i2=%i2%-10
+set/a i3=%i3%-2
+set/a i5=%i5%+1
+)
+Set p=0
 goto CB_scr
 
 :CB_settings
 cls
-echo No options, u are in hell.
-echo Pixel hell :DDD
-pause>nul
+echo Nie ma opcji, jestes w piekle.
+echo Pixelowym piekle :DDD
+pause >nul
 goto CB_menu
 
 :CB_about
 cls
-echo Hello, this game is created by
-echo Suchar, he has no copyrights, that mean
-echo that u can change this game whenever u want, but
-echo he will be pleased when u will say about him a bit :D
-pause>nul
+echo Czesc, ta gra zostala stworzona przez
+echo Suchara, nie ma on praw autorskich, to oznacza
+echo ze mozesz zmieniac ta gre ile razy chcesz, ale by byl
+Echo szczesliwy gdybys wspomnial troche o nim :D
+pause >nul
 goto CB_menu
+
+:CB_bot
+cls
+echo Czesc, jestem freddy, chce ci sprzedac
+echo nowa rude by robic nowe rzeczy w nowych aktualizacjach, ta ruda
+echo bedzie usunieta z mojego sklepiku
+echo KUP to teraz za 5 drewna = 1 ruda
+echo 1] Kup
+echo 2] Powrot do gry
+set /p odp=
+if %odp%==1 if %i1% GEQ 5 goto CB_buy
+if %odp%==2 goto CB_scr
+goto CB_bot
+
+:CB_buy
+cls
+echo Kupiles jedna teczowa rude^^!
+set/a i1=%i1%-5
+pause >nul
+goto CB_scr
+
+:CB_pause
+cls
+echo ษอออออออออออออออออป
+echo บ 1]Zapisz        บ
+Echo บ 2]Powrot do gry บ
+echo บ 3]Wyjscie       บ
+echo ศอออออออออออออออออผ
+choice /c 123 /n
+if %errorlevel%==1 goto CB_save
+if %errorlevel%==2 goto CB_scr
+if %errorlevel%==3 exit /b
+goto CB_pause
+
+:CB_save
+cls
+echo Zapisywanie...
+if exist zapis.bat del zapis.bat
+for /f %%A in ('set x') do (
+echo set %%a >>zapis.bat
+)
+echo set x=%x% >>zapis.bat
+echo set y=%y% >>zapis.bat
+echo set i1=0 >>zapis.bat
+echo set i2=0 >>zapis.bat
+echo set i3=0 >>zapis.bat
+echo set itcr=0 >>zapis.bat
+echo Set p=0 >>zapis.bat
+echo set opc=0 >>zapis.bat
+echo set wx=%wx% >>zapis.bat
+echo set wy=%wy% >>zapis.bat
+ping -n 3 localhost >nul
+goto CB_menu
+
+:CB_piecyk
+cls
+echo Witaj w piecyku,
+echo mozesz stworzyc tutaj
+echo wszystko z weglem i rudami
+if %i1% GEQ 1 if %i3% GEQ 1 (
+echo 1]Ognisko
+set p=1
+Set itemcr=ognisko
+)
+if %p%==1 set/p odp=
+if %odp%==1 goto CB_fire
+if %odp%==q goto CB_scr
+Choice /c e /n
+if %errorlevel%==1 goto CB_scr
+goto CB_piecyk
+
+:CB_fire
+cls
+echo Tworzymy %itemcr%... prosze poczekac...
+set/a i1=%i1%-1
+set/a i3=%i3%-1
+set/a i6=%i6%+1
+set p=0
+goto CB_scr
 :: Koniec program CraftBatcher ::
