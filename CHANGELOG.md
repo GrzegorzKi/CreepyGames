@@ -61,3 +61,15 @@ v1.3.1 (2015-07-10)
 - Drobne poprawki programu
 - Poprawne tłumaczenie programu **Zbiór szyfrów** w j. angielskim
 - Aktualizacja **CraftBatcher**
+
+
+v1.4.0 (2015-08-10)
+-------------------
+
+- Różnorakie poprawki programu
+- Dodano **Moduł aktualizacji** (w wersji GitHub ostatecznie wycięto)
+- Zastąpiono wywołania batbox na rzecz programu Fn.dll w zakresie obsługi myszki
+  (kompatybilność z QuickEdit)
+- Przeniesiono pomocnicze pliki do osobnego folderu `Core`
+- Usunięto bg.exe (zastąpione przez Fn.dll)
+- Usunięto **TestSamples**

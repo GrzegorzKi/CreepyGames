@@ -46,7 +46,9 @@ Podziękowania
   (dla zgodności ze starszymi systemami)
 - BatBox - [TheBATeam](https://github.com/TheBATeam/BATBOX-An-Awesome-Batch-Plugin) -
   animacja, obsługa myszki i klawiatury
-- Batch# - [MrKris7100](https://github.com/MrKris7100)
+- Batch# - [MrKris7100](https://github.com/MrKris7100) -
+  rysowanie okienek w programie CreepyChess
 - Batch of Pi - [cosinekitty](https://github.com/cosinekitty)
 - CraftBatcher - by Sucharowiec (oryginalny kod nie znaleziono)
-- Pic Editor - [Honguito98](https://github.com/Honguito98/pic-editor-batch)
+- Pic Editor & Fn.dll - [Honguito98](https://github.com/Honguito98/pic-editor-batch) -
+  program; moduł myszki, inputu klawiatury, usypiania

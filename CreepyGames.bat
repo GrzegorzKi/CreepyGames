@@ -48,15 +48,36 @@ cls & mode con cols=80 lines=43 & (for %%a in (%__ChangeLog%) do echo. %%~a) & e
 	@set __CGlanguage=
 	@if /i exist Settings.ini for /f "tokens=*" %%a in (Settings.ini) do set %%a
 	@set notouch=NO
-	@if defined DefaultMenu (if /i "%DefaultMenu%"=="Hybrid" (set notouch=YES) else set notouch=NO)
-	@set Version=v1.3.1
+	@if defined DefaultMenu if /i "%DefaultMenu%"=="Hybrid" set notouch=YES
 	@if defined staticanim (set /a wait=0,wait1=0) else (set /a wait=10,wait1=25)
+	@set Version=v1.4.0
 	set next=
 	set launch=
 	set return=
 	set ANSIcon_Enabled=
 
-if "%~1"=="/?" call :MenuShortcutUsage & exit /b 0
+
+@set .=
+@for /f %%A in ('echo Windows-8.1-Check') do set .=%%A
+@if "%.%"=="" goto MenuWindows81Error
+@set .=
+
+
+pushd "%MDIR%"
+	if /i not exist Core\ansicon.exe (
+	1>&2 echo ERROR: ANSICON.exe not found.
+	1>&2 echo.
+	1>&2 echo Please reinstall program to repair.
+	exit /b 1
+	)
+	if not "%~1"=="--ansicon_on" (
+	if "%~x0"=="" (set "EXT=.bat") else set EXT=
+	Core\ansicon.exe "%~nx0!EXT!" --ansicon_on %*
+	exit /b
+	)
+popd
+
+if "%~1"=="/?" call :MenuShortcutUsage & exit /b
 for %%a in (%*) do (
 	if defined next (
 		call :MenuShortcutLaunch "%%a" || exit /b 1
@@ -86,58 +107,48 @@ if defined next (
 	exit /b 1
 )
 
-pushd "%MDIR%"
-	if /i not exist ansicon.exe (
-	1>&2 echo ERROR: ANSICON.exe not found.
-	1>&2 echo.
-	1>&2 echo Please reinstall program to repair.
-	exit /b 1
-	)
-	if not defined ANSIcon_Enabled (
-	if "%~x0"=="" (set "EXT=.bat") else set EXT=
-	ansicon.exe "%~nx0!EXT!" --ansicon_on %*
-	exit /b
-	)
-popd
-
 set LangChange=
 title CreepyGames
+@set BX=batbox.exe
+@set Fn=Fn.dll
+@set Path=%MDIR%\Core;C:\Windows\System32;C:\Windows;C:\Windows\System32\Wbem
 if /i "%__CGLanguage%"=="Polski" echo [0;1;40;33mPoczekaj chwil©, àaduj© ustawienia j©zyka...[0;1;40;37m&call :LanguageSet_pl
 if /i "%__CGLanguage%"=="English" echo [0;1;40;36mWait a moment, applying language settings...[0;1;40;37m&call :LanguageSet_en
 if /i not "%__CGLanguage%"=="Polski" (
 if /i not "%__CGLanguage%"=="English" (
 call :Language))
 
+:: Koniec sprawdzania Shortcut'Ûw ::
+
+:: Strefa zmiennych ::
+call :Var
+%Fn% Font 9
 if defined launch (
 	%launch%
 	set launch=
 	if defined return goto MenuInit
 	goto :Exit
 )
-:: Koniec sprawdzania Shortcut'Ûw ::
-
-:: Strefa zmiennych ::
-call :Var
 @mode con cols=80 lines=30
 goto MenuIntro
 
 :Var
 	@title %__Title% (%Version%)
-	@if /i not "%NoLoadAnim%"=="Y" (set Macro_Loading=cls^&batbox.exe /h 0 /o 0 0 /w 150 /d "------------------------------------------------------------------" /w 50 /g 0 0 /d "                                                                  " /g 0 1 /d "------------------------------------------------------------------" /w 50 /g 0 1 /d "                                                                  " /g 1 1 /d "%__MacroLoading%" /g 0 2 /d "------------------------------------------------------------------" /w 50 /g 0 2 /d "                                                                  " /g 0 3 "------------------------------------------------------------------" /w 50 /g 0 3 /d "[                                                                ]" /g 0 4 /d "==================================================================" /g 1 3 /c 0x04 /d "#####################" /c 0x06 /d "######################" /c 0x02 /d "#####################" /w 150 /c 0x0C /g 1 3 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /c 0x0E /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /c 0x0E /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /c 0x0A /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /c 0x0A /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 300 /c 0x0F /g 0 4 /d "                                                                  " /g 0 3 /d "------------------------------------------------------------------" /w 50 /g 0 3 /d "                                                                  " /g 0 2 /d "------------------------------------------------------------------" /w 50 /g 0 2 /d "                                                                  " /g 0 1 /d "------------------------------------------------------------------" /w 50 /g 0 1 /d "                                                                  " /g 0 0 /d "------------------------------------------------------------------" /w 50 /g 0 0 /d "                                                                  " /w 150 /h 1 /c 0x07^&cls) else (set Macro_Loading=)
+	@set Path=%MDIR%\Core;C:\Windows\System32;C:\Windows;C:\Windows\System32\Wbem
+	@set BX=batbox.exe
+	@set Fn=Fn.dll
+	@set wget=wget.exe
+	@if /i not "%NoLoadAnim%"=="Y" (set Macro_Loading=cls^&%BX% /h 0 /o 0 0 /w 150 /d "------------------------------------------------------------------" /w 50 /g 0 0 /d "                                                                  " /g 0 1 /d "------------------------------------------------------------------" /w 50 /g 0 1 /d "                                                                  " /g 1 1 /d "%__MacroLoading%" /g 0 2 /d "------------------------------------------------------------------" /w 50 /g 0 2 /d "                                                                  " /g 0 3 "------------------------------------------------------------------" /w 50 /g 0 3 /d "[                                                                ]" /g 0 4 /d "==================================================================" /g 1 3 /c 0x04 /d "#####################" /c 0x06 /d "######################" /c 0x02 /d "#####################" /w 150 /c 0x0C /g 1 3 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /c 0x0E /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /c 0x0E /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /c 0x0A /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /c 0x0A /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 15 /d "#" /w 300 /c 0x0F /g 0 4 /d "                                                                  " /g 0 3 /d "------------------------------------------------------------------" /w 50 /g 0 3 /d "                                                                  " /g 0 2 /d "------------------------------------------------------------------" /w 50 /g 0 2 /d "                                                                  " /g 0 1 /d "------------------------------------------------------------------" /w 50 /g 0 1 /d "                                                                  " /g 0 0 /d "------------------------------------------------------------------" /w 50 /g 0 0 /d "                                                                  " /w 150 /h 1 /c 0x07^&cls) else (set Macro_Loading=)
 goto :EOF
 
 :MenuIntro Logo
-	if not exist batbox.exe call :BatBox&goto MenuIntro
+	if not exist Core\%BX% call :BatBox&goto MenuIntro
 	set ErrorMessage=
-	2>nul >"%temp%\bridgem" echo. || (set "ErrorMessage=/c 0x0A /g 16 10 /d "%__ErrorMessage1%" /g 13 11 /d "%__ErrorMessage2%"")
 cls
-if /i "%NoIntro%"=="Y" if not defined ErrorMessage goto MenuInit
-batbox.exe /h 0 /o 1 1 /c 0x0C /g 0 3 /d "/" /g 0 4 /d \ /w %wait% /g 1 2 /d "/" /g 1 4 /d "_" /w %wait% /g 2 1 /d "/" /g 2 3 /d "/" /g 2 4 /d "_" /w %wait% /g 3 0 /d "_" /g 3 2 /d "/" /g 3 3 /d "_" /g 3 4 /d "_" /w %wait% /g 4 0 /d "_" /g 4 1 /d "_" /g 4 3 /d "_" /g 4 4 /d "_" /w %wait% /g 5 0 /d "_" /g 5 1 /d "_" /g 5 3 /d "_" /g 5 4 /d "/" /w %wait% /g 6 0 /d "_" /g 6 1 /d "_" /g 6 4 /d "/" /w %wait% /g 7 0 /d "_" /g 7 1 /d "_" /g 7 3 /d "/" /g 7 4 /d "_" /w %wait% /g 8 0 /d "_" /g 8 1 /d "/" /g 8 2 /d "/" /g 8 4 /d "/" /w %wait% /g 9 1 /d "_" /g 9 3 /d "/" /w %wait% /g 10 1 /d "_" /g 10 2 /d "_" /w %wait% /g 11 1 /d "_" /g 11 2 /d "_" /w %wait% /g 12 1 /d "_" /g 12 2 /d "_" /w %wait% /g 13 1 /d "_" /g 13 2 /d "/" /g 13 3 /d "/" /g 13 4 /d \ /w %wait% /g 14 2 /d "/" /g 14 4 /d "_" /w %wait% /g 15 1 /d "_" /g 15 4 /d "_" /w %wait% /g 16 1 /d "_" /g 16 2 /d "_" /g 16 3 /d "_" /g 16 4 /d "_" /w %wait% /g 17 1 /d "_" /g 17 3 /d "_" /g 17 4 /d "/" /w %wait% /g 18 2 /d \ /g 18 3 /d "/" /w %wait% /g 19 3 /d "/" /g 19 4 /d \ /w %wait% /g 20 2 /d "/" /g 20 4 /d "_" /w %wait% /g 21 1 /d "_" /g 21 4 /d "_" /w %wait% /g 22 1 /d "_" /g 22 2 /d "_" /g 22 3 /d "_" /g 22 4 /d "_" /w %wait% /g 23 1 /d "_" /g 23 3 /d "_" /g 23 4 /d "/" /g 23 5 /d "/" /w %wait% /g 24 2 /d \ /g 24 3 /d "/" /g 24 4 /d "/" /g 24 5 /d "_" /w %wait% /g 25 3 /d "/" /g 25 5 /d "/" /w %wait% /g 26 2 /d "/" /g 26 4 /d "." /w %wait% /g 27 1 /d "_" /g 27 3 /d "/" /g 27 4 /d "_" /w %wait% /g 28 1 /d "_" /g 28 2 /d "_" /g 28 3 /d "_" /g 28 4 /d "_" /w %wait% /g 29 1 /d "_" /g 29 2 /d "_" /g 29 3 /d "/" /g 29 4 /d "_" /w %wait% /g 30 1 /d "_" /g 30 4 /d "/" /w %wait% /g 31 2 /d \ /g 31 3 /d "/" /g 31 5 /d "/" /w %wait% /g 32 3 /d "/" /g 32 4 /d \ /g 32 5 /d "_" /w %wait% /g 33 2 /d "/" /g 33 4 /d "_" /g 33 5 /d "_" /w %wait% /g 34 1 /d "_" /g 34 3 /d "/" /g 34 4 /d "_" /g 34 5 /d "_" /w %wait% /g 35 1 /d "_" /g 35 2 /d "/" /g 35 3 /d "_" /g 35 4 /d "," /g 35 5 /d "_" /w %wait% /g 36 3 /d "/" /g 36 5 /d "/" /w %wait% /g 37 2 /d "/" /g 37 4 /d "/" /w %wait% /g 38 1 /d "_" /g 38 3 /d "/" /w %wait% /g 39 1 /d "_" /g 39 2 /d "/" /g 39 3 /d "/" /g 39 4 /d \ /w %wait% /g 40 2 /d "/" /g 40 4 /d "_" /w %wait% /g 41 1 /d "/" /g 41 3 /d "/" /g 41 4 /d "_" /w %wait% /g 42 0 /d "_" /g 42 2 /d "/" /g 42 3 /d "_" /g 42 4 /d "_" /w %wait% /g 43 0 /d "_" /g 43 1 /d "_" /g 43 3 /d "/" /g 43 4 /d "_" /w %wait% /g 44 0 /d "_" /g 44 1 /d "_" /g 44 2 /d "_" /g 44 4 /d "/" /w %wait% /g 45 0 /d "_" /g 45 1 /d "_" /g 45 2 /d "_" /g 45 3 /d "/" /w %wait% /g 46 0 /d "_" /g 46 1 /d "_" /g 46 3 /d "/" /g 46 4 /d \ /w %wait% /g 47 0 /d "_" /g 47 1 /d "/" /g 47 2 /d "/" /g 47 4 /d "_" /w %wait% /g 48 1 /d "_" /g 48 3 /d "/" /g 48 4 /d "_" /w %wait% /g 49 1 /d "_" /g 49 2 /d "_" /g 49 3 /d "_" /g 49 4 /d "," /w %wait% /g 50 1 /d "_" /g 50 2 /d "_" /g 50 3 /d "/" /g 50 4 /d "_" /w %wait% /g 51 1 /d "_" /g 51 2 /d \ /g 51 4 /d "/" /w %wait% /g 52 2 /d "`" /g 52 3 /d "/" /g 52 4 /d "/" /w %wait% /g 53 1 /d "_" /g 53 2 /d "/" /g 53 3 /d "/" /g 53 4 /d "_" /w %wait% /g 54 2 /d "/" /g 54 4 /d "/" /w %wait% /g 55 1 /d "_" /g 55 3 /d "/" /w %wait% /g 56 1 /d "_" /g 56 2 /d "_" /g 56 4 /d "/" /w %wait% /g 57 1 /d "_" /g 57 2 /d "_" /g 57 3 /d "/" /g 57 4 /d "_" /w %wait% /g 58 1 /d "_" /g 58 2 /d \ /g 58 4 /d "/" /w %wait% /g 59 2 /d "`" /g 59 3 /d "/" /w %wait% /g 60 1 /d "_" /g 60 2 /d "_" /g 60 4 /d "/" /w %wait% /g 61 1 /d "_" /g 61 2 /d "_" /g 61 3 /d "/" /g 61 4 /d "_" /w %wait% /g 62 1 /d "_" /g 62 4 /d "/" /w %wait% /g 63 2 /d \ /g 63 3 /d "/" /w %wait% /g 64 3 /d "/" /g 64 4 /d \ /w %wait% /g 65 2 /d "/" /g 65 4 /d "_" /w %wait% /g 66 1 /d "_" /g 66 4 /d "_" /w %wait% /g 67 1 /d "_" /g 67 2 /d "_" /g 67 3 /d "_" /g 67 4 /d "_" /w %wait% /g 68 1 /d "_" /g 68 3 /d "_" /g 68 4 /d "/" /w %wait% /g 69 2 /d \ /g 69 3 /d "/" /g 69 4 /d "/" /w %wait% /g 70 3 /d "(" /g 70 4 /d "_" /w %wait% /g 71 2 /d "/" /g 71 3 /d "_" /g 71 4 /d "_" /w %wait% /g 72 1 /d "_" /g 72 3 /d "_" /g 72 4 /d "_" /w %wait% /g 73 1 /d "_" /g 73 2 /d "_" /g 73 4 /d "_" /w %wait% /g 74 1 /d "_" /g 74 2 /d "_" /g 74 4 /d "/" /w %wait% /g 75 1 /d "_" /g 75 2 /d "_" /g 75 3 /d ")" /w %wait% /g 76 1 /d "_" /g 76 2 /d "/" /g 18 8 /c 0x02 /d "%__IntroMessage%" %ErrorMessage% /h 1 /c 0x0F /w 2000 /h 1
+if /i "%NoIntro%"=="Y" goto MenuInit
+%BX% /h 0 /o 1 1 /c 0x0C /g 0 3 /d "/" /g 0 4 /d \ /w %wait% /g 1 2 /d "/" /g 1 4 /d "_" /w %wait% /g 2 1 /d "/" /g 2 3 /d "/" /g 2 4 /d "_" /w %wait% /g 3 0 /d "_" /g 3 2 /d "/" /g 3 3 /d "_" /g 3 4 /d "_" /w %wait% /g 4 0 /d "_" /g 4 1 /d "_" /g 4 3 /d "_" /g 4 4 /d "_" /w %wait% /g 5 0 /d "_" /g 5 1 /d "_" /g 5 3 /d "_" /g 5 4 /d "/" /w %wait% /g 6 0 /d "_" /g 6 1 /d "_" /g 6 4 /d "/" /w %wait% /g 7 0 /d "_" /g 7 1 /d "_" /g 7 3 /d "/" /g 7 4 /d "_" /w %wait% /g 8 0 /d "_" /g 8 1 /d "/" /g 8 2 /d "/" /g 8 4 /d "/" /w %wait% /g 9 1 /d "_" /g 9 3 /d "/" /w %wait% /g 10 1 /d "_" /g 10 2 /d "_" /w %wait% /g 11 1 /d "_" /g 11 2 /d "_" /w %wait% /g 12 1 /d "_" /g 12 2 /d "_" /w %wait% /g 13 1 /d "_" /g 13 2 /d "/" /g 13 3 /d "/" /g 13 4 /d \ /w %wait% /g 14 2 /d "/" /g 14 4 /d "_" /w %wait% /g 15 1 /d "_" /g 15 4 /d "_" /w %wait% /g 16 1 /d "_" /g 16 2 /d "_" /g 16 3 /d "_" /g 16 4 /d "_" /w %wait% /g 17 1 /d "_" /g 17 3 /d "_" /g 17 4 /d "/" /w %wait% /g 18 2 /d \ /g 18 3 /d "/" /w %wait% /g 19 3 /d "/" /g 19 4 /d \ /w %wait% /g 20 2 /d "/" /g 20 4 /d "_" /w %wait% /g 21 1 /d "_" /g 21 4 /d "_" /w %wait% /g 22 1 /d "_" /g 22 2 /d "_" /g 22 3 /d "_" /g 22 4 /d "_" /w %wait% /g 23 1 /d "_" /g 23 3 /d "_" /g 23 4 /d "/" /g 23 5 /d "/" /w %wait% /g 24 2 /d \ /g 24 3 /d "/" /g 24 4 /d "/" /g 24 5 /d "_" /w %wait% /g 25 3 /d "/" /g 25 5 /d "/" /w %wait% /g 26 2 /d "/" /g 26 4 /d "." /w %wait% /g 27 1 /d "_" /g 27 3 /d "/" /g 27 4 /d "_" /w %wait% /g 28 1 /d "_" /g 28 2 /d "_" /g 28 3 /d "_" /g 28 4 /d "_" /w %wait% /g 29 1 /d "_" /g 29 2 /d "_" /g 29 3 /d "/" /g 29 4 /d "_" /w %wait% /g 30 1 /d "_" /g 30 4 /d "/" /w %wait% /g 31 2 /d \ /g 31 3 /d "/" /g 31 5 /d "/" /w %wait% /g 32 3 /d "/" /g 32 4 /d \ /g 32 5 /d "_" /w %wait% /g 33 2 /d "/" /g 33 4 /d "_" /g 33 5 /d "_" /w %wait% /g 34 1 /d "_" /g 34 3 /d "/" /g 34 4 /d "_" /g 34 5 /d "_" /w %wait% /g 35 1 /d "_" /g 35 2 /d "/" /g 35 3 /d "_" /g 35 4 /d "," /g 35 5 /d "_" /w %wait% /g 36 3 /d "/" /g 36 5 /d "/" /w %wait% /g 37 2 /d "/" /g 37 4 /d "/" /w %wait% /g 38 1 /d "_" /g 38 3 /d "/" /w %wait% /g 39 1 /d "_" /g 39 2 /d "/" /g 39 3 /d "/" /g 39 4 /d \ /w %wait% /g 40 2 /d "/" /g 40 4 /d "_" /w %wait% /g 41 1 /d "/" /g 41 3 /d "/" /g 41 4 /d "_" /w %wait% /g 42 0 /d "_" /g 42 2 /d "/" /g 42 3 /d "_" /g 42 4 /d "_" /w %wait% /g 43 0 /d "_" /g 43 1 /d "_" /g 43 3 /d "/" /g 43 4 /d "_" /w %wait% /g 44 0 /d "_" /g 44 1 /d "_" /g 44 2 /d "_" /g 44 4 /d "/" /w %wait% /g 45 0 /d "_" /g 45 1 /d "_" /g 45 2 /d "_" /g 45 3 /d "/" /w %wait% /g 46 0 /d "_" /g 46 1 /d "_" /g 46 3 /d "/" /g 46 4 /d \ /w %wait% /g 47 0 /d "_" /g 47 1 /d "/" /g 47 2 /d "/" /g 47 4 /d "_" /w %wait% /g 48 1 /d "_" /g 48 3 /d "/" /g 48 4 /d "_" /w %wait% /g 49 1 /d "_" /g 49 2 /d "_" /g 49 3 /d "_" /g 49 4 /d "," /w %wait% /g 50 1 /d "_" /g 50 2 /d "_" /g 50 3 /d "/" /g 50 4 /d "_" /w %wait% /g 51 1 /d "_" /g 51 2 /d \ /g 51 4 /d "/" /w %wait% /g 52 2 /d "`" /g 52 3 /d "/" /g 52 4 /d "/" /w %wait% /g 53 1 /d "_" /g 53 2 /d "/" /g 53 3 /d "/" /g 53 4 /d "_" /w %wait% /g 54 2 /d "/" /g 54 4 /d "/" /w %wait% /g 55 1 /d "_" /g 55 3 /d "/" /w %wait% /g 56 1 /d "_" /g 56 2 /d "_" /g 56 4 /d "/" /w %wait% /g 57 1 /d "_" /g 57 2 /d "_" /g 57 3 /d "/" /g 57 4 /d "_" /w %wait% /g 58 1 /d "_" /g 58 2 /d \ /g 58 4 /d "/" /w %wait% /g 59 2 /d "`" /g 59 3 /d "/" /w %wait% /g 60 1 /d "_" /g 60 2 /d "_" /g 60 4 /d "/" /w %wait% /g 61 1 /d "_" /g 61 2 /d "_" /g 61 3 /d "/" /g 61 4 /d "_" /w %wait% /g 62 1 /d "_" /g 62 4 /d "/" /w %wait% /g 63 2 /d \ /g 63 3 /d "/" /w %wait% /g 64 3 /d "/" /g 64 4 /d \ /w %wait% /g 65 2 /d "/" /g 65 4 /d "_" /w %wait% /g 66 1 /d "_" /g 66 4 /d "_" /w %wait% /g 67 1 /d "_" /g 67 2 /d "_" /g 67 3 /d "_" /g 67 4 /d "_" /w %wait% /g 68 1 /d "_" /g 68 3 /d "_" /g 68 4 /d "/" /w %wait% /g 69 2 /d \ /g 69 3 /d "/" /g 69 4 /d "/" /w %wait% /g 70 3 /d "(" /g 70 4 /d "_" /w %wait% /g 71 2 /d "/" /g 71 3 /d "_" /g 71 4 /d "_" /w %wait% /g 72 1 /d "_" /g 72 3 /d "_" /g 72 4 /d "_" /w %wait% /g 73 1 /d "_" /g 73 2 /d "_" /g 73 4 /d "_" /w %wait% /g 74 1 /d "_" /g 74 2 /d "_" /g 74 4 /d "/" /w %wait% /g 75 1 /d "_" /g 75 2 /d "_" /g 75 3 /d ")" /w %wait% /g 76 1 /d "_" /g 76 2 /d "/" /g 18 8 /c 0x02 /d "%__IntroMessage%" /h 1 /c 0x0F /w 2000 /h 1
 
 :MenuInit
-	if defined ErrorMessage ping localhost -n 2 >nul
-	cls
-	2>nul >"%temp%\bridgem" echo. || (cls&goto MenuIntro)
 
 	
 :MenuConfig1
@@ -148,20 +159,23 @@ set "WelcomeText=%__WelcomeText1%"
 set Col1=30
 set Col2=31
 
-set MenuEntityCount=5
+set MenuEntityCount=6
 set Menu1Count=5
 set Menu2Count=4
 set Menu3Count=3
 set Menu4Count=4
 set Menu5Count=0
+set Menu6Count=0
 
 set Menu1Name=%__Menu1Name_1%
 set Menu2Name=%__Menu2Name_1%
 set Menu3Name=%__Menu3Name_1%
 set Menu4Name=%__Menu4Name_1%
-set Menu5Name=%__Menu5Name_1%
+set Menu5Name=Check for Updates (WIP)
+set Menu6Name=%__Menu5Name_1%
 
-set Menu5Do0=goto MenuExit
+set "Menu5Do0=call :MenuUpdateCreepyGames"
+set Menu6Do0=goto MenuExit
 
 set Menu1Name1=%__Menu1Name1_1%
 set Menu1Name2=%__Menu1Name2_1%
@@ -184,10 +198,10 @@ set Menu2Do3=call :DB_Init
 set Menu2Do4=call :PE_Init
 
 set Menu3Name1=%__Menu3Name1_1%
-set Menu3Name2=%__Menu3Name2_1%
+set Menu3Name2=Tips 'n' Tricks (WIP)
 set Menu3Name3=%__Menu3Name3_1%
 set Menu3Do1=call :PI_BatchOfPi
-set Menu3Do2=call :MenuConfig2
+set Menu3Do2=
 set Menu3Do3=call :SZ_Init
 
 set Menu4Name1=%__Menu4Name1_1%
@@ -198,48 +212,6 @@ set Menu4Do1=call :MenuSettings
 set Menu4Do2=call :MenuAboutCreepyGames
 set Menu4Do3=call :MenuCreditsCreepyGames
 set Menu4Do4=call :MenuConfig3
-
-goto MenuAutoConfig
-
-:MenuConfig2
-set CfgID=2
-setlocal
-set "WelcomeText=%__WelcomeText2%"
-
-set Col1=30
-set Col2=31
-
-set MenuEntityCount=5
-set Menu1Count=2
-set Menu2Count=2
-set Menu3Count=2
-set Menu4Count=2
-set Menu5Count=0
-
-set Menu1Name=Internet Check
-set Menu2Name=Text alignment
-set Menu3Name=UAC_Ask (By Cyc0S)
-set Menu4Name=Hybrid Menu
-set Menu5Name=-= Wr¢Ü do menu =-
-
-set Menu5Do0=goto :EOF
-
-set Menu1Name1=%__Menu1Name1_2%
-set Menu1Name2=%__Menu1Name2_2%
-set Menu2Name1=%__Menu1Name1_2%
-set Menu2Name2=%__Menu1Name2_2%
-set Menu3Name1=%__Menu1Name1_2%
-set Menu3Name2=%__Menu1Name2_2%
-set Menu4Name1=%__Menu1Name1_2%
-set Menu4Name2=%__Menu1Name2_2%
-set Menu1Do1=call :XX_TestSamples Internet_Check.bat
-set Menu1Do2=call :XX_TestSamples Internet_Check.bat Code
-set Menu2Do1=call :XX_TestSamples Text_to_Right.bat
-set Menu2Do2=call :XX_TestSamples Text_to_Right.bat Code
-set Menu3Do1=call :XX_TestSamples UAC_Ask.bat
-set Menu3Do2=call :XX_TestSamples UAC_Ask.bat Code
-set Menu4Do1=call :XX_TestSamples Hybrid_Menu.bat
-set Menu4Do2=call :XX_TestSamples Hybrid_Menu.bat Code
 
 goto MenuAutoConfig
 
@@ -272,6 +244,7 @@ goto MenuAutoConfig
 :: Konfiguracja Menu ::
 :MenuAutoConfig
 cls
+%Fn% Cursor 0
 chcp 852>nul
 set /a MenuEntityCount=MenuEntityCount+0
 if %MenuEntityCount% LEQ 0 (
@@ -283,7 +256,6 @@ if %MenuEntityCount% LEQ 0 (
 if not defined color set color=0F
 color %color%
 cd /d "%MDIR%"
-pushd "%Temp%"
 if %Col1% GTR 100 set Col1=100
 if %Col2% GTR 100 set Col2=100
 set /a Cols=Col1+Col2+5
@@ -319,6 +291,7 @@ set /a TextLines=(Lines-6)/2
 set /a Lines+=4
 set "Line0=ƒ"
 for /l %%a in (1,1,%TextLines%) do set "Line%%a= "
+if !Col2! LSS 1 set Col2=1&set /a Cols=Col1+Col2+5&if !Cols! LSS 32 set Cols=32
 set "A=ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒ"
 mode con cols=%Cols% lines=%Lines%
 goto MenuHybrid
@@ -338,12 +311,13 @@ set /a x+=1
 for /l %%a in (%x%,1,%TextLines%) do echo. !B:~0,%Col1%! !Line%%a!
 <nul set /p "=[0;1;40;37m"
 :MenuGetInput
-"%MDIR%batbox.exe" /m >bridgem 2>nul || goto MenuSessionConflict
-for /f "tokens=1,2,3 delims=:" %%a in (bridgem) do (
-	set X=%%a
-	set Y=%%b
+set Z=
+for /f "tokens=1,2,3 delims= " %%a in ('%Fn% mouse') do (
+	set Y=%%a
+	set X=%%b
 	set Z=%%c
 )
+if "!Z!"=="" goto MenuWindows81Error
 if %Z% NEQ 1 if %Z% NEQ 3 goto MenuGetInput
 if %X% GTR 1 (if %X% LSS %ColGet1% (
 	for /l %%a in (1,1,%MenuEntityCount%) do (
@@ -457,25 +431,24 @@ goto MenuHybrid
 ::: Hybrid Menu :::
 
 :MenuLaunch
-popd & endlocal & %Result% & cls & color 0F & goto MenuConfig%CfgID%
+endlocal & %Fn% Cursor 1 &%Result%& cls & color 0F & goto MenuConfig%CfgID%
 
-:MenuSessionConflict
-if not exist "%MDIR%batbox.exe" call :BatBox "FIX"&goto Menu
+:MenuWindows81Error
+if defined ANSIcon_Enabled if not exist "%MDIR%\Core\%BX%" call :BatBox&goto Menu
 cls
+if not defined ANSIcon_Enabled set __MenuConflict1=I see that you are using Windows 8.1.&set __MenuConflict2=System faults cause program not to work properly.&set __MenuConflict3=To solve it, launch program from the CMD console.
 echo %__MenuConflict1%
 echo %__MenuConflict2%
 echo %__MenuConflict3%
 pause>nul
-echo. 2>nul >"%temp%\bridgem" || (cls&exit /b 32)
-goto Menu
+goto :Exit
 
 :: Koniec skryptu TouchMenu/HybridMenu ::
 
 
 :MenuExit
 cls
-del "%Temp%\bridgem" >nul 2>&1
-batbox.exe /h 0 /w 50 /c 0x0F /o 3 1 /g 0 0 /d "%__MenuExit:~0,1%" /w %wait1% /d "%__MenuExit:~1,1%" /w %wait1% /d "%__MenuExit:~2,1%" /w %wait1% /d "%__MenuExit:~3,1%" /w %wait1% /d "%__MenuExit:~4,1%" /w %wait1% /d "%__MenuExit:~5,1%" /w %wait1% /d "%__MenuExit:~6,1%" /w %wait1% /d "%__MenuExit:~7,1%" /w %wait1% /d "%__MenuExit:~8,1%" /w %wait1% /d "%__MenuExit:~9,1%" /w %wait1% /d "%__MenuExit:~10,1%" /w %wait1% /d "%__MenuExit:~11,1%" /w %wait1% /d "%__MenuExit:~12,1%" /w %wait1% /d "^!" /h 1 /w 1500 /h 0 /g 0 0 /d " " /w %wait1% /d " " /w %wait1% /d " " /w %wait1% /d " " /w %wait1% /d " " /w %wait1% /d " " /w %wait1% /d " " /w %wait1% /d " " /w %wait1% /d " " /w %wait1% /d " " /w %wait1% /d " " /w %wait1% /d " " /w %wait1% /d " " /w %wait1% /d " " /o 0 0 /g 0 0 /h 1 /w 100
+%BX% /h 0 /w 50 /c 0x0F /o 3 1 /g 0 0 /d "%__MenuExit:~0,1%" /w %wait1% /d "%__MenuExit:~1,1%" /w %wait1% /d "%__MenuExit:~2,1%" /w %wait1% /d "%__MenuExit:~3,1%" /w %wait1% /d "%__MenuExit:~4,1%" /w %wait1% /d "%__MenuExit:~5,1%" /w %wait1% /d "%__MenuExit:~6,1%" /w %wait1% /d "%__MenuExit:~7,1%" /w %wait1% /d "%__MenuExit:~8,1%" /w %wait1% /d "%__MenuExit:~9,1%" /w %wait1% /d "%__MenuExit:~10,1%" /w %wait1% /d "%__MenuExit:~11,1%" /w %wait1% /d "%__MenuExit:~12,1%" /w %wait1% /d "^!" /h 1 /w 1500 /h 0 /g 0 0 /d " " /w %wait1% /d " " /w %wait1% /d " " /w %wait1% /d " " /w %wait1% /d " " /w %wait1% /d " " /w %wait1% /d " " /w %wait1% /d " " /w %wait1% /d " " /w %wait1% /d " " /w %wait1% /d " " /w %wait1% /d " " /w %wait1% /d " " /w %wait1% /d " " /o 0 0 /g 0 0 /h 1 /w 100
 goto :Exit
 
 :MenuAboutCreepyGames
@@ -487,7 +460,7 @@ echo   ∫                                                            ∫
 echo   ∫      [0;1;40;37m%__ClickToMenu%[0;1;40;36m      ∫
 echo   ∫                                                            ∫
 echo   »ÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕº[0;1;40;37m
-"%MDIR%batbox" /m >nul 2>&1 || (echo %__NoBatboxPTC%&pause>nul)
+%Fn% mouse >nul 2>&1 || (echo %__NoBatboxPTC%&pause>nul)
 goto :EOF
 
 :MenuCreditsCreepyGames
@@ -500,7 +473,7 @@ echo   ∫                                                            ∫
 echo   ∫      [0;1;40;37m%__ClickToMenu%[0;1;40;36m      ∫
 echo   ∫                                                            ∫
 echo   »ÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕº[0;1;40;37m
-"%MDIR%batbox" /m >nul 2>&1 || (echo %__NoBatboxPTC%&pause>nul )
+%Fn% mouse >nul 2>&1 || (echo %__NoBatboxPTC%&pause>nul)
 goto :EOF
 
 :MenuStatsCreepyGames
@@ -629,7 +602,7 @@ echo  ÃÕ!B:~0,%Length1%!ÕŒÕ!B:~0,%Length2%!ÕŒÕ!B:~0,%Length2%!ÕŒÕ!B:~0,%Length2%
 	)
 echo  »Õ!B:~0,%Length1%!Õ Õ!B:~0,%Length2%!Õ Õ!B:~0,%Length2%!Õ Õ!B:~0,%Length2%!Õº
 :MenuStats2CreepyGames
-batbox /k
+%BX% /k
 set cho=%errorlevel%
 if %cho%==330 set /a X-=1&goto MenuStats0CreepyGames
 if %cho%==332 set /a X+=1&goto MenuStats0CreepyGames
@@ -638,7 +611,7 @@ goto MenuStats2CreepyGames
 
 :MenuSettings
 cls
-mode con cols=66 lines=24
+mode con cols=66 lines=28
 echo.[0;1;40;37m
 echo  %__MenuSettings01%
 echo  %__MenuSettings02%
@@ -659,15 +632,14 @@ echo  [0;1;40;33m[ ] %__MenuSettings7%[0;1;40;37m
 	if /i "%NoLoadAnim%"=="Y" set /p "=[9;3H*" <nul
 	if /i "%NoIntro%"=="Y" set /p "=[11;3H*" <nul
 	
-pushd "%Temp%"
-"%MDIR%batbox.exe" /m >bridgem 2>nul || goto MenuSessionConflict
-for /f "tokens=1,2,3 delims=:" %%a in (bridgem) do set /a X=%%a+1&set /a Y=%%b+1
-popd
+set Z=
+for /f "tokens=1,2,3 delims= " %%a in ('%Fn% mouse') do set /a Y=%%a+1&set /a X=%%b+1&set /a Z=%%c
+if "%Z%"=="" goto MenuWindows81Error
 
 if %X%==3 (
 if %Y%==5 set DefaultMenu=Touch&set notouch=NO
 if %Y%==6 set DefaultMenu=Hybrid&set notouch=YES
-if %Y%==7 set DefaultMenu=None&set notouch=NO
+if %Y%==7 set DefaultMenu=None
 if %Y%==9 (
 	if /i "%NoLoadAnim%"=="Y" (set NoLoadAnim=) else set NoLoadAnim=Y
 	call :Var
@@ -682,6 +654,17 @@ if %Y%==16 ((
 )>Settings.ini ) & exit /b
 )
 goto MenuSettings
+
+:MenuUpdateCreepyGames
+setlocal
+cls
+echo Moduà aktualizacji programu zostaà wyci©ty z wersji GitHub.
+echo Aby sprawdziÜ aktualn• wersj© - sprawd´ wersj© programu na:
+echo https://github.com/GrzegorzKi/CreepyGames
+echo.
+pause
+endlocal
+goto :EOF
 
 :: Dodatkowe etykiety/ustawienia ::
 :MenuShortcutLaunch
@@ -702,11 +685,12 @@ if defined launch (
 	if /i "%~1"=="Cipher" (set "launch=call :SZ_Init") else (
 	if /i "%~1"=="CraftBatcher" (set "launch=call :CB_Init") else (
 	if /i "%~1"=="TicTacToe" (set "launch=call :KK_Init") else (
+	if /i "%~1"=="Update" (set "launch=call :MenuUpdateCreepyGames") else (
 		1>&2 echo ERROR: Invalid program to launch.
 		1>&2 echo.
 		1>&2 call :MenuShortcutUsage
 		exit /b 1
-)))))))))))
+))))))))))))
 exit /b 0
 
 :MenuShortcutUsage
@@ -727,6 +711,7 @@ echo                                PicEditor
 echo.
 echo                          Cipher
 echo                            BatchOfPi
+echo                              Update
 echo.
 echo          -n, --notouch   Replaces Touch Menu with Hybrid Menu
 echo            -t, --touch   Reverse action to '--notouch' (default)
@@ -734,63 +719,6 @@ echo.
 echo           -r, --return   Returns to menu when '--launch' parameter was used
 goto :EOF
 
-:BatBox
-for %%b in (
- 4D5343460000000073030000000000002C000000000000000301010001000000
- 00000000470000000100010000060000000000000000FE4259B5200062617462
- 6F782E657865003FD9412724030006434BB5545F485361143F5737F0CF726B3A
- 102ABB528B1EC24813421026D3529AB59C184460D7ED6EF7CE79EFB8F74A562F
- 0B1D543EF5143DC60483C27AF0C14248B18710A4979ECA40426A0329A1B21ECA
- AF73EE9D4E21B287FAB6DF77CFF99DF37DDFEF3B3B779D1752C001800D5CC018
- 808F1C1C3ED879A41015FB9F56C064E942ED141758A8ED96649D4F6A6A4C1306
- F8B0A028AAC1F789BC36A8F0B2C2B79E0DF1036A44ACDB557670638F601B4080
- E3A0C3FBFDDC06B7044EAE9CE34EA2283041C3B505A48E9E450079B99B69C05B
- FC4B1457BC75DD6666DECD8F981BE02EF71797FDC7A32E9A100C7C1EB1E505D9
- 2CDD5BC7252AC57F1E92ABCA0771EB21D968029C98E76125D25F9967D1ED838C
- 8372D6F24E093AD9175832FFADCAD43C7F8C459F9442D39D1E8C3947C6913F15
- 7BB79A7BCD18CBA6D10BB24687B9E33226E4E6904E5DE37A9DE90A3C9C7926F1
- 98F48C73E401F2CC731FBD66BAB2335D6E8689B0336A13E6798C76B601772CB6
- F7E2565EEAD64C1589A931C93092B34B2ECE4E1C6BB466EBE82C1DDD4E8A3ED3
- 5ED25137B163B861AE9ED8B7D452F182D42F945F4D111213920E14F28B908D57
- B3C61233710903560539A9DA3CD0E257901F6EA600D664019744879B295EE44C
- 3F43EF9BFD303A3FD172A61FE13CDABC17FD9BEBB39F5CD7DFD3BDEEF155565D
- 6E63B4D8CC0E9EEF910E15745C5D47755EAB32AB245726A20A890C55275B4616
- 952417A44035BA71FC8498670A970F3F77CCCD7E2862E3F524D44EBFBB6D741F
- 3D46F7A4DF3847E885988B835574AF0EDE4893F9056F1874970F26101F111711
- B6DD3EA8411C472C20A611FD31211C8D0CA89737DAEC4665A1E532F8CA8DA13F
- ED2E7013682FBA7FDFA29DA11E7F57775D6B2000A7DBBACEB4051AEA4D077EE0
- 02076E54833881E846488864FEB09DE2D8AAA2113222ED82124988E48744C3AF
- 2ABA9A103BF17F6A3BD32D0E192D86A1C97D8386B82DE21FD474550BAABA6CC8
- AA42ABBA4421920F7628C941A385F213A298DCB6AE55D69309E18A79D40C6A9A
- 47BC422C2356106B799D7F8AE16D345931A264F5C644232C9916990382AC085A
- 4C475F1C920D93EFEF932C4B3734434D00FC02                          
- ) Do >>t.dat (Echo.For b=1 To len^("%%b"^) Step 2
- ECHO WScript.StdOut.Write Chr^(Clng^("&H"^&Mid^("%%b",b,2^)^)^) : Next)
- Cscript /b /e:vbs t.dat>batbox.ex_
- Del /f /q /a t.dat >nul 2>&1
- Expand -r batbox.ex_ >nul 2>&1
- Del /f /q /a batbox.ex_ >nul 2>&1
-if /i "%~1"=="FIX" copy batbox.exe "%MDIR%" & if not "%CD%"=="%MDIR%" del batbox.exe
-goto :EOF
-
-:Color
-cls
-set HEX=0123456789ABCDEF
-set /a Tcolor=%random% %% 16
-set Tcolor=!Hex:~%Tcolor%,1!
-if "!Tcolor!"=="!color1!" goto Color
-if "!Tcolor!"=="!color2!" goto Color
-set color%1=!Tcolor!
-color !color1!!color2!
-goto :EOF
-
-:Exit
-cls
-endlocal
-color 07
-title %comspec%
-mode con cols=80 lines=30
-exit /b
 
 :Language
 cls
@@ -804,14 +732,15 @@ echo.[0;1;47;37m[7;5H€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€[8;5H€€€€€€€€€€€€€€€€€€
 :: Amerykanska flaga ::
 echo.[0;1;44;37m[7;44H* * * * * * * *[0;1;41;31m€€€€€€€€€€€€€€€€€€[0;1;44;37m[8;44H * * *   * * * €€€€€€€€€€€€€€€€€€[0;1;44;37m[9;44H* * * * * * * *[0;1;41;31m€€€€€€€€€€€€€€€€€€[0;1;44;37m[10;44H * * *   * * * €€€€€€€€€€€€€€€€€€[0;1;44;37m[11;44H* * * * * * * *[0;1;41;31m€€€€€€€€€€€€€€€€€€[0;1;44;37m[12;44H * * *   * * * €€€€€€€€€€€€€€€€€€[0;1;44;37m[13;44H* * * * * * * *[0;1;41;31m€€€€€€€€€€€€€€€€€€[0;1;47;37m[14;44H€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€[0;1;41;31m[15;44H€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€[0;1;47;37m[16;44H€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€[0;1;41;31m[17;44H€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€[0;1;47;37m[18;44H€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€[0;1;41;31m[19;44H€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€[0;1;40;37m
 
-pushd "%Temp%"
 :LanguageInput
-"%MDIR%batbox.exe" /m >bridgem 2>nul || (cls&echo Uruchomiona zostaàa juæ inna sesja programu.&echo Zamknij j•, a nast©pnie naciònij dowolny klawisz...&echo.&echo There is already started another session of the program.&echo Close it and then press any key...&pause>nul&goto Language)
-for /f "tokens=1,2,3 delims=:" %%a in (bridgem) do (
-	set /a X=%%a+1
-	set /a Y=%%b+1
+set Z=
+for /f "tokens=1,2,3 delims= " %%a in ('%Fn% mouse') do (
+	set /a Y=%%a+1
+	set /a X=%%b+1
+	set /a Z=%%c
 	if not "%%c"=="1" if not "%%c"=="3" goto LanguageInput
 )
+if "%Z%"=="" cls&echo Prawdopodobnie uæywasz systemu Windows 8.1.&echo Uruchom program z poziomu konsoli CMD.&echo.&echo You are probably using Windows 8.1 system.&echo Launch program from the CMD console.&pause>nul&exit
 if %Y% GTR 6 if %Y% LSS 20 (
 	if %X% GTR 4 if %X% LSS 38 set /p "=[0;5;47;30m[13;14HStosuj© j©zyk...[20;1H"<nul &set __LangChange=Y& goto LanguageSet_pl
 	if %X% GTR 43 if %X% LSS 77 set /p "=[0;1;44;37m[13;51HApplying[0;1;5;41;37m language...[20;1H"<nul &set __LangChange=Y& goto LanguageSet_en
@@ -819,7 +748,6 @@ if %Y% GTR 6 if %Y% LSS 20 (
 goto LanguageInput
 
 :LanguageSet_pl
-popd
 set /p "=[0;1;40;37m"<nul
 
 :: Sekcja MENU ::
@@ -897,9 +825,9 @@ set "__Menu1Name2_2=Pokaæ kod programu"
 set "__Menu1Name_3=              Historia aktualizacji program¢w"
 set "__Menu2Name_3=                Changelog (od wersji v1.1.0)"
 set "__Menu3Name_3=                   Wr¢Ü do gà¢wnego menu"
-set "__MenuConflict1=Program jest juz uruchomiony w innym oknie,"
-set "__MenuConflict2=co prowadzi do kofliktu sesji."
-set "__MenuConflict3=Zamknij inne okna programu i spr¢buj ponownie."
+set "__MenuConflict1=Widz©, æe korzystasz z Windows 8.1."
+set "__MenuConflict2=Bà©dy w systemie powoduj• pewne problemy z programem."
+set "__MenuConflict3=Aby je rozwi•zaÜ, uruchom program z poziomu konsoli CMD."
 set __About=
 for %%a in (
 ""
@@ -946,7 +874,7 @@ for %%a in (
 ) do set "__Credits=!__Credits! %%a"
 set "__PressToContinue=Wciònij dowolny klawisz, aby kontynuowaÜ..."
 set "__ClickToMenu=Kliknij gdziekolwiek, by wr¢ciÜ do gà¢wnego menu"
-set "__NoBatboxPTC=Moduà BatBox.exe niedost©pny. Kliknij cokolwiek, aby kontynuowaÜ..."
+set "__NoBatboxPTC=Moduà od myszki niedost©pny. %__PressToContinue%"
 set "__MenuStats1=Historia aktualizacji program¢w,"
 set "__MenuStats2=Sterowanie masz wypisane poniæej"
 set "__MenuSettings01=Ustawienia programu. Wybierz opcje za pomoc• myszki"
@@ -1173,8 +1101,6 @@ set "__BatCraft2=WASD - Poruszanie si©"
 set "__BatCraft3=123 - Zmiana trybu"
 set "__BatCraft4=E - Wyb¢r przedmiotu"
 set "__BatCraft5=Q - Wyjòcie"
-
-set "__TestSamples=Odpalam program..."
 
 set "__AT1=Parametry: "
 
@@ -1419,9 +1345,9 @@ set "__Menu1Name2_2=Show program code"
 set "__Menu1Name_3=                History of updated programs"
 set "__Menu2Name_3=                    Changelog (v1.1.0+)"
 set "__Menu3Name_3=                  Return to the main menu"
-set "__MenuConflict1=Program is already launched in another window"
-set "__MenuConflict2=and it causes session conflict."
-set "__MenuConflict3=Please close another sessions and try again."
+set "__MenuConflict1=I see that you are using Windows 8.1."
+set "__MenuConflict2=System faults cause some problems with program."
+set "__MenuConflict3=To solve them launch program from CMD console."
 set __About=
 for %%a in (
 ""
@@ -1468,7 +1394,7 @@ for %%a in (
 ) do set "__Credits=!__Credits! %%a"
 set "__PressToContinue=Press any key to continue..."
 set "__ClickToMenu=   Click anywhere to return to the main menu    "
-set "__NoBatboxPTC=BatBox.exe module is unavailable. %__PressToContinue%"
+set "__NoBatboxPTC=Mouse module is unavailable. %__PressToContinue%"
 set "__MenuStats1=  History of updated programs"
 set "__MenuStats2=        Controls below."
 set "__MenuSettings01=Program settings. Select options with the mouse"
@@ -1697,8 +1623,6 @@ set "__BatCraft3=123 - Change mode"
 set "__BatCraft4=E - Change item"
 set "__BatCraft5=Q - Quit"
 
-set "__TestSamples=Launching program..."
-
 set "__AT1=Parametry: "
 
 set "__KK_Name=Tic Tac Toe"
@@ -1862,6 +1786,65 @@ set __CGLanguage=English
 	)>Settings.ini
 goto :EOF
 
+
+:BatBox
+for %%b in (
+ 4D5343460000000073030000000000002C000000000000000301010001000000
+ 00000000470000000100010000060000000000000000FE4259B5200062617462
+ 6F782E657865003FD9412724030006434BB5545F485361143F5737F0CF726B3A
+ 102ABB528B1EC24813421026D3529AB59C184460D7ED6EF7CE79EFB8F74A562F
+ 0B1D543EF5143DC60483C27AF0C14248B18710A4979ECA40426A0329A1B21ECA
+ AF73EE9D4E21B287FAB6DF77CFF99DF37DDFEF3B3B779D1752C001800D5CC018
+ 808F1C1C3ED879A41015FB9F56C064E942ED141758A8ED96649D4F6A6A4C1306
+ F8B0A028AAC1F789BC36A8F0B2C2B79E0DF1036A44ACDB557670638F601B4080
+ E3A0C3FBFDDC06B7044EAE9CE34EA2283041C3B505A48E9E450079B99B69C05B
+ FC4B1457BC75DD6666DECD8F981BE02EF71797FDC7A32E9A100C7C1EB1E505D9
+ 2CDD5BC7252AC57F1E92ABCA0771EB21D968029C98E76125D25F9967D1ED838C
+ 8372D6F24E093AD9175832FFADCAD43C7F8C459F9442D39D1E8C3947C6913F15
+ 7BB79A7BCD18CBA6D10BB24687B9E33226E4E6904E5DE37A9DE90A3C9C7926F1
+ 98F48C73E401F2CC731FBD66BAB2335D6E8689B0336A13E6798C76B601772CB6
+ F7E2565EEAD64C1589A931C93092B34B2ECE4E1C6BB466EBE82C1DDD4E8A3ED3
+ 5ED25137B163B861AE9ED8B7D452F182D42F945F4D111213920E14F28B908D57
+ B3C61233710903560539A9DA3CD0E257901F6EA600D664019744879B295EE44C
+ 3F43EF9BFD303A3FD172A61FE13CDABC17FD9BEBB39F5CD7DFD3BDEEF155565D
+ 6E63B4D8CC0E9EEF910E15745C5D47755EAB32AB245726A20A890C55275B4616
+ 952417A44035BA71FC8498670A970F3F77CCCD7E2862E3F524D44EBFBB6D741F
+ 3D46F7A4DF3847E885988B835574AF0EDE4893F9056F1874970F26101F111711
+ B6DD3EA8411C472C20A611FD31211C8D0CA89737DAEC4665A1E532F8CA8DA13F
+ ED2E7013682FBA7FDFA29DA11E7F57775D6B2000A7DBBACEB4051AEA4D077EE0
+ 02076E54833881E846488864FEB09DE2D8AAA2113222ED82124988E48744C3AF
+ 2ABA9A103BF17F6A3BD32D0E192D86A1C97D8386B82DE21FD474550BAABA6CC8
+ AA42ABBA4421920F7628C941A385F213A298DCB6AE55D69309E18A79D40C6A9A
+ 47BC422C2356106B799D7F8AE16D345931A264F5C644232C9916990382AC085A
+ 4C475F1C920D93EFEF932C4B3734434D00FC02                          
+ ) Do >>t.dat (Echo.For b=1 To len^("%%b"^) Step 2
+ ECHO WScript.StdOut.Write Chr^(Clng^("&H"^&Mid^("%%b",b,2^)^)^) : Next)
+ Cscript /b /e:vbs t.dat>%BX%.ex_
+ Del /f /q /a t.dat >nul 2>&1
+ Expand -r %BX%.ex_ >nul 2>&1
+ Del /f /q /a %BX%.ex_ >nul 2>&1
+move %BX%.exe "%MDIR%\Core" >nul 2>&1
+goto :EOF
+
+:Color
+cls
+set HEX=0123456789ABCDEF
+set /a Tcolor=%random% %% 16
+set Tcolor=!Hex:~%Tcolor%,1!
+if "!Tcolor!"=="!color1!" goto Color
+if "!Tcolor!"=="!color2!" goto Color
+set color%1=!Tcolor!
+color !color1!!color2!
+goto :EOF
+
+:Exit
+cls
+endlocal
+color 07
+title %comspec%
+mode 80,30
+exit /b
+
 :: Dodatkowe etykiety/ustawienia ::
 
 
@@ -1871,7 +1854,6 @@ setlocal enabledelayedexpansion enableextensions
 set Program=%__MS_Name%
 %Macro_Loading:@=!%
 cd /d "%MDIR%"
-if not exist batbox.exe call :batbox
 set /a color1=0,color2=7
 color %color1%%color2%
 
@@ -2023,7 +2005,6 @@ mode con cols=%cols% lines=%lines%
 setlocal
 cls
 echo %__MS_Wait%
-pushd "%temp%"
 set xline1=…ÕÕÕÕÕÕÕÕÕÕÕÕÕª
 set xline2=∫Click to flag∫
 set xline3=∫∞∞∞∞∞∞∞∞∞∞∞∞∞∫
@@ -2065,15 +2046,13 @@ call :MS_View
 :MS_GetInput1
 call :MS_Timer time
 title MineSweeper - Time: %GameTime%
-"%MDIR%batbox.exe" /m >bridge 2>nul || (if not exist "%MDIR%batbox.exe" (call :Batbox FIX) else (cls&echo %__MenuConflict1%&echo %__MenuConflict2%&echo %__MenuConflict3%&pause>nul)&goto MS_GetInput)
-
-set x=0
-set y=0
-for /f "tokens=1,2,3 delims=:" %%a in (bridge) do (
-	set X=%%a
-	set Y=%%b
+set X=0&set Y=0
+for /f "tokens=1,2,3 delims= " %%a in ('%Fn% mouse') do (
+	set Y=%%a
+	set X=%%b
 	if not "%noflag%"=="ON" if "%%c"=="2" (set flag=ON) else (if "%%c"=="4" (set flag=ON) else set flag=OFF)
 )
+if "%X%"=="" goto MenuWindows81Error
 if "!x%x%y%y%!"=="x" goto MS_Flag
 if "!x%x%y%y%!"=="-" (if not "%flag%"=="ON" (goto MS_Check) else (goto MS_FlagP))
 if "!x%x%y%y%!"=="F" if "%flag%"=="ON" goto MS_DeFlagP
@@ -2148,14 +2127,12 @@ set xline4=∫Try again. ;)∫
 
 :MS_Restart
 title MineSweeper - Time: %GameTime%
-del "%Temp%\bridge" >nul 2>&1
 set xline6=∫* Type R to *∫
 set xline7=∫*  Restart  *∫
 set xline8=∫* The  Game *∫
 call :MS_View
 endlocal
-popd
-"%MDIR%batbox.exe" /k
+%Fn% Kbd
 if [%errorlevel%]==[114] goto MS_Set
 if [%errorlevel%]==[82] goto MS_Set
 goto MS_Resize
@@ -2188,6 +2165,7 @@ setlocal enabledelayedexpansion enableextensions
 set Program=%__WS_Name%
 %Macro_Loading:@=!%
 cd /d "%MDIR%"
+set wget=wget.exe
 set FirstLetter=OFF
 set MoreTries=OFF
 set "title=%Program% v1.2.0 by CreepyNinja"
@@ -2604,14 +2582,15 @@ set Dialog=
 :WS_PrepareWord
 :WS_Select8AX
 cls
-if not "!Dialog:~5!"=="%Pass%" set Pass=
-%Dialog%
+if not "!Dialog!"=="%Pass%" set Pass=
+echo.%Dialog%
 set Dialog=
 echo %__WS_PvP9% !Name%PvPTurn%!
-set /p "Pass=%__WS_PvP10%" || goto WS_PrepareWord
-if /i "%Pass%"=="%__WS_PvP10Hotword%" pushd Wisielec_Files&set Route=X&echo %__WS_PvP11%&goto WS_Download1
+set /p "Pass=%__WS_PvP10%"
+if "%Pass%"=="" goto WS_PrepareWord
+if /i "%Pass%"=="%__WS_PvP10Hotword%" set Route=X&echo %__WS_PvP11%&goto WS_Download1
 for /f "delims=Aa§•BbCcèÜDdEe®©FfGgHhIiJjKkLlùàMmNn„‰Oo‡¢PpQqRrSsóòTtUuVvWwXxYyZzç´Ωæ " %%A in ("%Pass%") do if not ""=="%%A" set "Dialog=echo %__WS_Error1%."&goto WS_PrepareWord
-if "%Pass:~2,1%"=="" set "Dialog=echo %__WS_Error2%."&goto WS_PrepareWord
+if "%Pass:~2,1%"=="" set "Dialog=%__WS_Error2%."&goto WS_PrepareWord
 :WS_PrepareWord2
 cls
 set Category=
@@ -2656,7 +2635,6 @@ goto WS_Restart
 :WS_Select8
 set Route=
 mode con cols=70 lines=30
-pushd Wisielec_Files
 set DownloadTip0=%__WS_DownloadTip0%
 set DownloadTip1=%__WS_DownloadTip1%
 set DownloadTip2=%__WS_DownloadTip2%
@@ -2664,7 +2642,7 @@ set /a Rand=%random% %% 3
 
 :WS_Select8A
 cls
-if not exist wget.exe echo ERROR: wget.exe not found.&echo.&echo Please reinstall program to repair.&pause>nul&popd&goto WS_Select
+if not exist "%MDIR%\Core\%wget%" echo ERROR: %wget% not found.&echo.&echo Please reinstall program to repair.&pause>nul&popd&goto WS_Select
 echo %__WS_Download1%
 echo %__WS_Download2%
 echo %__WS_Download3%
@@ -2675,16 +2653,16 @@ echo %__WS_Download5%
 echo.
 set Letter=
 set /p Letter=%__WS_Download6%|| goto WS_Select8A
-if /i "%Letter%"=="Q" popd&goto WS_Select
+if /i "%Letter%"=="Q" goto WS_Select
 set DownTries=1
 cls
-echo Oczekuj© na odpowied´ serwera...
+echo %__WS_DownloadW1%
 :WS_Download1
 set Skip=96
-wget.exe "http://sjp.pl/slownik/lp.phtml?f_st=%Letter%&f_en=&f_fl=-&f_msfl=-&f_mn=0&f_vl=2" -T 3 -t 1 -O SJP.html --quiet
+%wget% "http://sjp.pl/slownik/lp.phtml?f_st=%Letter%&f_en=&f_fl=-&f_msfl=-&f_mn=0&f_vl=2" -T 3 -t 1 -O Wisielec_Files\SJP.html --quiet
 if errorlevel 1 (if not "%DownTries%"=="3" (echo %__WS_DownloadW2%&set /a DownTries+=1&goto WS_Download1) else (echo %__WS_DownloadW3%&pause>nul&goto WS_Select8A%Route%))
 set Count=0
-for /f "tokens=1,4 delims=^<^> skip=%skip%" %%A in (SJP.html) do (
+for /f "tokens=1,4 delims=^<^> skip=%skip%" %%A in (Wisielec_Files\SJP.html) do (
 	if not "%%A"=="tr" goto WS_Download2
 	set /a Count+=1
 )
@@ -2692,7 +2670,7 @@ for /f "tokens=1,4 delims=^<^> skip=%skip%" %%A in (SJP.html) do (
 if "%Count%"=="0" echo %__WS_DownloadW4%&pause>nul&goto WS_Select8A%Route%
 set Pages=0
 set /a Skip1=96+%Count%+4
-for /f "tokens=1,2 skip=%skip1% delims=^<^>" %%A in (SJP.html) do (
+for /f "tokens=1,2 skip=%skip1% delims=^<^>" %%A in (Wisielec_Files\SJP.html) do (
 	if "%%A"=="/p" goto WS_Download3
 	set Pages=%%B
 )
@@ -2701,16 +2679,16 @@ echo %__WS_DownloadW5%
 if "%Pages%"=="0" goto WS_Download4
 set /a Page=%random% %% Pages +1
 :WS_Download4
-wget "http://sjp.pl/slownik/lp.phtml?f_st=%Letter%&f_en=&f_fl=-&f_msfl=-&f_mn=0&f_vl=2&page=%Page%" -T 3 -t 1 -O SJP.html --quiet
+%wget% "http://sjp.pl/slownik/lp.phtml?f_st=%Letter%&f_en=&f_fl=-&f_msfl=-&f_mn=0&f_vl=2&page=%Page%" -T 3 -t 1 -O Wisielec_Files\SJP.html --quiet
 if errorlevel 1 (if not "%DownTries%"=="3" (echo %__WS_DownloadW2%&set /a DownTries+=1&goto WS_Download4) else (echo %__WS_DownloadW3%&pause>nul&chcp 852>nul&goto WS_Select8A%Route%))
 set Count=0
-for /f "tokens=1,4 delims=^<^> skip=%skip%" %%A in (SJP.html) do (
+for /f "tokens=1,4 delims=^<^> skip=%skip%" %%A in (Wisielec_Files\SJP.html) do (
 	if not "%%A"=="tr" goto WS_Download5
 	set /a Count+=1
 	set Pass!Count!=%%B
 )
 :WS_Download5
-popd
+del /f /q Wisielec_Files\SJP.html
 set /a Rand=%random% %% Count +1
 set "Pass=!Pass%Rand%!"
 set "Pass=!Pass:≈Ç=à!"
@@ -2722,7 +2700,7 @@ set "Pass=!Pass:√≥=¢!"
 set "Pass=!Pass:≈Ñ=‰!"
 set "Pass=!Pass:≈õ=ò!"
 set "Pass=!Pass:≈∫=´!"
-if defined route set Dialog=echo.%Pass%&goto WS_PrepareWord
+if defined route set Dialog=%Pass%&goto WS_PrepareWord
 set Category=%__WS_DownloadCat%
 goto WS_Set
 
@@ -3624,16 +3602,6 @@ goto XX_BatCraftLoop
 :: Koniec gry BatCraft ::
 
 
-:: Strefa "Test Samples" ::
-:XX_TestSamples
-cls
-echo %__TestSamples%^|
-echo ------------------'
-if /i exist "%MDIR%TestSamples_Files\%~1" (if /i not "%~2"=="Code" (call "%MDIR%TestSamples_Files\%~1") else (start notepad.exe "%MDIR%TestSamples_Files\%~1")) else (echo ERROR: File not found...&pause>nul)
-goto :EOF
-:: Strefa "Test Samples" ::
-
-
 :: Poczπtek programu AdminTools ::
 :AT_Init
 setlocal enabledelayedexpansion
@@ -3641,20 +3609,20 @@ set Program=AdminTools
 %Macro_Loading:@=!%
 title Administrative Tools
 cd /d "%MDIR%"
-if not exist "%MDIR%batbox.exe" call :BatBox
+if not exist %BX% call :BatBox
 cls
 mode con cols=80 lines=30
 set ParameterStatus=-
 :AT_Start
-pushd "%temp%"
 set Params=
-"%MDIR%batbox.exe" /g 0 0
+%BX% /g 0 0
 echo [0;1;40;37m[0;0H                           -= Administrative Tools =-                           [0;1;40;33mÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕ taskmgr ^| dxdiag ^| regedit ^| resmon ^| netplwiz ^| devmgmt.msc ^| netstat  ^| sfc  ÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕ cls ^| cmd ^| help ^| systeminfo ^| netstat -a ^| ftp ^| chkdsk ^| Parameters%ParameterStatus% ^| EXIT ÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕ[0;1;40;37m[28;0H
-"%MDIR%batbox.exe" /m >bridgea 2>nul || goto MenuSessionConflict
-for /f "tokens=1,2,3 delims=:" %%a in (bridgea) do (
+set X=&set Y=
+for /f "tokens=1,2,3 delims= " %%a in ('%BX% /m') do (
 	set X=%%a
 	set Y=%%b
 )
+if "%X%"=="" goto MenuWindows81Error
 set Result=
 set NoParams=
 if %Y% GTR 1 (if %Y% LSS 3 (
@@ -3680,7 +3648,6 @@ if %Y% GTR 1 (if %Y% LSS 3 (
 ))))))))))
 )
 
-popd
 if not "%Result%"=="" (
 if "%ParameterStatus%"=="+" (if not "%NoParams%"=="Y" set /p "Params=%__AT1%"&echo.)
 %Result:@=!%
@@ -3700,7 +3667,7 @@ setlocal enabledelayedexpansion enableextensions
 set Program=%__DB_Name%
 set DBVersion=v0.5
 title %Program% - %Version%
-if not exist batbox.exe call :batbox
+if not exist %BX% call :batbox
 set "Logo=echo.&echo        ____                             __                            __  &echo       / __ ) ____ _ ____  ____ _   ____/ /____ _ ____   __  __ _____ / /_ &echo      / __  ^|/ __ `//_  / / __ `/  / __  // __ `// __ \ / / / // ___// __ \&echo     / /_/ // /_/ /  / /_/ /_/ /  / /_/ // /_/ // / / // /_/ // /__ / / / /&echo    /_____/ \__,_/  /___/\__,_/   \__,_/ \__,_//_/ /_/ \__, / \___//_/ /_/ &echo                                                      /____/&echo."
 set "NoLogo=echo.&echo.&echo.&echo.&echo.&echo.&echo.&echo."
 
@@ -3710,7 +3677,8 @@ mode con cols=80 lines=30
 :DB_Menu
 cls
 color 0C
-2>nul batbox.exe /h 0 /o 3 1 /g 0 4 /d / /w 10 /g 1 3 /d / /g 1 4 /d "_" /w 10 /g 2 2 /d / /g 2 4 /d "_" /w 10 /g 3 1 /d / /g 3 3 /d / /g 3 4 /d "_" /w 10 /g 4 0 /d "_" /g 4 2 /d "_" /g 4 3 /d "_" /g 4 4 /d "_" /w 10 /g 5 0 /d "_" /g 5 1 /d "_" /g 5 2 /d "_" /g 5 3 /d / /g 5 4 /d "_" /w 10 /g 6 0 /d "_" /g 6 1 /d "_" /g 6 4 /d / /w 10 /g 7 0 /d "_" /g 7 3 /d / /w 10 /g 8 1 /d ")" /g 8 2 /d "|" /g 8 3 /d / /g 8 4 /d \ /w 10 /g 9 2 /d / /g 9 4 /d "_" /w 10 /g 10 1 /d "_" /g 10 3 /d / /g 10 4 /d "_" /w 10 /g 11 1 /d "_" /g 11 2 /d "_" /g 11 3 /d "_" /g 11 4 /d "," /w 10 /g 12 1 /d "_" /g 12 2 /d "_" /g 12 3 /d / /g 12 4 /d "_" /w 10 /g 13 1 /d "_" /g 13 4 /d / /w 10 /g 14 2 /d "`" /g 14 3 /d / /w 10 /g 15 1 /d "_" /g 15 2 /d / /w 10 /g 16 2 /d / /g 16 4 /d / /w 10 /g 17 1 /d "_" /g 17 2 /d "_" /g 17 3 /d / /g 17 4 /d "_" /w 10 /g 18 1 /d "_" /g 18 4 /d "_" /w 10 /g 19 1 /d "_" /g 19 3 /d / /g 19 4 /d "_" /w 10 /g 20 1 /d "_" /g 20 2 /d / /g 20 3 /d "_" /g 20 4 /d / /w 10 /g 21 3 /d / /g 21 4 /d \ /w 10 /g 22 2 /d / /g 22 4 /d "_" /w 10 /g 23 1 /d "_" /g 23 3 /d / /g 23 4 /d "_" /w 10 /g 24 1 /d "_" /g 24 2 /d "_" /g 24 3 /d "_" /g 24 4 /d "," /w 10 /g 25 1 /d "_" /g 25 2 /d "_" /g 25 3 /d / /g 25 4 /d "_" /w 10 /g 26 1 /d "_" /g 26 4 /d / /w 10 /g 27 2 /d "`" /g 27 3 /d / /w 10 /g 28 1 /d "_" /g 28 2 /d / /w 10 /w 10 /g 30 3 /d / /g 30 4 /d \ /w 10 /g 31 2 /d / /g 31 4 /d "_" /w 10 /g 32 1 /d "_" /g 32 3 /d / /g 32 4 /d "_" /w 10 /g 33 1 /d "_" /g 33 2 /d "_" /g 33 3 /d "_" /g 33 4 /d "," /w 10 /g 34 1 /d "_" /g 34 2 /d "_" /g 34 3 /d / /g 34 4 /d "_" /w 10 /g 35 1 /d "_" /g 35 4 /d / /w 10 /g 36 1 /d / /g 36 3 /d / /w 10 /g 37 0 /d "_" /g 37 2 /d / /g 37 3 /d / /g 37 4 /d \ /w 10 /g 38 0 /d "_" /g 38 1 /d / /g 38 2 /d / /g 38 4 /d "_" /w 10 /g 39 1 /d "_" /g 39 3 /d / /g 39 4 /d "_" /w 10 /g 40 1 /d "_" /g 40 2 /d "_" /g 40 3 /d "_" /g 40 4 /d "," /w 10 /g 41 1 /d "_" /g 41 2 /d "_" /g 41 3 /d / /g 41 4 /d "_" /w 10 /g 42 1 /d "_" /g 42 4 /d / /w 10 /g 43 2 /d "`" /g 43 3 /d / /g 43 4 /d / /w 10 /g 44 1 /d "_" /g 44 2 /d / /g 44 3 /d / /g 44 4 /d "_" /w 10 /g 45 2 /d / /g 45 4 /d / /w 10 /g 46 1 /d "_" /g 46 3 /d / /w 10 /g 47 1 /d "_" /g 47 2 /d "_" /g 47 4 /d / /w 10 /g 48 1 /d "_" /g 48 2 /d "_" /g 48 3 /d / /g 48 4 /d "_" /w 10 /g 49 1 /d "_" /g 49 4 /d / /w 10 /g 50 2 /d \ /g 50 3 /d / /g 50 5 /d / /w 10 /g 51 3 /d / /g 51 4 /d \ /g 51 5 /d "_" /w 10 /g 52 2 /d / /g 52 4 /d "_" /g 52 5 /d "_" /w 10 /g 53 1 /d "_" /g 53 3 /d / /g 53 4 /d "_" /g 53 5 /d "_" /w 10 /g 54 1 /d "_" /g 54 2 /d / /g 54 3 /d "_" /g 54 4 /d "," /g 54 5 /d "_" /w 10 /g 55 3 /d / /g 55 5 /d / /w 10 /g 56 2 /d / /g 56 4 /d / /w 10 /g 57 1 /d "_" /g 57 3 /d / /w 10 /g 58 1 /d "_" /g 58 2 /d / /g 58 3 /d / /g 58 4 /d \ /w 10 /g 59 2 /d / /g 59 4 /d "_" /w 10 /g 60 1 /d "_" /g 60 3 /d / /g 60 4 /d "_" /w 10 /g 61 1 /d "_" /g 61 2 /d "_" /g 61 3 /d "_" /g 61 4 /d "_" /w 10 /g 62 1 /d "_" /g 62 2 /d "_" /g 62 3 /d "_" /g 62 4 /d / /w 10 /g 63 1 /d "_" /g 63 2 /d "_" /g 63 4 /d / /w 10 /g 64 1 /d "_" /g 64 2 /d / /g 64 3 /d / /g 64 4 /d "_" /w 10 /g 65 2 /d / /g 65 4 /d / /w 10 /g 66 1 /d / /g 66 3 /d / /w 10 /g 67 0 /d "_" /g 67 2 /d "_" /g 67 4 /d / /w 10 /g 68 0 /d "_" /g 68 1 /d / /g 68 2 /d "_" /g 68 3 /d / /g 68 4 /d "_" /w 10 /g 69 1 /d "_" /g 69 4 /d / /w 10 /g 70 2 /d \ /g 70 3 /d / /g 0 5 /d "Wersja %Version%" /c 0x02 /g 56 6 /d "By CreepyNinja_" /g 0 7 /c 0x0F || (call :batbox Fix&goto DB_DBMenu)
+2>nul %BX% /h 0 /o 3 1 /g 0 4 /d / /w 10 /g 1 3 /d / /g 1 4 /d "_" /w 10 /g 2 2 /d / /g 2 4 /d "_" /w 10 /g 3 1 /d / /g 3 3 /d / /g 3 4 /d "_" /w 10 /g 4 0 /d "_" /g 4 2 /d "_" /g 4 3 /d "_" /g 4 4 /d "_" /w 10 /g 5 0 /d "_" /g 5 1 /d "_" /g 5 2 /d "_" /g 5 3 /d / /g 5 4 /d "_" /w 10 /g 6 0 /d "_" /g 6 1 /d "_" /g 6 4 /d / /w 10 /g 7 0 /d "_" /g 7 3 /d / /w 10 /g 8 1 /d ")" /g 8 2 /d "|" /g 8 3 /d / /g 8 4 /d \ /w 10 /g 9 2 /d / /g 9 4 /d "_" /w 10 /g 10 1 /d "_" /g 10 3 /d / /g 10 4 /d "_" /w 10 /g 11 1 /d "_" /g 11 2 /d "_" /g 11 3 /d "_" /g 11 4 /d "," /w 10 /g 12 1 /d "_" /g 12 2 /d "_" /g 12 3 /d / /g 12 4 /d "_" /w 10 /g 13 1 /d "_" /g 13 4 /d / /w 10 /g 14 2 /d "`" /g 14 3 /d / /w 10 /g 15 1 /d "_" /g 15 2 /d / /w 10 /g 16 2 /d / /g 16 4 /d / /w 10 /g 17 1 /d "_" /g 17 2 /d "_" /g 17 3 /d / /g 17 4 /d "_" /w 10 /g 18 1 /d "_" /g 18 4 /d "_" /w 10 /g 19 1 /d "_" /g 19 3 /d / /g 19 4 /d "_" /w 10 /g 20 1 /d "_" /g 20 2 /d / /g 20 3 /d "_" /g 20 4 /d / /w 10 /g 21 3 /d / /g 21 4 /d \ /w 10 /g 22 2 /d / /g 22 4 /d "_" /w 10 /g 23 1 /d "_" /g 23 3 /d / /g 23 4 /d "_" /w 10 /g 24 1 /d "_" /g 24 2 /d "_" /g 24 3 /d "_" /g 24 4 /d "," /w 10 /g 25 1 /d "_" /g 25 2 /d "_" /g 25 3 /d / /g 25 4 /d "_" /w 10 /g 26 1 /d "_" /g 26 4 /d / /w 10 /g 27 2 /d "`" /g 27 3 /d / /w 10 /g 28 1 /d "_" /g 28 2 /d / /w 10 /w 10 /g 30 3 /d / /g 30 4 /d \ /w 10 /g 31 2 /d / /g 31 4 /d "_" /w 10 /g 32 1 /d "_" /g 32 3 /d / /g 32 4 /d "_" /w 10 /g 33 1 /d "_" /g 33 2 /d "_" /g 33 3 /d "_" /g 33 4 /d "," /w 10 /g 34 1 /d "_" /g 34 2 /d "_" /g 34 3 /d / /g 34 4 /d "_" /w 10 /g 35 1 /d "_" /g 35 4 /d / /w 10 /g 36 1 /d / /g 36 3 /d / /w 10 /g 37 0 /d "_" /g 37 2 /d / /g 37 3 /d / /g 37 4 /d \ /w 10 /g 38 0 /d "_" /g 38 1 /d / /g 38 2 /d / /g 38 4 /d "_" /w 10 /g 39 1 /d "_" /g 39 3 /d / /g 39 4 /d "_" /w 10 /g 40 1 /d "_" /g 40 2 /d "_" /g 40 3 /d "_" /g 40 4 /d "," /w 10 /g 41 1 /d "_" /g 41 2 /d "_" /g 41 3 /d / /g 41 4 /d "_" /w 10 /g 42 1 /d "_" /g 42 4 /d / /w 10 /g 43 2 /d "`" /g 43 3 /d / /g 43 4 /d / /w 10 /g 44 1 /d "_" /g 44 2 /d / /g 44 3 /d / /g 44 4 /d "_" /w 10 /g 45 2 /d / /g 45 4 /d / /w 10 /g 46 1 /d "_" /g 46 3 /d / /w 10 /g 47 1 /d "_" /g 47 2 /d "_" /g 47 4 /d / /w 10 /g 48 1 /d "_" /g 48 2 /d "_" /g 48 3 /d / /g 48 4 /d "_" /w 10 /g 49 1 /d "_" /g 49 4 /d / /w 10 /g 50 2 /d \ /g 50 3 /d / /g 50 5 /d / /w 10 /g 51 3 /d / /g 51 4 /d \ /g 51 5 /d "_" /w 10 /g 52 2 /d / /g 52 4 /d "_" /g 52 5 /d "_" /w 10 /g 53 1 /d "_" /g 53 3 /d / /g 53 4 /d "_" /g 53 5 /d "_" /w 10 /g 54 1 /d "_" /g 54 2 /d / /g 54 3 /d "_" /g 54 4 /d "," /g 54 5 /d "_" /w 10 /g 55 3 /d / /g 55 5 /d / /w 10 /g 56 2 /d / /g 56 4 /d / /w 10 /g 57 1 /d "_" /g 57 3 /d / /w 10 /g 58 1 /d "_" /g 58 2 /d / /g 58 3 /d / /g 58 4 /d \ /w 10 /g 59 2 /d / /g 59 4 /d "_" /w 10 /g 60 1 /d "_" /g 60 3 /d / /g 60 4 /d "_" /w 10 /g 61 1 /d "_" /g 61 2 /d "_" /g 61 3 /d "_" /g 61 4 /d "_" /w 10 /g 62 1 /d "_" /g 62 2 /d "_" /g 62 3 /d "_" /g 62 4 /d / /w 10 /g 63 1 /d "_" /g 63 2 /d "_" /g 63 4 /d / /w 10 /g 64 1 /d "_" /g 64 2 /d / /g 64 3 /d / /g 64 4 /d "_" /w 10 /g 65 2 /d / /g 65 4 /d / /w 10 /g 66 1 /d / /g 66 3 /d / /w 10 /g 67 0 /d "_" /g 67 2 /d "_" /g 67 4 /d / /w 10 /g 68 0 /d "_" /g 68 1 /d / /g 68 2 /d "_" /g 68 3 /d / /g 68 4 /d "_" /w 10 /g 69 1 /d "_" /g 69 4 /d / /w 10 /g 70 2 /d \ /g 70 3 /d / /g 0 5 /d "Wersja %Version%" /c 0x02 /g 56 6 /d "By CreepyNinja_" /g 0 7 /c 0x0F || (call :batbox Fix&goto DB_DBMenu)
+%Fn% Cursor 0
 echo.
 echo                         …ÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕª
 echo                         ∫%__DB_Menu0%∫
@@ -3722,7 +3690,7 @@ echo                         ∫ Q) %__DB_MenuQ%∫
 echo                         »ÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕº
 echo.
 :DB_MenuGet
-batbox.exe /k
+%BX% /k
 if %errorlevel%==49 goto DB_DBCreate
 if %errorlevel%==50 goto DB_DBLoad
 if %errorlevel%==51 goto DB_DBDelete
@@ -3731,7 +3699,7 @@ goto DB_MenuGet
 
 :DB_DBCreate
 cls
-batbox /h 1
+%Fn% Cursor 1
 %Logo%
 set DBName=
 set /p "DBName=%__DB_Create1%" || goto DB_Menu
@@ -3763,10 +3731,11 @@ echo *** %__DB_Create6c% ***
 for /l %%a in (1,1,%DBCount%) do echo  - !DBItem%%a! -
 echo.
 set /p "=%__Prompt%(Y/N) "<nul
-batbox /k
+:DB_DBCreate2a
+%BX% /k
 if %errorlevel%==121 goto DB_DBCreate3
 if %errorlevel%==110 goto DB_DBCreate
-goto DB_DBCreate2
+goto DB_DBCreate2a
 
 :DB_DBCreate3
 cls
@@ -3793,7 +3762,7 @@ goto DB_Menu
 :DB_DBDelete
 cls
 mode con cols=80 lines=30
-batbox.exe /h 1
+%Fn% Cursor 1
 %Logo%
 echo %__DB_Menu1_2%
 echo.
@@ -3812,7 +3781,7 @@ goto DB_DBDelete
 echo.
 set /p "=%__DB_AUS% (Y/N) "<nul
 :DB_DBDelete1a
-"%MDIR%batbox.exe" /k
+%BX% /k
 if %errorlevel%==121 goto DB_DBDelete1b
 if %errorlevel%==110 popd&goto DB_DBDelete
 goto DB_DBDelete1a
@@ -3831,7 +3800,7 @@ goto DB_DBDelete
 :DB_DBLoad
 cls
 mode con cols=80 lines=30
-batbox.exe /h 1
+%Fn% Cursor 1
 %Logo%
 echo %__DB_Menu3_2%
 echo.
@@ -3850,7 +3819,7 @@ goto DB_DBLoad
 :DB_Reload
 endlocal&if "%Warp%"=="Delete" (set min=%min%&set max=%max%&set prevp=%prevp%&set nextp=%nextp%&set Warp=%Warp%) else (set Warp=)
 :DB_Start
-"%MDIR%batbox.exe" /h 0 2>nul || (call :batbox Fix&goto DB_Start)
+if not exist "%MDIR%\Core\%BX%" call :Batbox&goto DB_Start
 setlocal
 chcp 1250>nul
 set Color1=07
@@ -3887,7 +3856,7 @@ set prevp=0
 
 :DB_Window
 set BGColor=%Color1:~0,1%F
-"%MDIR%batbox.exe" /c 0x%Color1%
+%BX% /c 0x%Color1%
 cls
 chcp 852>nul
 set /a len=(!%s_on%EntityCount!-%min%)*2+3
@@ -3951,7 +3920,7 @@ if [%prevp%]==[1] (set "k1=1) Prev") else set "k1=   -   "
 if [%nextp%]==[1] (set "k2=2) Next") else set "k2=   -   "
 
 if "%s_on%"=="F_" (set c=26) else (set c=28)
-"%MDIR%batbox.exe" /h 0 /g 0 !c! /c 0x%AlterColor2%
+%BX% /h 0 /g 0 !c! /c 0x%AlterColor2%
 if "%s_on%"=="F_" (
 	echo  …%A:~0,41%ª 
 	echo  ∫%__DB_Search2%∫ 
@@ -3980,13 +3949,13 @@ for /l %%# in (1,1,%ItemCount%) do (
 		set com=!com! /o !e! 6 /g 0 0
 	)
 )
-"%MDIR%batbox.exe" %com%
+%BX% %com%
 
 :DB_KeyStroke
-"%MDIR%batbox.exe" /h 0 /g 0 0 /c 0x%BGColor% /d " %min%-%max% /!%s_on%EntityCount!\\"
+%BX% /h 0 /g 0 0 /c 0x%BGColor% /d " %min%-%max% /!%s_on%EntityCount!\\"
 if defined Warp goto DB_%Warp%
 :DB_KeyStroke-a
-"%MDIR%batbox.exe" /k
+%BX% /k
 set cho=%errorlevel%
 if %cho%==49 goto DB_PrevP
 if %cho%==327 goto DB_PrevP
@@ -4044,18 +4013,18 @@ goto :EOF
 if not defined Warp (set /a EntityCount+=1&set max=!EntityCount!&set /a c=!max! %% 10&(if !c! EQU 0 (set /a min=!max!-10+1) else (set /a min=!max!-!c!+1))&set Nextp=0&(if !max! LEQ 10 (set prevp=0) else set prevp=1)&set Warp=Add&goto DB_Window)
 set Warp=
 set /a c=%len%+3
-"%MDIR%batbox.exe" /g 0 1 /d "  -%__DB_Add%-" /g 3 %C% /c 0x%AlterColor% /h 1
+%BX% /g 0 1 /d "  -%__DB_Add%-" /g 3 %C% /c 0x%AlterColor% /h 1
 set Nazwa=""
 set /p Nazwa=
 set Nazwa=%Nazwa:"=%
-if not defined Nazwa "%MDIR%batbox.exe" /h 0 /c 0x0F&set /a EntityCount-=1&call :DB_RecalcAlt&goto DB_Window
+if not defined Nazwa %BX% /h 0 /c 0x0F&set /a EntityCount-=1&call :DB_RecalcAlt&goto DB_Window
 set Entity%EntityCount%Item1=%Nazwa%
 if defined g_on set S_Entity%EntityCount%Item1=%Nazwa%
 call :DB_SaveData
 goto DB_Window
 
 :DB_Edit
-"%MDIR%batbox.exe" /g 0 1 /d "  -%__DB_Edit%-" /h 1
+%BX% /g 0 1 /d "  -%__DB_Edit%-" /h 1
 set x=3
 set y=6
 set c=%min%
@@ -4067,7 +4036,7 @@ if [%c%]==[%min%] (set e-up=0) else (set e-up=1)
 if [%c%]==[%max%] (set e-down=0) else (set e-down=1)
 if [%d%]==[1] (set e-prev=0) else (set e-prev=1)
 if [%d%]==[%ItemCount%] (set e-next=0) else (set e-next=1)
-"%MDIR%batbox.exe" /g %e% %y% /g %x% %y% /k
+%BX% /g %e% %y% /g %x% %y% /k
 set cho=%errorlevel%
 if %cho%==335 (if [%e-down%]==[1] (set /a y+=2&set /a c+=1) else (set c=%min%&set /a y=6))
 if %cho%==327 (if [%e-up%]==[1] (set /a y-=2&set /a c-=1) else (set c=%max%&set /a "y=6+(max-min)*2"))
@@ -4082,28 +4051,28 @@ goto DB_Edit-1
 :DB_Edit-2
 set /a g=!Item%d%Length!-1
 if not "!Entity%c%Item%d%!"=="" (set f=!Entity%c%Item%d%:~0,%e%!) else set f=* N/A *
-"%MDIR%batbox.exe" /g %e% %y% /g %x% %y% /c 0x%Color1% /d "!B:~0,%g%!" /g %x% %y% /c 0x%AlterColor%
+%BX% /g %e% %y% /g %x% %y% /c 0x%Color1% /d "!B:~0,%g%!" /g %x% %y% /c 0x%AlterColor%
 set Nazwa=""
 set /p Nazwa=
 set Nazwa=%Nazwa:"=%
-if not defined Nazwa "%MDIR%batbox.exe" /g %x% %y% /c 0x%BGColor% /d "!B:~0,%g%!" /g %x% %y% /c 0x%AlterColor% /d "%F%"&goto DB_Edit-0
+if not defined Nazwa %BX% /g %x% %y% /c 0x%BGColor% /d "!B:~0,%g%!" /g %x% %y% /c 0x%AlterColor% /d "%F%"&goto DB_Edit-0
 if "%g_on%"=="S_" set c=!Pla%c%!
 set Entity%c%Item%d%=%Nazwa%
 call :DB_SaveData
-"%MDIR%batbox.exe" /g %x% %y% /c 0x%BGColor% /d "!B:~0,%g%!" /g %x% %y% /c 0x%AlterColor% /d "%Nazwa%"
+%BX% /g %x% %y% /c 0x%BGColor% /d "!B:~0,%g%!" /g %x% %y% /c 0x%AlterColor% /d "%Nazwa%"
 goto DB_Edit-0
 :DB_Edit-0
-"%MDIR%batbox.exe" /g 0 1 /c 0x%BGColor% /d "               "
+%BX% /g 0 1 /c 0x%BGColor% /d "               "
 goto DB_KeyStroke
 
 :DB_Delete
-"%MDIR%batbox.exe" /g 0 1 /d "  -%__DB_Delete%-" /h 1
+%BX% /g 0 1 /d "  -%__DB_Delete%-" /h 1
 set y=6
 set c=%min%
 :DB_Delete-1
 if [%c%]==[%min%] (set e-up=0) else (set e-up=1)
 if [%c%]==[%max%] (set e-down=0) else (set e-down=1)
-"%MDIR%batbox.exe" /g 3 %y% /k
+%BX% /g 3 %y% /k
 set cho=%errorlevel%
 if %cho%==335 (if [%e-down%]==[1] (set /a y+=2&set /a c+=1) else (set c=%min%&set /a y=6))
 if %cho%==327 (if [%e-up%]==[1] (set /a y-=2&set /a c-=1) else (set c=%max%&set /a "y=6+(max-min)*2"))
@@ -4113,12 +4082,12 @@ if %cho%==27 goto DB_Delete-0
 goto DB_Delete-1
 :DB_Delete-2
 set /a d=%len%+6
-"%MDIR%batbox.exe" /g 0 %d% /d "   %__DB_AUS% (Y/N) "
+%BX% /g 0 %d% /d "   %__DB_AUS% (Y/N) "
 :DB_Delete-3
-"%MDIR%batbox.exe" /k
+%BX% /k
 set cho=%errorlevel%
 if %cho%==121 goto DB_Delete-4
-if %cho%==110 "%MDIR%batbox.exe" /g 3 %d% /d "                     "&goto DB_Delete-0
+if %cho%==110 %BX% /g 3 %d% /d "                     "&goto DB_Delete-0
 goto DB_Delete-3
 :DB_Delete-4
 if "%g_on%"=="S_" set c=!Pla%c%!
@@ -4129,7 +4098,7 @@ call :DB_RecalcAlt
 set Warp=Delete
 goto DB_Reload
 :DB_Delete-0
-"%MDIR%batbox.exe" /g 0 1 /c 0x%BGColor% /d "                "
+%BX% /g 0 1 /c 0x%BGColor% /d "                "
 goto DB_KeyStroke
 
 :DB_Sort
@@ -4141,7 +4110,7 @@ for /l %%# in (1,1,%ItemCount%) do echo  %%#^) !Item%%#!
 set /a c=ItemCount+1
 echo  %c%^) %__DB_Sort2%
 echo.
-"%MDIR%batbox.exe" /h 1
+%BX% /h 1
 set cho=
 set /p cho=%__DB_Prompt%
 if not defined cho goto DB_Window
@@ -4173,7 +4142,7 @@ echo %__DB_Search3%:
 echo.
 for /l %%# in (1,1,%ItemCount%) do echo  %%#^) !Item%%#!
 echo.
-"%MDIR%batbox.exe" /h 1
+%BX% /h 1
 set cho=
 set /p cho=%__DB_Prompt%
 if not defined cho goto DB_Window
@@ -4190,7 +4159,7 @@ echo !B:~0,%Length%!∫%B:~0,38%∫
 echo !B:~0,%Length%!∫%B:~0,38%∫
 echo !B:~0,%Length%!»%A:~0,38%º
 chcp 1250>nul
-"%MDIR%batbox.exe" /o 2 0 /g %Length% 11
+%BX% /o 2 0 /g %Length% 11
 set Nazwa=""
 set /p Nazwa=
 set Nazwa=%Nazwa:"=%
@@ -4223,7 +4192,7 @@ echo !B:~0,%Length%!∫%B:~0,38%∫
 echo !B:~0,%Length%!∫%B:~0,38%∫
 echo !B:~0,%Length%!»%A:~0,38%º
 chcp 1250>nul
-"%MDIR%batbox.exe" /o 3 0 /g %Length% 10 /d "%__DB_Goto% (1-%str%): " /h 1
+%BX% /o 3 0 /g %Length% 10 /d "%__DB_Goto% (1-%str%): " /h 1
 set cho=
 set /p cho=
 if not defined cho goto DB_Window
@@ -4251,7 +4220,7 @@ echo !B:~0,%Length%!∫ Q) %__DB_MenuQ_3%∫
 echo !B:~0,%Length%!»%A:~0,38%º
 chcp 1250>nul
 :DB_Options-0
-"%MDIR%batbox.exe" /k
+%BX% /k
 set cho=%errorlevel%
 if %cho%==49 goto DB_Options-1
 if %cho%==50 goto DB_Options-0a
@@ -4273,7 +4242,7 @@ echo !B:~0,%Length%!∫ Q) %__DB_MenuQ_4%∫
 echo !B:~0,%Length%!»%A:~0,38%º
 chcp 1250>nul
 :DB_Options-0b
-"%MDIR%batbox.exe" /k
+%BX% /k
 set cho=%errorlevel%
 if %cho%==49 goto DB_Options-5
 if %cho%==50 goto DB_Options-6
@@ -4291,7 +4260,7 @@ echo !B:~0,%Length%!∫%B:~0,38%∫
 echo !B:~0,%Length%!∫%B:~0,38%∫
 echo !B:~0,%Length%!»%A:~0,38%º
 chcp 1250>nul
-"%MDIR%batbox.exe" /o 3 0 /g %Length% 10 /d "%__DB_Options1%" /h 1
+%BX% /o 3 0 /g %Length% 10 /d "%__DB_Options1%" /h 1
 set Nazwa=""
 set /p Nazwa=
 set Nazwa=%Nazwa:"=%
@@ -4307,14 +4276,14 @@ goto DB_Window
 :DB_Options-2
 if not defined Warp set Warp=Options-2&goto DB_Window
 set Warp=
-"%MDIR%batbox.exe" /g 0 1 /d "  -%__DB_Options2%-" /h 1
+%BX% /g 0 1 /d "  -%__DB_Options2%-" /h 1
 set x=3
 set c=1
 set /a e=2+%Item1Length%
 :DB_Options-2a
 if [%c%]==[1] (set e-prev=0) else (set e-prev=1)
 if [%c%]==[%ItemCount%] (set e-next=0) else (set e-next=1)
-"%MDIR%batbox.exe" /g %e% 3 /g %x% 3 /k
+%BX% /g %e% 3 /g %x% 3 /k
 set cho=%errorlevel%
 if %cho%==332 (if [%e-next%]==[1] (set /a x+=!Item%c%Length!+1&set /a c+=1) else (set x=3&set c=1))
 if %cho%==332 (if [%e-next%]==[1] set /a e=!x!+!Item%c%Length!-1)
@@ -4326,22 +4295,22 @@ if %cho%==27 goto DB_Options-2x
 goto DB_Options-2a
 :DB_Options-2b
 set /a g=!Item%c%Length!-1
-"%MDIR%batbox.exe" /g %e% 3 /g %x% 3 /c 0x%Color1% /d "!B:~0,%g%!" /g %x% 3
+%BX% /g %e% 3 /g %x% 3 /c 0x%Color1% /d "!B:~0,%g%!" /g %x% 3
 set Nazwa=""
 set /p Nazwa=
 set Nazwa=%Nazwa:"=%
-if not defined Nazwa "%MDIR%batbox.exe" /g %x% 3 /c 0x%Color1% /d "!Item%c%:~0,%g%!"&goto DB_Options-2x
+if not defined Nazwa %BX% /g %x% 3 /c 0x%Color1% /d "!Item%c%:~0,%g%!"&goto DB_Options-2x
 set Item%c%=%Nazwa%
 call :DB_SaveDataBase
-"%MDIR%batbox.exe" /g %x% 3 /c 0x%Color1% /d "!B:~0,%g%!" /g %x% 3 /d "!Item%c%:~0,%g%!"
+%BX% /g %x% 3 /c 0x%Color1% /d "!B:~0,%g%!" /g %x% 3 /d "!Item%c%:~0,%g%!"
 goto DB_Options-2x
 :DB_Options-2c
 set /a g=!Item%c%Length!-1
-"%MDIR%batbox.exe" /g %e% 3 /g %x% 3 /c 0x%Color1% /d "!B:~0,%g%!" /g %x% 3 /d "(9-50)> "
+%BX% /g %e% 3 /g %x% 3 /c 0x%Color1% /d "!B:~0,%g%!" /g %x% 3 /d "(9-50)> "
 set cho=""
 set /p cho=
 set cho=%cho:"=%
-if not defined cho "%MDIR%batbox.exe" /g %x% 3 /d "!B:~0,%g%!" /g %x% 3 /d "!Item%c%:~0,%g%!"&goto DB_Options-2x
+if not defined cho %BX% /g %x% 3 /d "!B:~0,%g%!" /g %x% 3 /d "!Item%c%:~0,%g%!"&goto DB_Options-2x
 for /f "delims=0123456789" %%A in ("%cho%") do if not "%%A"=="" goto DB_Options-2c
 if %cho% LSS 9 goto DB_Options-2c
 if %cho% GTR 50 goto DB_Options-2c
@@ -4350,12 +4319,12 @@ call :DB_SaveDataBase
 call :DB_RecalcSize
 goto DB_Window
 :DB_Options-2x
-"%MDIR%batbox.exe" /g 0 1 /c 0x%BGColor% /d "                          "
+%BX% /g 0 1 /c 0x%BGColor% /d "                          "
 goto DB_KeyStroke
 :DB_Options-3
 if not defined Warp set Warp=Options-3&goto DB_Window
 set Warp=
-"%MDIR%batbox.exe" /g 0 1 /d "  -%__DB_Options3%-" /h 1
+%BX% /g 0 1 /d "  -%__DB_Options3%-" /h 1
 set x=3
 set c=1
 set d=1
@@ -4376,7 +4345,7 @@ echo !B:~0,%Length%!»%A:~0,38%º
 chcp 1250>nul
 :DB_Options-4a
 set c=
-"%MDIR%batbox.exe" /k
+%BX% /k
 set cho=%errorlevel%
 if %cho%==49 set c=1
 if %cho%==50 set c=2
@@ -4395,7 +4364,7 @@ echo !B:~0,%Length%!∫%B:~0,38%∫
 echo !B:~0,%Length%!∫%B:~0,38%∫
 echo !B:~0,%Length%!»%A:~0,38%º
 chcp 1250>nul
-"%MDIR%batbox.exe" /o 3 0 /g %Length% 11 /d "%__DB_Options4b%" /h 1
+%BX% /o 3 0 /g %Length% 11 /d "%__DB_Options4b%" /h 1
 set cho=""
 set /p cho=
 set cho=%cho:"=%
@@ -4413,7 +4382,7 @@ if not defined Warp (
 )
 set Warp=
 set /a c=%Cols%-!Item%ItemCount%Length!-1
-"%MDIR%batbox.exe" /g 0 1 /d "  -%__DB_Options5%-" /g %C% 3 /c 0x%Color1% /h 1
+%BX% /g 0 1 /d "  -%__DB_Options5%-" /g %C% 3 /c 0x%Color1% /h 1
 set Nazwa=""
 set /p Nazwa=
 set Nazwa=%Nazwa:"=%
@@ -4425,7 +4394,7 @@ goto DB_Window
 :DB_Options-6
 if not defined Warp set Warp=Options-6&goto DB_Window
 set Warp=
-"%MDIR%batbox.exe" /g 0 1 /d "  -%__DB_Options6%-" /h 1
+%BX% /g 0 1 /d "  -%__DB_Options6%-" /h 1
 set x=3
 set c=1
 set d=2
@@ -4433,12 +4402,12 @@ set /a e=2+%Item1Length%
 goto DB_Options-2a
 :DB_Options-6a
 set /a d=%len%+6
-"%MDIR%batbox.exe" /g 0 %d% /d "   %__DB_AUS% (Y/N) "
+%BX% /g 0 %d% /d "   %__DB_AUS% (Y/N) "
 :DB_Options-6b
-"%MDIR%batbox.exe" /k
+%BX% /k
 set cho=%errorlevel%
 if %cho%==121 goto DB_Options-6c
-if %cho%==110 "%MDIR%batbox.exe" /g 0 %d% /d "                        "&goto DB_Delete-0
+if %cho%==110 %BX% /g 0 %d% /d "                        "&goto DB_Delete-0
 goto DB_Options-6b
 :DB_Options-6c
 set Item%c%=
@@ -4476,14 +4445,14 @@ set "Line=%B:~0,36%^< %FormAct%/%EntityCount% ^>%B:~0,39%"
 echo  ∫%Line:~0,78%∫
 echo  »%A:~0,50%%A:~0,26%º
 echo.
-"%MDIR%batbox.exe" /c 0x%AlterColor2%
+%BX% /c 0x%AlterColor2%
 echo …%A:~0,41%ª
 echo ∫ ^< - Prev  ^> - Next  Tab - Ch. view mode ∫
 set /p "=»%A:~0,41%º"<nul
 chcp 1250>nul
-"%MDIR%batbox.exe" %com% /o 0 0 /g 0 0 /c 0x%BGColor%
+%BX% %com% /o 0 0 /g 0 0 /c 0x%BGColor%
 :DB_FormKeyStroke
-"%MDIR%batbox.exe" /k
+%BX% /k
 set cho=%errorlevel%
 if %cho%==9 call :DB_RecalcSize&goto DB_Window
 if %cho%==330 set /a FormAct-=1&goto DB_FormWindow
@@ -4530,7 +4499,7 @@ goto :EOF
 	%disp% [16;23H ﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂ
 	if !mode!==color (%disp% [11;31H*) else (%disp% [11;38H*)
 	%disp% [10;30H!name!
-	for /f "tokens=1,2,3" %%a in ('PicEditor_Files\bg mouse') do set/a x=%%c+1,y=%%b+1
+	for /f "tokens=1,2,3" %%a in ('Core\%Fn% mouse') do set /a x=%%b+1,y=%%a+1
 	if !y!==10 if !x! geq 30 if !x! leq 42 call :PE_input
 	if !y!==11 (
 	if !x!==31 set mode=color
@@ -4563,7 +4532,7 @@ goto :EOF
 	if exist "PicEditor_Files\sprites\!name!.pic" goto PE_input
 	goto :eof
 :PE_main
-	for /f "tokens=1,2,3" %%a in ('PicEditor_Files\bg mouse') do set/a x=%%c+1,y=%%b+1,z=%%a
+	for /f "tokens=1,2,3" %%a in ('Core\%Fn% mouse') do set/a x=%%b+1,y=%%a+1,z=%%c
 	::title !x!,!y! [light bg:!col.bl!] [light fg:!col.fl!] [minx:!minx!]
 	if !y! geq 4 if !y! leq 22 if !x! geq 2 if !x! leq 69 (
 	if !z!    EQU 2 goto PE_menu
@@ -4671,7 +4640,7 @@ goto :EOF
 	set "line[!tmp.y!]=!line[%tmp.y%]:~,%minx%!!tip!!line[%tmp.y%]:~%x%!"
 	goto :eof
 :PE_menu
-	PicEditor_Files\bg.exe Cursor 100
+	%Fn% Cursor 100
 	!ui! sendkey esc press
 	!ui! sendkey esc press
 	set/a yy=!y!+1,og.y=!y!,og.x=!x!,max.x=!x!+19&%disp% [;m
@@ -4684,7 +4653,7 @@ goto :EOF
 	%disp% [!yy!;!x!H ﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂ
 	%disp% [!Y!;!X!H
 	:PE_menux
-	for /f "tokens=1,2,3" %%a in ('PicEditor_Files\bg mouse') do set/a x=%%c+1,y=%%b+1,z=%%a
+	for /f "tokens=1,2,3" %%a in ('Core\%Fn% mouse') do set/a x=%%b+1,y=%%a+1,z=%%c
 	if !z!==1 (
 	if !y!==!y1! if !x! geq !og.x! if !x! leq !max.x! call :PE_copy chr
 	if !y!==!y2! if !x! geq !og.x! if !x! leq !max.x! call :PE_copy src
@@ -4761,7 +4730,7 @@ if [%1]==[pen] (
 	:PE_ssrcv
 	set xpoint_i=&set ypoint_i=&set xpoint_f=&set ypoint_f=
 	:PE_ssrcx
-	for /f "tokens=1,2,3" %%a in ('PicEditor_Files\bg mouse') do set/a x=%%c+1,y=%%b+1,z=%%a
+	for /f "tokens=1,2,3" %%a in ('Core\%Fn% mouse') do set/a x=%%b+1,y=%%a+1,z=%%c
 	if !z!==1 (
 	if !y! geq 4 if !y! leq 22 if !x! geq 2 if !x! leq 69 (
 	if not defined xpoint_i set xpoint_i=!x!
@@ -4774,7 +4743,7 @@ if [%1]==[pen] (
 	if !z!==2 goto PE_sscr_menu
 	goto PE_ssrcx
 :PE_sscr_menu
-	PicEditor_Files\bg.exe Cursor 100
+	%Fn% Cursor 100
 	!ui! sendkey esc press
 	!ui! sendkey esc press
 	set /a yy=!y!+1,og.y=!y!,og.x=!x!,max.x=!x!+10&%disp% [;m
@@ -4786,7 +4755,7 @@ if [%1]==[pen] (
 	%disp% [!yy!;!x!H ﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂ
 	%disp% [!Y!;!X!H
 	:PE_sscr_menux
-	for /f "tokens=1,2,3" %%a in ('PicEditor_Files\bg mouse') do set/a x=%%c+1,y=%%b+1,z=%%a
+	for /f "tokens=1,2,3" %%a in ('Core\%Fn% mouse') do set/a x=%%b+1,y=%%a+1,z=%%c
 	if !z!==1 (
 	if !y!==!y1! if !x! geq !og.x! if !x! leq !max.x! (call :PE_refresh &goto PE_ssrcv)
 	if !y!==!y2! if !x! geq !og.x! if !x! leq !max.x! (call :PE_src_copy&goto PE_main)
@@ -4829,7 +4798,7 @@ if [%1]==[pen] (
 	set tip=!line[%oy%]:~%ox%,1!
 	goto :eof
 :PE_refresh [not]
-	PicEditor_Files\bg.exe Cursor 0
+	%Fn% Cursor 0
 	set yy=4
 	if not [%1]==[not] %disp% [0;1;40;33m[1;3H!xxz!!p1!!p2!!mc.ds!
 	if !mode!==color (
@@ -4905,7 +4874,7 @@ if [%1]==[pen] (
 	set "disp=<nul set/p = "
 	set space=&set p2=&set bar.cl=
 	set sp=&  set mc.ds=&set name=
-	set ui=PicEditor_Files\ui.dll
+	set ui=ui.dll
 	set lf=^
 
 
@@ -5118,7 +5087,7 @@ chcp 1250>nul
 echo %__SZ_Code15% "%CText%"
 if "%CodeType%"=="1" echo %__SZ_Code6a% %Num% %__SZ_Code6b%
 echo.
-echo %title% - %__SZ_Code8% "%maintitle%" by CreepyNinja_
+echo %title% - %__SZ_Code8% "%Program%" by CreepyNinja_
 )>Wynik.txt
 goto SZ_Done
 
@@ -5255,7 +5224,7 @@ chcp 1250>nul
 if not "%CodeType%"=="5" echo %__SZ_Code13% "%Pass%"
 echo %__SZ_Code15% "%CText%"
 echo.
-echo %title% - %__SZ_Code8% "%maintitle%" by CreepyNinja_
+echo %title% - %__SZ_Code8% "%Program%" by CreepyNinja_
 )>Wynik.txt
 goto SZ_Done
 
@@ -5306,7 +5275,7 @@ chcp 1250>nul
 echo %__SZ_Code15% "%CText%"
 echo - %__SZ_Code20% -
 echo.
-echo %title% - %__SZ_Code8% "%maintitle%" by CreepyNinja_
+echo %title% - %__SZ_Code8% "%Program%" by CreepyNinja_
 )>Wynik.txt
 goto SZ_Done
 
@@ -5359,7 +5328,7 @@ chcp 1250>nul
 echo %__SZ_Code15% "%CText%"
 echo - %__SZ_Code21% -
 echo.
-echo %title% - %__SZ_Code8% "%maintitle%" by CreepyNinja_
+echo %title% - %__SZ_Code8% "%Program%" by CreepyNinja_
 )>Wynik.txt
 goto SZ_Done
 
@@ -5451,7 +5420,7 @@ chcp 1250>nul
 echo %__SZ_Code13% "%Pass%"
 echo %__SZ_Code15% "%CText%"
 echo.
-echo %title% - %__SZ_Code8% "%maintitle%" by CreepyNinja_
+echo %title% - %__SZ_Code8% "%Program%" by CreepyNinja_
 )>Wynik.txt
 goto SZ_Done
 
@@ -5504,8 +5473,7 @@ goto :KK_Sprawdzenie
 
 :KK_Ruch
 set "key="
-if not exist batbox.exe call :BatBox
-batbox.exe /k
+%Fn% Kbd
 set "key=%errorlevel%" 
 If !key! Equ %__KK_Num1% endlocal&exit /b 1
 If !key! Equ %__KK_Num2% endlocal&exit /b 1
