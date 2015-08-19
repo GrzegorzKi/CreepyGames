@@ -73,3 +73,8 @@ v1.4.0 (2015-08-10)
 - Przeniesiono pomocnicze pliki do osobnego folderu `Core`
 - Usunięto bg.exe (zastąpione przez Fn.dll)
 - Usunięto **TestSamples**
+
+v1.4.1 (2015-08-19)
+-------------------
+- Usunięto grę **CraftBacher** i dodano **CreepyCraft**
+- Uzupełnienie changelog, drobne poprawki
