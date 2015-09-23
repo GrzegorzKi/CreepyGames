@@ -78,3 +78,10 @@ v1.4.1 (2015-08-19)
 -------------------
 - Usunięto grę **CraftBacher** i dodano **CreepyCraft**
 - Uzupełnienie changelog, drobne poprawki
+
+v1.4.2 (2015-09-23)
+-------------------
+- Dodano (ponownie) na życzenie **CraftBatcher** by Sucharowiec
+- Zaktualizowano **CreepyChess** do wersji v1.6.0
+- Dodano brakujące słowa do Wisielca po angielsku
+- Poprawiono pewne błędy w kodzie

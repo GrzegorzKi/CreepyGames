@@ -103,3 +103,11 @@ CreepyChess v1.5.2 FINAL (Size: 29,3 KB, Modified 24/01/15)
 
 CreepyChess v1.5.2 Security Update (Size: 30,6 KB, Modified 15/02/15)
 + Dodano możliwość zablokowania programu hasłem
+
+CreepyChess v1.6.0 (Modified 22/09/15)
+# Aktualizacja wydana po wersji finałowej. No ale trudno ;)
++ Stworzono mocniejszy mechanizm tworzenia hasła
++ Program otrzymał funkcję mieszania stron, po których grają uczestnicy
+== Konkretnie: co drugą rundę ci, którzy mieli grać białymi, będą grać czarnymi, i odwrotnie
+- Poprawki niewielkich błędów
++ CreepyChess jest teraz wielojęzyczny!

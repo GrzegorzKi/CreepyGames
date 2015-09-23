@@ -50,7 +50,7 @@ cls & mode con cols=80 lines=49 & (for %%a in (%__ChangeLog%) do echo. %%~a) & e
 	@set notouch=NO
 	@if defined DefaultMenu if /i "%DefaultMenu%"=="Hybrid" set notouch=YES
 	@if defined staticanim (set /a wait=0,wait1=0) else (set /a wait=10,wait1=25)
-	@set Version=v1.4.1
+	@set Version=v1.4.2
 	set next=
 	set launch=
 	set return=
@@ -106,6 +106,7 @@ if defined next (
 	1>&2 call :MenuShortcutUsage
 	exit /b 1
 )
+:: Koniec sprawdzania Shortcut'ów ::
 
 set LangChange=
 title CreepyGames
@@ -118,7 +119,7 @@ if /i not "%__CGLanguage%"=="Polski" (
 if /i not "%__CGLanguage%"=="English" (
 call :Language))
 
-:: Koniec sprawdzania Shortcut'ów ::
+
 
 :: Strefa zmiennych ::
 call :Var
@@ -143,8 +144,7 @@ goto MenuIntro
 goto :EOF
 
 :MenuIntro Logo
-	if not exist Core\%BX% call :BatBox&goto MenuIntro
-	set ErrorMessage=
+if not exist Core\%BX% call :BatBox&goto MenuIntro
 cls
 if /i "%NoIntro%"=="Y" goto MenuInit
 %BX% /h 0 /o 1 1 /c 0x0C /g 0 3 /d "/" /g 0 4 /d \ /w %wait% /g 1 2 /d "/" /g 1 4 /d "_" /w %wait% /g 2 1 /d "/" /g 2 3 /d "/" /g 2 4 /d "_" /w %wait% /g 3 0 /d "_" /g 3 2 /d "/" /g 3 3 /d "_" /g 3 4 /d "_" /w %wait% /g 4 0 /d "_" /g 4 1 /d "_" /g 4 3 /d "_" /g 4 4 /d "_" /w %wait% /g 5 0 /d "_" /g 5 1 /d "_" /g 5 3 /d "_" /g 5 4 /d "/" /w %wait% /g 6 0 /d "_" /g 6 1 /d "_" /g 6 4 /d "/" /w %wait% /g 7 0 /d "_" /g 7 1 /d "_" /g 7 3 /d "/" /g 7 4 /d "_" /w %wait% /g 8 0 /d "_" /g 8 1 /d "/" /g 8 2 /d "/" /g 8 4 /d "/" /w %wait% /g 9 1 /d "_" /g 9 3 /d "/" /w %wait% /g 10 1 /d "_" /g 10 2 /d "_" /w %wait% /g 11 1 /d "_" /g 11 2 /d "_" /w %wait% /g 12 1 /d "_" /g 12 2 /d "_" /w %wait% /g 13 1 /d "_" /g 13 2 /d "/" /g 13 3 /d "/" /g 13 4 /d \ /w %wait% /g 14 2 /d "/" /g 14 4 /d "_" /w %wait% /g 15 1 /d "_" /g 15 4 /d "_" /w %wait% /g 16 1 /d "_" /g 16 2 /d "_" /g 16 3 /d "_" /g 16 4 /d "_" /w %wait% /g 17 1 /d "_" /g 17 3 /d "_" /g 17 4 /d "/" /w %wait% /g 18 2 /d \ /g 18 3 /d "/" /w %wait% /g 19 3 /d "/" /g 19 4 /d \ /w %wait% /g 20 2 /d "/" /g 20 4 /d "_" /w %wait% /g 21 1 /d "_" /g 21 4 /d "_" /w %wait% /g 22 1 /d "_" /g 22 2 /d "_" /g 22 3 /d "_" /g 22 4 /d "_" /w %wait% /g 23 1 /d "_" /g 23 3 /d "_" /g 23 4 /d "/" /g 23 5 /d "/" /w %wait% /g 24 2 /d \ /g 24 3 /d "/" /g 24 4 /d "/" /g 24 5 /d "_" /w %wait% /g 25 3 /d "/" /g 25 5 /d "/" /w %wait% /g 26 2 /d "/" /g 26 4 /d "." /w %wait% /g 27 1 /d "_" /g 27 3 /d "/" /g 27 4 /d "_" /w %wait% /g 28 1 /d "_" /g 28 2 /d "_" /g 28 3 /d "_" /g 28 4 /d "_" /w %wait% /g 29 1 /d "_" /g 29 2 /d "_" /g 29 3 /d "/" /g 29 4 /d "_" /w %wait% /g 30 1 /d "_" /g 30 4 /d "/" /w %wait% /g 31 2 /d \ /g 31 3 /d "/" /g 31 5 /d "/" /w %wait% /g 32 3 /d "/" /g 32 4 /d \ /g 32 5 /d "_" /w %wait% /g 33 2 /d "/" /g 33 4 /d "_" /g 33 5 /d "_" /w %wait% /g 34 1 /d "_" /g 34 3 /d "/" /g 34 4 /d "_" /g 34 5 /d "_" /w %wait% /g 35 1 /d "_" /g 35 2 /d "/" /g 35 3 /d "_" /g 35 4 /d "," /g 35 5 /d "_" /w %wait% /g 36 3 /d "/" /g 36 5 /d "/" /w %wait% /g 37 2 /d "/" /g 37 4 /d "/" /w %wait% /g 38 1 /d "_" /g 38 3 /d "/" /w %wait% /g 39 1 /d "_" /g 39 2 /d "/" /g 39 3 /d "/" /g 39 4 /d \ /w %wait% /g 40 2 /d "/" /g 40 4 /d "_" /w %wait% /g 41 1 /d "/" /g 41 3 /d "/" /g 41 4 /d "_" /w %wait% /g 42 0 /d "_" /g 42 2 /d "/" /g 42 3 /d "_" /g 42 4 /d "_" /w %wait% /g 43 0 /d "_" /g 43 1 /d "_" /g 43 3 /d "/" /g 43 4 /d "_" /w %wait% /g 44 0 /d "_" /g 44 1 /d "_" /g 44 2 /d "_" /g 44 4 /d "/" /w %wait% /g 45 0 /d "_" /g 45 1 /d "_" /g 45 2 /d "_" /g 45 3 /d "/" /w %wait% /g 46 0 /d "_" /g 46 1 /d "_" /g 46 3 /d "/" /g 46 4 /d \ /w %wait% /g 47 0 /d "_" /g 47 1 /d "/" /g 47 2 /d "/" /g 47 4 /d "_" /w %wait% /g 48 1 /d "_" /g 48 3 /d "/" /g 48 4 /d "_" /w %wait% /g 49 1 /d "_" /g 49 2 /d "_" /g 49 3 /d "_" /g 49 4 /d "," /w %wait% /g 50 1 /d "_" /g 50 2 /d "_" /g 50 3 /d "/" /g 50 4 /d "_" /w %wait% /g 51 1 /d "_" /g 51 2 /d \ /g 51 4 /d "/" /w %wait% /g 52 2 /d "`" /g 52 3 /d "/" /g 52 4 /d "/" /w %wait% /g 53 1 /d "_" /g 53 2 /d "/" /g 53 3 /d "/" /g 53 4 /d "_" /w %wait% /g 54 2 /d "/" /g 54 4 /d "/" /w %wait% /g 55 1 /d "_" /g 55 3 /d "/" /w %wait% /g 56 1 /d "_" /g 56 2 /d "_" /g 56 4 /d "/" /w %wait% /g 57 1 /d "_" /g 57 2 /d "_" /g 57 3 /d "/" /g 57 4 /d "_" /w %wait% /g 58 1 /d "_" /g 58 2 /d \ /g 58 4 /d "/" /w %wait% /g 59 2 /d "`" /g 59 3 /d "/" /w %wait% /g 60 1 /d "_" /g 60 2 /d "_" /g 60 4 /d "/" /w %wait% /g 61 1 /d "_" /g 61 2 /d "_" /g 61 3 /d "/" /g 61 4 /d "_" /w %wait% /g 62 1 /d "_" /g 62 4 /d "/" /w %wait% /g 63 2 /d \ /g 63 3 /d "/" /w %wait% /g 64 3 /d "/" /g 64 4 /d \ /w %wait% /g 65 2 /d "/" /g 65 4 /d "_" /w %wait% /g 66 1 /d "_" /g 66 4 /d "_" /w %wait% /g 67 1 /d "_" /g 67 2 /d "_" /g 67 3 /d "_" /g 67 4 /d "_" /w %wait% /g 68 1 /d "_" /g 68 3 /d "_" /g 68 4 /d "/" /w %wait% /g 69 2 /d \ /g 69 3 /d "/" /g 69 4 /d "/" /w %wait% /g 70 3 /d "(" /g 70 4 /d "_" /w %wait% /g 71 2 /d "/" /g 71 3 /d "_" /g 71 4 /d "_" /w %wait% /g 72 1 /d "_" /g 72 3 /d "_" /g 72 4 /d "_" /w %wait% /g 73 1 /d "_" /g 73 2 /d "_" /g 73 4 /d "_" /w %wait% /g 74 1 /d "_" /g 74 2 /d "_" /g 74 4 /d "/" /w %wait% /g 75 1 /d "_" /g 75 2 /d "_" /g 75 3 /d ")" /w %wait% /g 76 1 /d "_" /g 76 2 /d "/" /g 18 8 /c 0x02 /d "%__IntroMessage%" /h 1 /c 0x0F /w 2000 /h 1
@@ -161,7 +161,7 @@ set Col1=30
 set Col2=31
 
 set MenuEntityCount=6
-set Menu1Count=5
+set Menu1Count=6
 set Menu2Count=4
 set Menu3Count=3
 set Menu4Count=4
@@ -176,18 +176,20 @@ set Menu5Name=%__Menu5Name_1%
 set Menu6Name=%__Menu6Name_1%
 
 set "Menu5Do0=call :MenuUpdateCreepyGames"
-set Menu6Do0=goto MenuExit
+set "Menu6Do0=goto MenuExit"
 
 set Menu1Name1=%__Menu1Name1_1%
 set Menu1Name2=%__Menu1Name2_1%
 set Menu1Name3=%__Menu1Name3_1%
 set Menu1Name4=%__Menu1Name4_1%
 set Menu1Name5=%__Menu1Name5_1%
+set Menu1Name6=CraftBatcher (by Suchar)
 set Menu1Do1=call :MS_Init
 set Menu1Do2=call :WS_Init
 set Menu1Do3=call :XX_BatCraft
 set Menu1Do4=call :KK_Init
 set Menu1Do5=call :CB_Init
+set Menu1Do6=call :CB2_Init
 
 set Menu2Name1=%__Menu2Name1_1%
 set Menu2Name2=%__Menu2Name2_1%
@@ -199,7 +201,7 @@ set Menu2Do3=call :DB_Init
 set Menu2Do4=call :PE_Init
 
 set Menu3Name1=%__Menu3Name1_1%
-set Menu3Name2=%__Menu3Name2_1% (WIP)
+set Menu3Name2=%__Menu3Name2_1% (Halted)
 set Menu3Name3=%__Menu3Name3_1%
 set Menu3Do1=call :PI_BatchOfPi
 set Menu3Do2=
@@ -222,7 +224,7 @@ setlocal
 set "WelcomeText=%__WelcomeText3%"
 
 set Col1=62
-set Col2=-1
+set Col2=0
 
 set MenuEntityCount=3
 set Menu1Count=0
@@ -436,7 +438,7 @@ endlocal & %Fn% Cursor 1 &%Result%& cls & color 0F & goto MenuConfig%CfgID%
 :MenuWindows81Error
 if defined ANSIcon_Enabled if not exist "%MDIR%\Core\%BX%" call :BatBox&goto Menu
 cls
-if not defined ANSIcon_Enabled set __MenuConflict1=I see that you are using Windows 8.1.&set __MenuConflict2=System faults cause program not to work properly.&set __MenuConflict3=To solve it, launch program from the CMD console.
+if not defined ANSIcon_Enabled set __MenuConflict1=I see that you are using Windows 8.1.&set __MenuConflict2=System faults cause program not to work properly.&set __MenuConflict3=To solve this, launch program as administrator.
 echo %__MenuConflict1%
 echo %__MenuConflict2%
 echo %__MenuConflict3%
@@ -719,13 +721,14 @@ if defined launch (
 	if /i "%~1"=="PicEditor" (set "launch=call :PE_Init") else (
 	if /i "%~1"=="Cipher" (set "launch=call :SZ_Init") else (
 	if /i "%~1"=="CreepyCraft" (set "launch=call :CB_Init") else (
+	if /i "%~1"=="CraftBatcher" (set "launch=call :CB2_Init") else (
 	if /i "%~1"=="TicTacToe" (set "launch=call :KK_Init") else (
 	if /i "%~1"=="Update" (set "launch=call :MenuUpdateCreepyGames") else (
 		1>&2 echo ERROR: Invalid program to launch.
 		1>&2 echo.
 		1>&2 call :MenuShortcutUsage
 		exit /b 1
-))))))))))))
+)))))))))))))
 exit /b 0
 
 :MenuShortcutUsage
@@ -737,7 +740,8 @@ echo     Available programs:  BatCraft
 echo                            Hangman
 echo                              MineSweeper
 echo                                CreepyCraft
-echo                                  TicTacToe
+echo                                  CraftBatcher
+echo                                    TicTacToe
 echo.
 echo                          CreepyChess
 echo                            AdminTools
@@ -825,13 +829,20 @@ for %%a in (
 	"- Wisielec wci¥¾ wymaga roboty. Brakuje plik¢w ze sˆ¢wkami do gry po angielsku"
 	""
 	""
-	"CreepyGames v1.4.0-v1.4.1 (aktualna)"
+	"CreepyGames v1.4.0-v1.4.1"
 	""
 	"- Dodano [0;1;40;33mKreator Aktualizacji[0;1;40;37m, kt¢ry bazuje na serwerze FTP"
 	"- Poprawiono tˆumaczenia"
 	"- Przeniesiono wszystkie moduˆy do folderu [0;40;33mCore[0;1;40;37m"
 	"- Usuni©to gr© [0;1;40;31mCraftBacher[0;1;40;37m i dodano [0;1;40;33mCreepyCraft[0;1;40;37m"
-	"- Zmieniono nazw© [0;40;33mTest Samples[0;1;40;37m na [0;1;40;33mTips 'n' Tricks[0;1;40;37m"
+	"- Usuni©to [0;40;33mTest Samples[0;1;40;37m"
+	""
+	""
+	"CreepyGames v1.4.2 (aktualna)"
+	"- Dodano (ponownie) na ¾yczenie [0;1;40;33mCraftBatcher[0;1;40;37m by Sucharowiec"
+	"- Zaktualizowano [0;40;33mCreepyChess[0;1;40;37m"
+	"- Dodano brakuj¥ce sˆowa do Wisielca po angielsku"
+	"- Poprawiono pewne bˆ©dy w kodzie"
 ) do set "__ChangeLog=!__ChangeLog! %%a")
 set __About=
 for %%a in (
@@ -847,7 +858,7 @@ for %%a in (
 "zbiera wszystkie programiki do jednego ;)"
 ""
 "CreepyGames - Copyright 2012-2015  by CreepyNinja_"
-"Zapraszam r¢wnie¾ na forum CMDTeam.esy.es, gdzie"
+"Zapraszam r¢wnie¾ na forum CMDTeam.hol.es, gdzie"
 "znajdziecie WI¨CEJ batchowych wytwor¢w. Pozdro :P"
 "[0;1;40;36m"
 ) do set "__About=!__About! %%a"
@@ -899,7 +910,7 @@ set "__Menu1Name5_1=CreepyCraft"
 set "__Menu2Name1_1=CreepyChess"
 set "__Menu2Name2_1=Administrative Tools"
 set "__Menu2Name3_1=Baza Danych"
-set "__Menu2Name4_1=Pic Editor (By Honguito89)"
+set "__Menu2Name4_1=Pic Editor (By Honguito98)"
 set "__Menu3Name1_1=Batch of Pi"
 set "__Menu3Name2_1=Tips 'n' Tricks"
 set "__Menu3Name3_1=Zbi¢r szyfr¢w"
@@ -914,7 +925,7 @@ set "__Menu2Name_3=                Changelog (od wersji v1.1.0)"
 set "__Menu3Name_3=                   Wr¢† do gˆ¢wnego menu"
 set "__MenuConflict1=Widz©, ¾e korzystasz z Windows 8.1."
 set "__MenuConflict2=Bˆ©dy w systemie powoduj¥ pewne problemy z programem."
-set "__MenuConflict3=Aby je rozwi¥za†, uruchom program z poziomu konsoli CMD."
+set "__MenuConflict3=Aby je rozwi¥za†, uruchom program jako administrator."
 set "__PressToContinue=Wci˜nij dowolny klawisz, aby kontynuowa†..."
 set "__ClickToMenu=Kliknij gdziekolwiek, by wr¢ci† do gˆ¢wnego menu"
 set "__NoBatboxPTC=Moduˆ od myszki niedost©pny. %__PressToContinue%"
@@ -1083,6 +1094,7 @@ set "__CC_str3=Remis (przyznaj po pó³ punktu)"
 set "__CC_str6=miejsce zajmuje:"
 set "__CC_str8=Kliknij, aby wróciæ do dzia³u pomocy"
 set "__CC_DefaultList=Gracze.ini"
+set "__CC_Title=Tytu³"
 set "__CC_TitlePrompt= Podaj tytu³ dla tej sesji "
 set "__CC_Menu1=Zacznij turniejowanie"
 set "__CC_Menu2=Ustaw liczbê graczy"
@@ -1126,10 +1138,13 @@ set "__CC_LosMenu2="%__CC_DrawName%" "Nie wpisano jeszcze wszystkich wyników.""
 set "__CC_LosMenu3="$$Rozpocznij kolejn¹ rundê" "" "$$Poka¿ obecne wyniki" "" "$$Zabezpiecz sesjê has³em""
 set "__CC_Pair=Para"
 set "__CC_Nr=nr"
-set "__CC_Protect1=Podaj has³o odblokowuj¹ce program (domyœlnie: Cr33pyCh3ss): "
+set "__CC_Protect1=Podaj has³o odblokowuj¹ce program (dozwolone: A-Z, a-z, 0-9, [SPACE])"
 set "__CC_Protect2= Program jest zabezpieczony has³em"
 set "__CC_Protect3=    Podaj has³o, by odblokowaæ:"
-set "__CC_Protect4=Wpisane has³o jest nieprawid³owe. Odczekaj 5 sekund, zanim wpiszesz has³o ponownie..."
+set "__CC_Protect4=Has³o nieprawid³owe"
+set "__CC_Protect5=Odblokowano"
+set "__CC_Protect6=Has³o ustawione"
+
 set "__CC_Print=Momencik, trwa drukowanie:"
 set "__CC_CTC=Kliknij, aby kontynuowaæ"
 set "__CC_ByeText="Dziêkujê za przyjemn¹ pracê" "¯yczê mi³ego dnia :)""
@@ -1345,7 +1360,6 @@ goto :EOF
 
 
 :LanguageSet_en
-popd
 set /p "=[0;1;40;37m"<nul
 
 :: Section MENU ::
@@ -1372,7 +1386,7 @@ for %%a in (
 	"- Added game [0;1;40;33mTic Tac Toe[0;1;40;37m by Szagajew"
 	"- # CreepyGames # - Added tab OPTIONS AND CREDITS"
 	"- [0;40;33mAbout CreepyGames[0;1;40;37m moved to tab above"
-	"- Added [0;40;33mOptions[0;1;40;37m (poor, unfortunately...)"
+	"- Added [0;40;33mOptions[0;1;40;37m"
 	"- Added [0;40;33mCredits[0;1;40;37m"
 	"- Added [0;40;33mStats for geeks[0;1;40;37m (menu contains a link to the"
 	"  Changelog and History of updated programs)"
@@ -1389,13 +1403,21 @@ for %%a in (
 	"- Hangman still needs some work. Files with words to this game are missing."
 	""
 	""
-	"CreepyGames v1.4.0-v1.4.1 (actual)"
+	"CreepyGames v1.4.0-v1.4.1"
 	""
 	"- Added [0;1;40;33mUpdate Wizard[0;1;40;37m, and it is based on FTP server"
 	"- Fixed some translates"
 	"- Moved all the modules to the [0;40;33mCore[0;1;40;37m folder"
 	"- Removed game [0;1;40;31mCraftBacher[0;1;40;37m and added [0;1;40;33mCreepyCraft[0;1;40;37m"
-	"- Renamed [0;40;33mTest Samples[0;1;40;37m to [0;1;40;33mTips 'n' Tricks[0;1;40;37m"
+	"- Removed [0;40;33mTest Samples[0;1;40;37m"
+	""
+	""
+	"CreepyGames v1.4.2 (actual)"
+	"- Added (again) for request [0;1;40;33mCraftBatcher[0;1;40;37m by Sucharowiec"
+	"-- For now it hasn't got translation to English, sorry :("
+	"- Updated [0;40;33mCreepyChess[0;1;40;37m"
+	"- Added missing words to Hangman game"
+	"- Fixed some mistakes in code"
 ) do set "__ChangeLog=!__ChangeLog! %%a")
 set __About=
 for %%a in (
@@ -1411,7 +1433,7 @@ for %%a in (
 "collects all these programs into one ;)"
 ""
 "CreepyGames - Copyright 2012-2015  by CreepyNinja_"
-"I also invite you to CMDTeam forum, where you can"
+"I also invite you to CMDTeam.hol.es forum, where you can"
 "find MORE batch creations. Cheers :P"
 "[0;1;40;36m"
 ) do set "__About=!__About! %%a"
@@ -1476,7 +1498,7 @@ set "__Menu2Name_3=                    Changelog (v1.1.0+)"
 set "__Menu3Name_3=                  Return to the main menu"
 set "__MenuConflict1=I see that you are using Windows 8.1."
 set "__MenuConflict2=System faults cause some problems with program."
-set "__MenuConflict3=To solve them launch program from CMD console."
+set "__MenuConflict3=To solve this, launch program as administrator."
 
 set "__PressToContinue=Press any key to continue..."
 set "__ClickToMenu=   Click anywhere to return to the main menu    "
@@ -1624,7 +1646,7 @@ for %%a in (
 "It's probably enough :P So, to work..."
 ) do set "__WS_Warning2=!__WS_Warning2! %%a"
 
-:: Secion CreepyChess ::
+:: Section CreepyChess ::
 chcp 1250>nul
 set "__CC_Error01=  Oops, program  encountered an"
 set "__CC_Error02=  error and needs to be stopped"
@@ -1647,6 +1669,7 @@ set "__CC_str3=Draw (admit half a point each side)"
 set "__CC_str6=place takes:"
 set "__CC_str8=Kliknij, aby wróciæ do dzia³u pomocy"
 set "__CC_DefaultList=Players.ini"
+set "__CC_Title=Title"
 set "__CC_TitlePrompt= Enter a title for this session "
 set "__CC_Menu1=Start tournament"
 set "__CC_Menu2=Set the number of players"
@@ -1693,10 +1716,12 @@ set "__CC_Nr=no."
 set "__CC_Protect1=Set password unlocking the program (default: Cr33pyCh3ss): "
 set "__CC_Protect2=  Program is locked with password"
 set "__CC_Protect3=     Type password to unlock:"
-set "__CC_Protect4=Typed passoword is wrong. Please wait 5 seconds and try again..."
+set "__CC_Protect4=Wrong password"
+set "__CC_Protect5=Unlocked"
+set "__CC_Protect6=Password set"
 set "__CC_Print=Wait a moment, printing:"
 set "__CC_CTC=Click to continue"
-set "__CC_ByeText="Thanks for a nice job" "Have a nice day""
+set "__CC_ByeText="Thanks for a nice job" "Have a nice day :)""
 chcp 852>nul
 
 :: Smaller sections ::
@@ -2908,7 +2933,7 @@ title %title%
 if defined skip_title goto CC_intro
 set /a X=2,Y=2
 :CC_title
-batch# /box %X% %Y% "Tytu³" "%__CC_TitlePrompt%"
+batch# /box %X% %Y% "%__CC_Title%" "%__CC_TitlePrompt%"
 set /a Y+=5
 batch# /move_ %X% %Y%
 set /p "title=> "
@@ -3025,15 +3050,32 @@ if %b% GTR %osob% goto CC_setup6
 for /L %%i in (%b%,1,%osob%) do (
 	cls
 	batch# /box 2 2 "%__CC_Setup5% %%i" "%__CC_Setup6% %%i:"
+	set n%%i=
 	batch# /move_ 2 7&set /p "n%%i= > "
 )
+set /a lines=%osob%+14
+mode con cols=93 lines=%lines%
 
 :CC_setup5
 cls
-set str13=&for /L %%i in (1,1,%osob%) do set str13=!str13!"%%i - !n%%i! (P: !p%%i!.!p%%ib!)" 
+set str13=&for /L %%i in (1,1,%osob%) do set str13=!str13! "%%i - !n%%i! (P: !p%%i!.!p%%ib!)"
 batch# /box 2 2 %__CC_Setup7% "" !str13! "" %__CC_Setup8%
+if "%errorlevel%"=="0" goto CC_setup5alt
 if "%errorlevel%"=="1" goto CC_setup6
 goto CC_setup4
+
+:CC_setup5alt
+cls
+for %%a in (%__CC_Setup7%) do echo %%~a&echo.
+for /L %%i in (1,1,%osob%) do echo %%i - !n%%i! (P: !p%%i!.!p%%ib!)
+echo.
+for %%a in (%__CC_Setup8%) do echo %%~a (Y/N)&goto CC_setup5alt2
+:CC_setup5alt2
+set cho=
+set /p "cho=>"
+if /i "%cho%"=="y" goto CC_setup6
+goto CC_setup4
+
 
 :CC_setup6-cols
 batch# /lenght "%licz%"
@@ -3126,14 +3168,27 @@ set g%licze%r%runda%=%liczc%
 set act%licze%=1
 set act%liczc%=1
 set /a actc+=1
+set acte=1
+set /a rundat=runda/2 *2
+if "%rundat%"=="%runda%" goto CC_losowanie3c
 set para%actc%_1=%liczc%
 set para%actc%_2=%licze%
 set para%actc%=[!para%actc%_1!] (!act!.!actb!) !liczd! - !n%licze%! (!p%licze%!.!p%licze%b!) [!para%actc%_2!]
 echo !para%actc%!>>"%location%%title%\%__CC_RoundName%%runda%.txt"
 set licz=%act%
 set liczb=%actb%
-set acte=1
 goto :EOF
+:CC_losowanie3c
+set para%actc%_1=%licze%
+set para%actc%_2=%liczc%
+set para%actc%=[!para%actc%_1!] (!p%licze%!.!p%licze%b!) !n%licze%! - !liczd! (!act!.!actb!) [!para%actc%_2!]
+echo !para%actc%!>>"%location%%title%\%__CC_RoundName%%runda%.txt"
+set licz=%act%
+set liczb=%actb%
+goto :EOF
+
+
+
 
 :CC_losowanie_error
 set actb%errorcount%=0
@@ -3228,22 +3283,25 @@ for /L %%i in (1,1,%stoly%) do (
 )
 for /F %%A in ("%para0%") do set /a p%%A+=1
 set /a errorcount+=1
-
+set Locked=0
 
 :CC_punkty
 cls
 set check=
 set str15=
+if not %Locked% EQU 1 (set LockingTab="" %__CC_LosMenu3%) else (set LockingTab="" "-= Sesja zabezpieczona =-")
 for /L %%i in (1,1,%stoly%) do set str15=!str15!"" "$$!rp%%i_1! !para%%i! !rp%%i_2!" 
 if defined para0 set str15=!str15!"" "%__CC_Pausing% %para0%"
-batch# /box 2 2 "%__CC_DrawName%" "%__CC_RoundName% %runda%:" %str15% "" %__CC_LosMenu3%
+batch# /box 2 2 "%__CC_DrawName%" "%__CC_RoundName% %runda%:" %str15% %LockingTab%
+set Input=%errorlevel%
+if %Locked% EQU 1 call :CC_Unlock0 & goto CC_Punkty
 set /a x=stoly+1
-if "%errorlevel%"=="%x%" goto CC_losowanie4
+if "%Input%"=="%x%" goto CC_losowanie4
 set /a x+=1
-if "%errorlevel%"=="%x%" if not "%runda%"=="1" (set check=T&goto CC_koniec1) else goto CC_punkty
+if "%Input%"=="%x%" if not "%runda%"=="1" (set check=T&goto CC_koniec1) else goto CC_punkty
 set /a x+=1
-if "%errorlevel%"=="%x%" call :CC_protect&goto CC_punkty
-set x=%errorlevel%
+if "%Input%"=="%x%" call :CC_Lock0&goto CC_punkty
+set x=%Input%
 
 :CC_punkty1
 cls
@@ -3253,22 +3311,63 @@ if "%errorlevel%"=="2" set rp%x%_1=[+0.0]&set rp%x%_2=[+1.0]&set rp%x%=1
 if "%errorlevel%"=="3" set rp%x%_1=[+0.5]&set rp%x%_2=[+0.5]&set rp%x%=1
 goto CC_punkty
 
-:CC_protect
+:CC_Lock0
+set chars1=
+set chars2=
+:CC_Lock
 cls
-set unpassw=Cr33pyCh3ss
-set /p unpassw=%__CC_Protect1%
-call :CC_unlock "%unpassw%"
-goto :EOF
-:CC_unlock
+echo %__CC_Protect1%
+set /p "=> %chars2%"<nul
+%FN% Kbd
+if %errorlevel% LEQ 0 goto CC_Lock
+if %errorlevel% EQU 8 if not "%chars1%"=="" set chars2=%chars2:~0,-1%&(set Last=&set chars3=&(for %%A in (%chars1%) do set chars3=!chars3!,!last!&set last=%%A)&set chars1=!chars3:~1!)&goto CC_Lock
+if %errorlevel% EQU 27 goto CC_Lock0
+if %errorlevel% EQU 13 if defined chars2 goto CC_Lock2
+set Error=1
+if %errorlevel% EQU 32 set Error=0
+if %errorlevel% GTR 47 if %errorlevel% LSS 58 set Error=0
+if %errorlevel% GTR 64 if %errorlevel% LSS 91 set Error=0
+if %errorlevel% GTR 96 if %errorlevel% LSS 123 set Error=0
+if %Error% EQU 1 goto CC_Lock
+set chars1=%chars1%,%errorlevel%
+set chars2=%chars2%*
+goto CC_Lock
+:CC_Lock2
+cls
+set Pass=%chars1:~1%
+set Locked=1
+set chars1=&set chars2=
+echo %__CC_Protect6%^^!
+echo.
+pause
+title %title% - Locked
+goto CC_punkty
+
+:CC_Unlock0
+set chars1=
+set chars2=
+:CC_Unlock
 cls
 set passw=
 echo ===================================
 echo %__CC_Protect2%
 echo %__CC_Protect3%
 echo ===================================
-set /p "passw=> "
-if not "%passw%"=="%~1" cls&echo %__CC_Protect4%&ping localhost -n 6 >nul&goto CC_unlock
-goto :EOF
+set /p "=> %chars2%"<nul
+%FN% Kbd
+if %errorlevel% LEQ 0 goto CC_UnLock
+if %errorlevel% EQU 8 if not "%chars1%"=="" set chars2=%chars2:~0,-1%&(set Last=&set chars3=&(for %%A in (%chars1%) do set chars3=!chars3!,!last!&set last=%%A)&set chars1=!chars3:~1!)&goto CC_UnLock
+if %errorlevel% EQU 27 goto CC_Unlock0
+if %errorlevel% EQU 13 if defined chars2 set UnPass=%chars1:~1%&(if "!Pass!"=="!UnPass!" (set Locked=0&cls&echo %__CC_Protect5%^^!&echo.&pause&title %title%&exit /b 0) else (cls&echo %__CC_Protect4%^^!^^!^^!&ping localhost -n 3 >nul&exit /b 1))
+set Error=1
+if %errorlevel% EQU 32 set Error=0
+if %errorlevel% GTR 47 if %errorlevel% LSS 58 set Error=0
+if %errorlevel% GTR 64 if %errorlevel% LSS 91 set Error=0
+if %errorlevel% GTR 96 if %errorlevel% LSS 123 set Error=0
+if %Error% EQU 1 goto CC_UnLock
+set chars1=%chars1%,%errorlevel%
+set chars2=%chars2%*
+goto CC_UnLock
 
 :CC_print
 batch# /box 2 2 "Print Service" "%__CC_Print% %~2..."
@@ -5705,9 +5804,7 @@ exit /b 0
 set Program=CreepyCraft by CreepyNinja_
 %Macro_Loading:@=!%
 cd /d "%MDIR%"
-setlocal enabledelayedexpansion
 title CraftBatcher Remake by CreepyNinja_
-endlocal
 	Setlocal DisableDelayedExpansion EnableExtensions
 	set Ver=v1.1
 	Set "Game=%~nx0"
@@ -5882,6 +5979,8 @@ goto :CB_Settings2
 Call :CB_Shade
 cls
 color 07
+endlocal
+endlocal
 exit /b
 
 :CB_Play
@@ -6618,8 +6717,7 @@ cls
 color 0F
 goto :EOF
 
-:: Koniec program CreepyCraft ::
-
+// Macro \\
 @1:Set M=0&Set KeyCode=&Set KeyChar=
 @1:For /F "Tokens=1-4" %%W in ('!Fn! Inputhit !Accuracy!') Do (
 @1:If %%W Equ KBD (
@@ -6630,3 +6728,585 @@ goto :EOF
 @1:If %%W Equ MOUSE (
 @1: Set/a X=%%Y+1,Y=%%X+1,M=%%Z
 @1:))
+\\ End Macro //
+:: Koniec program CreepyCraft ::
+
+
+:: Pocz¹tek program CraftBatcher ::
+:CB2_Init
+set Program=CraftBatcher by Suchar
+%Macro_Loading:@=!%
+cd /d "%MDIR%"
+setlocal enabledelayedexpansion
+title CraftBatcher - Comeback
+Color F0
+set o=1
+set o1=Move
+set o2=Mine
+set o3=Build
+set o4=Craft
+set i=1
+set i1=0
+set i2=0
+set i3=0
+set i4=0
+Set i5=0
+set i7=0
+set i8=0
+Set i9=0
+set itcr=0
+set i6=0
+Set p=0
+set opc=0
+Set nic=0
+Set skin=@
+Set zad1=0
+set zad2=0
+set zad3=0
+set ktr=0
+:CB2_menu
+cls
+echo  CraftBatcher 
+echo ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+echo º1) Gra           º
+echo º2) Opcje         º
+echo º3) O autorze     º
+Echo º4) Zaladuj       º
+echo º5) Wyjscie       º
+echo ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+choice /c 12345 /n
+if %errorlevel%==1 goto CB2_play
+if %errorlevel%==2 goto CB2_settings
+if %errorlevel%==3 goto CB2_about
+if %errorlevel%==4 goto CB2_load
+if %errorlevel%==5 exit /b
+goto CB2_menu
+
+:CB2_play
+cls
+echo  CraftBatcher 
+echo ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+echo º Jak wielki jest twoj swiat º
+echo º 1) Maly                    º
+echo º 2) Sredni                  º
+echo º 3) Duzy                    º
+echo ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+choice /c 123 /n
+if %errorlevel%==1 goto CB2_gensmall
+if %errorlevel%==2 goto CB2_genmed
+if %errorlevel%==3 goto CB2_genbig
+goto CB2_play
+
+:CB2_gensmall
+echo Swiat sie generuje...
+for /l %%y in (1,1,20) do (
+for /l %%x in (1,1,20) do (
+set /a r=!random!*7/32768
+if !r!==0 set x%%xy%%y= 
+if !r!==1 set x%%xy%%y= 
+if !r!==2 set x%%xy%%y= 
+if !r!==3 set x%%xy%%y=
+if !r!==4 set x%%xy%%y=Û
+if !r!==5 set x%%xy%%y=þ
+if !r!==6 set x%%xy%%y=
+)
+)
+goto CB2_spawn
+
+:CB2_genmed
+echo Swiat sie generuje...
+for /l %%y in (1,1,50) do (
+for /l %%x in (1,1,50) do (
+set /a r=!random!*7/32768
+if !r!==0 set x%%xy%%y= 
+if !r!==1 set x%%xy%%y= 
+if !r!==2 set x%%xy%%y= 
+if !r!==3 set x%%xy%%y=
+if !r!==4 set x%%xy%%y=Û
+if !r!==5 set x%%xy%%y=þ
+if !r!==6 set x%%xy%%y=
+)
+)
+goto CB2_spawn
+
+:CB2_genbig
+echo 
+for /l %%y in (1,1,100) do (
+for /l %%x in (1,1,100) do (
+set /a r=!random!*7/32768
+if !r!==0 set x%%xy%%y= 
+if !r!==1 set x%%xy%%y= 
+if !r!==2 set x%%xy%%y= 
+if !r!==3 set x%%xy%%y= 
+if !r!==4 set x%%xy%%y= 
+if !r!==5 set x%%xy%%y= 
+if !r!==6 set x%%xy%%y= 
+)
+)
+goto CB2_spawn
+
+:CB2_spawn
+set /a rx=!random!*20/32768+1
+set /a ry=!random!*20/32768+1
+if not "!x%rx%y%ry%!"==" " goto CB2_spawn
+set x=%rx%
+set y=%ry%
+:CB2_sp2
+set /a dx=!random!*20/32768+1
+set /a dy=!random!*20/32768+1
+if not "!x%dx%y%dy%!"==" " goto CB2_sp2
+set wx=%dx%
+set wy=%dy%
+goto CB2_scr
+
+:CB2_load
+if not exist CraftBatcher_Saves\zapis.bat goto CB2_menu
+cls
+call CraftBatcher_Saves\zapis.bat
+set x=%x: =%
+set y=%y: =%
+:CB2_scr
+set /a bx=%x%-4
+set /a ex=%x%+4
+set /a by=%y%-3
+set /a ey=%y%+3
+set v=!x%x%y%y%!
+set x%x%y%y%=%skin%
+set x%wx%y%wy%=
+set b=0
+cls
+echo.
+echo  ÉÍÍÍÍÍÍÍÍÍ»
+for /l %%y in (%by%,1,%ey%) do (
+set /a b+=1
+set l=
+for /l %%x in (%bx%,1,%ex%) do (
+if "!x%%xy%%y!"=="" (set l=!l!²) else (set l=!l!!x%%xy%%y:~0,1!)
+)
+echo  º!l!º
+)
+echo  ÈÍÍÍÍÍÍÍÍÍ¼
+echo   Mode:!o%o%!
+set x%x%y%y%=%v%
+choice /c wsade1234p /n
+if %errorlevel%==1 (set vx=%x%&set /a vy=%y%-1&goto CB2_key)
+if %errorlevel%==2 (set vx=%x%&set /a vy=%y%+1&goto CB2_key)
+if %errorlevel%==3 (set /a vx=%x%-1&set vy=%y%&goto CB2_key)
+if %errorlevel%==4 (set /a vx=%x%+1&set vy=%y%&goto CB2_key)
+if %errorlevel%==5 goto CB2_items
+if %errorlevel%==6 set o=1
+if %errorlevel%==7 set o=2
+if %errorlevel%==8 set o=3
+if %errorlevel%==9 set o=4
+if %errorlevel%==10 goto CB2_pause
+goto CB2_scr
+
+:CB2_key
+if %o%==1 if "!x%vx%y%vy%!"==" " (set x=%vx%&set y=%vy%)
+if %o%==1 if "!x%vx%y%vy%!"=="" goto CB2_bot
+if %o%==2 if "!x%vx%y%vy%!"=="" if not %i1%==99 (set x%vx%y%vy%= &set /a i1+=1)
+if %o%==2 if "!x%vx%y%vy%!"=="Û" if not %i2%==99 (set x%vx%y%vy%= &set /a i2+=1)
+if %o%==2 if %itcr%==1 if "!x%vx%y%vy%!"=="þ" if not %i3%==99 (set x%vx%y%vy%= &set /a i3+=1)
+if %o%==2 if %itcr%==1 if "!x%vx%y%vy%!"=="" if not %i7%==99 (set x%vx%y%vy%= &set /a i7+=1)
+if %o%==2 if "!x%vx%y%vy%!"=="°" if not %i1%==99 (set x%vx%y%vy%= &set /a i1+=1)
+if %o%==3 if "!x%vx%y%vy%!"==" " if %i%==1 if not %i1%==0 (set x%vx%y%vy%=°&set /a i1-=1)
+if %o%==3 if "!x%vx%y%vy%!"==" " if %i%==2 if not %i2%==0 (set x%vx%y%vy%=Û&set /a i2-=1)
+if %o%==3 if "!x%vx%y%vy%!"==" " if %i%==3 if not %i3%==0 (set x%vx%y%vy%=þ&set /a i3-=1)
+if %o%==3 if "!x%vx%y%vy%!"==" " if %i%==5 if not %i5%==0 (set x%vx%y%vy%=Ü&set /a i5-=1)
+if %o%==3 if "!x%vx%y%vy%!"==" " if %i%==6 if not %i6%==0 (set x%vx%y%vy%=&set /a i6-=1)
+if %o%==3 if "!x%vx%y%vy%!"==" " if %i%==9 if not %i9%==0 (set x%vx%y%vy%=±&set /a i9-=1)
+if %o%==4 goto CB2_crafting
+if %o%==4 if "!x%vx%y%vy%!"=="Ü" goto CB2_piecyk
+if %o%==4 if "!x%vx%y%vy%!"=="±" goto CB2_skrzynia
+goto CB2_scr
+
+:CB2_skrzynia
+cls
+echo Witaj w skrzyni^^!
+echo Schowaj tu przedmioty
+echo 1]Wloz rzeczy
+echo 2]Wez rzeczy
+echo 3]Powrot do gry
+choice /c 123 /n
+if %errorlevel%==1 goto CB2_wloz
+if %errorlevel%==2 goto CB2_wez
+if %errorlevel%==3 goto CB2_scr
+goto CB2_skrzynia
+
+:CB2_items
+for /l %%a in (1,1,9) do (set c%%a= &set z%%a=!i%%a! )
+set c%i%=
+cls
+echo.
+echo  ÉÍÍÍÍÍÍÍÍÍÍ»
+echo  º  Itemy   º
+echo  º%c1%Drew x%z1:~0,2% º
+echo  º%c2%Kami x%z2:~0,2% º
+echo  º%c3%Wegi x%z3:~0,2% º
+Echo  º%c4%NOre x%z4:~0,2% º
+Echo  º%c5%Piec x%z5:~0,2% º
+echo  º%c6%Ogni x%z6:~0,2% º
+echo  º%c7%Zela x%z7:~0,2% º
+echo  º%c8%P.Ze x%z8:~0,2% º
+echo  º%c9%Skrz x%z9:~0,2% º
+echo  ÈÍÍÍÍÍÍÍÍÍÍ¼
+choice /c wse /n
+if %errorlevel%==1 if not %i%==1 set /a i-=1
+if %errorlevel%==2 if not %i%==9 set /a i+=1
+if %errorlevel%==3 goto CB2_scr
+goto CB2_items
+
+:CB2_crafting
+cls
+echo Witam w craftingu, powinienes
+echo miec materialy do stworzenia wszystkiego
+echo Itemy ktore mozesz zrobic:
+if %i2% GEQ 3 if %i1% GEQ 2 (
+echo 1] Kilof
+set p=1 
+set itemcr=kilof
+)
+if %i2% GEQ 10 if %i3% GEQ 2 (
+echo 2]Piecyk
+set p=1
+set itemcr2=Piecyk
+)
+if %i8% GEQ 10 if %i4% GEQ 2 (
+echo 3]TajnaSkrzynka
+set p=1
+set itemcr3=sekret
+)
+if %i1% GEQ 8 (
+echo 4]Skrzynia
+set p=1
+set itemcr4=skrzynia
+)
+set opc=
+if %p%==1 set /p opc=
+if %opc%==1 goto CB2_craft
+if %opc%==2 goto CB2_craft
+if %opc%==3 goto CB2_craft
+if %opc%==4 goto CB2_craft
+if %opc%==q goto CB2_scr
+if not %p%==1 choice /c e /n
+if %errorlevel%==1 goto CB2_scr
+goto CB2_scr
+
+:CB2_craft
+cls
+if %opc%==1 (
+echo Tworzymy %itemcr%... prosze poczekac...
+)
+if %opc%==2 (
+echo Tworzymy %itemcr2%... prosze poczekac...
+)
+if %opc%==3 (
+echo Tworzymy %itemcr3%... prosze poczekac...
+)
+if %opc%==4 (
+echo Tworzymy %itemcr4%... prosze poczekac...
+)
+if %opc%==1 if %i2% GEQ 3 if %i1% GEQ 2 (
+set/a i1=%i1%-2
+set/a i2=%i2%-3
+Set itcr=1
+)
+if %opc%==2 if %i2% GEQ 10 if %i3% GEQ 2 (
+set/a i2=%i2%-10
+set/a i3=%i3%-2
+set/a i5=%i5%+1
+)
+if %opc%==3 if %i8% GEQ 10 if %i4% GEQ 2 (
+set/a i8=%i8%-10
+set/a i4=%i4%-2
+set ktr=1
+)
+if %opc%==4 if %i1% GEQ 8 (
+set/a i1=%i1%-8
+set/a i9=%i9%+1
+)
+Set p=0
+goto CB2_scr
+
+:CB2_settings
+cls
+echo Jaki chcesz skin twojej postaci:
+echo 1]
+echo 2]o
+echo 3]@
+echo 4]*
+if %ktr%==1 echo 5]
+choice /c 12345 /n
+if %errorlevel%==1 (set skin=&goto CB2_menu)
+if %errorlevel%==2 (set skin=o&goto CB2_menu)
+if %errorlevel%==3 (set skin=@&goto CB2_menu)
+if %errorlevel%==4 (set skin=&goto CB2_menu)
+if %errorlevel%==5 if %ktr%==1 (set skin=&goto CB2_menu)
+goto CB2_settings
+
+:CB2_about
+cls
+echo Czesc, ta gra zostala stworzona przez
+echo Suchara, nie ma on praw autorskich, to oznacza
+echo ze mozesz zmieniac ta gre ile razy chcesz, ale by byl
+Echo szczesliwy gdybys wspomnial troche o nim :D
+echo.
+echo.
+echo Klawiszologia:
+echo WASD - Poruszanie sie
+Echo 1234 - Mody
+echo P - Pauza
+pause >nul
+goto CB2_menu
+
+:CB2_bot
+cls
+echo Czesc, jestem freddy, chce ci sprzedac
+echo nowa rude by robic nowe rzeczy w nowych aktualizacjach, ta ruda
+echo bedzie usunieta z mojego sklepiku
+echo KUP to teraz za 5 drewna = 1 ruda
+echo 1] Kup
+Echo 2] Zadania
+echo 3] Powrot do gry
+set /p odp=
+if %odp%==1 if %i1% GEQ 5 goto CB2_buy
+if %odp%==2 goto CB2_zadania
+if %odp%==3 goto CB2_scr
+goto CB2_bot
+
+:CB2_buy
+cls
+echo Kupiles jedna teczowa rude^^!
+set/a i1=%i1%-5
+pause >nul
+goto CB2_scr
+
+:CB2_pause
+cls
+echo ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
+echo º 1]Zapisz        º
+Echo º 2]Powrot do gry º
+echo º 3]Wyjscie       º
+echo ÈÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
+choice /c 123 /n
+if %errorlevel%==1 goto CB2_save
+if %errorlevel%==2 goto CB2_scr
+if %errorlevel%==3 exit /b
+goto CB2_pause
+
+:CB2_save
+cd CraftBatcher_Saves || (mkdir CraftBatcher_Saves & goto CB2_save)
+cls
+echo Zapisywanie...
+>zapis.bat (for /f %%A in ('set x') do (
+echo set %%A 
+))
+>>zapis.bat (
+echo set y=%y%
+echo set i1=0
+echo set i2=0
+echo set i3=0
+echo set itcr=0
+echo Set p=0
+echo set opc=0
+echo set wx=%wx%
+echo set wy=%wy%
+echo set skin=%skin%
+echo set ktr=%ktr%
+)
+cd %MDIR%
+ping -n 3 localhost >nul
+goto CB2_menu
+
+:CB2_piecyk
+cls
+echo Witaj w piecyku,
+echo mozesz stworzyc tutaj
+echo wszystko z weglem i rudami
+if %i1% GEQ 1 if %i3% GEQ 1 (
+echo 1]Ognisko
+set p=1
+Set itemcr=ognisko
+)
+if %i7% GEQ 1 if %i3% GEQ 1 (
+echo 2]Przet.Zelazo
+set p=1
+set itemcr2=zelazo
+if %p%==1 set/p odp=
+if %odp%==1 goto CB2_fire
+if %odp%==2 goto CB2_fire
+if %odp%==q goto CB2_scr
+if not %p%=1 Choice /c e /n
+if %errorlevel%==1 goto CB2_scr
+goto CB2_piecyk
+
+:CB2_fire
+cls
+if %odp%==1 (
+echo Tworzymy %itemcr%... prosze poczekac...
+)
+if %odp%==2 (
+echo Tworzymy %itemcr2%... prosze poczekac...
+)
+if %odp%==1 if %i1% GEQ 1 if %i3% GEQ 1 (
+set/a i1=%i1%-1
+set/a i3=%i3%-1
+set/a i6=%i6%+1
+)
+if %odp%==2 if %i7% GEQ 1 if %i3% GEQ 1 (
+set/a i7=%i7%-1
+set/a i3=%i3%-1
+set/a i8=%i8%+1
+)
+Set p=0
+goto CB2_scr
+
+:CB2_zadania
+cls
+if not %zad1%==1 (
+echo Wytnij 10 Drewna i mi oddaj
+echo 1]Oddaj
+echo 2]Powrot do gry
+choice /c 12 /n
+if %errorlevel%==1 goto CB2_oddaj
+if %errorlevel%==2 goto CB2_scr
+)
+if not %zad2%==1 (
+echo Wykop 5 wegla i mi oddaj
+echo 1]Oddaj
+echo 2]Powrot do gry
+choice /c 12 /n
+if %errorlevel%==1 goto CB2_oddaj
+if %errorlevel%==2 goto CB2_scr
+)
+if not %zad3%==1 (
+echo Zdobadz 10 Drewna, 5 Zelaza przepalonego i 3 Wegla^!
+echo 1]Oddaj
+echo 2]Powrot do gry
+choice /c 12 /n
+if %errorlevel%==1 goto CB2_oddaj
+if %errorlevel%==2 goto CB2_scr
+)
+goto CB2_zadania
+
+:CB2_oddaj
+cls
+if %i1% GEQ 10 if not %zad1%==1 (
+echo Dziekuje za drewno^!
+Set zad1=1
+set/a i4=%i4%+2
+pause >nul
+goto CB2_zadania
+)
+if %i3% GEQ 5 if not %zad2%==1 (
+echo Dziekuje za wegiel^!
+set zad2=1
+set/a i4=%i4%+2
+pause >nul
+goto CB2_zadania
+)
+if %i8% GEQ 5 if %i3% GEQ 3 if %i1% GEQ 10 if not %zad3%==1 (
+echo O jeny^! Myslalem ze nie dasz sobie rady, mylilem sie^!
+set zad3=1
+set/a i4=%i4%+10
+Set/a i6=%i6%+10
+set/a i2=%i2%+10
+pause >nul
+goto CB2_zadania
+)
+echo Nie masz materialow na to zadanie^!
+echo Idz je pozbieraj^!
+pause >nul
+goto CB2_scr
+
+:CB2_wloz
+cls
+echo Itemy wlozone
+echo Drewno:%ii1%
+echo Kamien:%ii2%
+echo Wegiel:%ii3%
+echo NOre:%ii4%
+Echo Piec:%ii5%
+echo Ognisko:%ii6%
+echo Zelazo:%ii7%
+echo P.Zelazo:%ii8%
+echo 1]Wloz
+echo 2]Powrot do gry
+choice /c 12 /n
+if %errorlevel%==1 goto CB2_wloz2
+if %errorlevel%==2 goto CB2_scr
+goto CB2_wloz
+
+:CB2_wloz2
+cls
+echo Co chcesz wlozyc
+echo E - Wyjscie ze skrzyni
+for /l %%a in (1,1,9) do (set c%%a= &set z%%a=!i%%a! )
+set c%i%=
+cls
+echo.
+echo  ÉÍÍÍÍÍÍÍÍÍÍ»
+echo  º  Itemy   º
+echo  º%c1%Drew x%z1:~0,2% º
+echo  º%c2%Kami x%z2:~0,2% º
+echo  º%c3%Wegi x%z3:~0,2% º
+Echo  º%c4%NOre x%z4:~0,2% º
+Echo  º%c5%Piec x%z5:~0,2% º
+echo  º%c6%Ogni x%z6:~0,2% º
+echo  º%c7%Zela x%z7:~0,2% º
+echo  º%c8%P.Ze x%z8:~0,2% º
+echo  º%c9%Skrz x%z9:~0,2% º
+echo  ÈÍÍÍÍÍÍÍÍÍÍ¼
+choice /c wse /n
+if %errorlevel%==1 if not %i%==1 set /a i-=1
+if %errorlevel%==2 if not %i%==9 set /a i+=1
+if %errorlevel%==3 goto CB2_scr
+if %errorlevel%==4 goto CB2_wloz3
+goto CB2_wloz2
+
+:CB2_wloz3
+cls
+echo Ile?
+set/p ile=
+if %i% GEQ %ile% (
+set/a ii%i%=!ii%i%!+%ile%
+)
+goto CB2_wloz2
+
+:CB2_wez
+Cls
+echo Co chcesz wziac
+echo E - Wyjscie ze skrzyni
+for /l %%a in (1,1,9) do (set c%%a= &set z%%a=!i%%a! )
+set c%i%=
+cls
+echo.
+echo  ÉÍÍÍÍÍÍÍÍÍÍ»
+echo  º  Itemy   º
+echo  º%c1%Drew x%z1:~0,2% º
+echo  º%c2%Kami x%z2:~0,2% º
+echo  º%c3%Wegi x%z3:~0,2% º
+Echo  º%c4%NOre x%z4:~0,2% º
+Echo  º%c5%Piec x%z5:~0,2% º
+echo  º%c6%Ogni x%z6:~0,2% º
+echo  º%c7%Zela x%z7:~0,2% º
+echo  º%c8%P.Ze x%z8:~0,2% º
+echo  º%c9%Skrz x%z9:~0,2% º
+echo  ÈÍÍÍÍÍÍÍÍÍÍ¼
+choice /c wse /n
+if %errorlevel%==1 if not %i%==1 set /a i-=1
+if %errorlevel%==2 if not %i%==9 set /a i+=1
+if %errorlevel%==3 goto CB2_scr
+if %errorlevel%==4 goto CB2_wez2
+goto CB2_wez
+
+:CB2_wez2
+cls
+echo Ile?
+set/p ile=
+if ii%i%==%ile% (
+set/a i%i%=!i%i%!+%ile%
+set/a ii%i%=!ii%i%!-%ile%
+)
+goto CB2_wez
+:: Koniec programu CraftBatcher ::
