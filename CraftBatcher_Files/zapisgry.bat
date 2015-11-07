@@ -1,0 +1,11 @@
+set ld1=0 
+set lm1=1 
+set ln1=0 
+set lb1=1 
+set la1= 
+set ld= 
+set lm=10 
+set ln= 
+set lb=1 
+set po=0 
+set zada= 
