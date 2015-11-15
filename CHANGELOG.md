@@ -89,7 +89,15 @@ v1.4.2 (2015-09-23)
 - Poprawiono pewne błędy w kodzie
 
 v1.4.3 (2015-11-07)
-------------------
+-------------------
 
 - Zaktualizowano **CraftBatcher** by Sucharowiec do wersji v0.6
 - Poprawiono kilka błędów, np. w CreepyCrafcie
+
+v1.4.4 Final (2015-11-15)
+-------------------------
+
+- Dodano tryb **FullScreen**. Można go uruchomić w ustawieniach
+  - Antywirus może [błędnie wykryć FSCREEN.EXE jako wirusa](https://www.dostips.com/forum/viewtopic.php?t=8813). Należy wtedy dodać program do wyjątków.
+- Dodano tryb *CPU-Saver* do CreepyCrafta
+  - Dzięki temu powinna gra działać znacznie szybciej

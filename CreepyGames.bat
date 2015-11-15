@@ -41,16 +41,20 @@
 ::     Dzi๊kuj๊ za przeczytanie, ~~CreepyNinja
 
 :MenuChangelogCreepyGames
-cls & mode con cols=80 lines=62 & (for %%a in (%__ChangeLog%) do echo. %%~a) & echo. & pause & goto :EOF
+cls & %__mode% con cols=80 lines=68 & (for %%a in (%__ChangeLog%) do echo. %%~a) & echo. & pause & goto :EOF
 :MenuChangelogCreepyGamesEnd
 
 :: Sprawdzanie Shortcut'๓w ::
 	@set __CGlanguage=
+	@set FullScreen=N
 	@if /i exist Settings.ini for /f "tokens=*" %%a in (Settings.ini) do set %%a
 	@set notouch=NO
+	@set __mode=mode
 	@if defined DefaultMenu if /i "%DefaultMenu%"=="Hybrid" set notouch=YES
+	@if defined FullScreen if /i "%FullScreen%"=="Y" set __mode=rem
 	@if defined staticanim (set /a wait=0,wait1=0) else (set /a wait=10,wait1=25)
-	@set Version=v1.4.3
+	@set Version=v1.4.4
+	@set __VersionBeta=
 	set next=
 	set launch=
 	set return=
@@ -62,6 +66,7 @@ cls & mode con cols=80 lines=62 & (for %%a in (%__ChangeLog%) do echo. %%~a) & e
 @if "%.%"=="" goto MenuWindows81Error
 @set .=
 
+if "%~1"=="/?" call :MenuShortcutUsage & exit /b
 
 pushd "%MDIR%"
 	if /i not exist Core\ansicon.exe (
@@ -71,13 +76,39 @@ pushd "%MDIR%"
 	exit /b 1
 	)
 	if not "%~1"=="--ansicon_on" (
+	for %%a in (%*) do (
+	if defined next (
+		call :MenuShortcutLaunch "%%a" || exit /b 1
+		set next=
+	) else (
+		if "%%~a"=="--launch" (set next=%%~a) else (
+		if "%%~a"=="-l" (set next=%%~a) else (
+		if "%%~a"=="--notouch" (REM) else (
+		if "%%~a"=="-n" (REM) else (
+		if "%%~a"=="--touch" (REM) else (
+		if "%%~a"=="-t" (REM) else (
+		if "%%~a"=="--return" (REM) else (
+		if "%%~a"=="-r" (REM) else (
+		if "%%~a"=="--ansicon_on" (REM) else (
+			1>&2 echo ERROR: Invalid parameter "%%~a".
+			1>&2 echo.
+			1>&2 call :MenuShortcutUsage
+			exit /b 1
+		)))))))))
+	)
+	)
+	if defined next (
+	1>&2 echo ERROR: Missing parameter.
+	1>&2 echo.
+	1>&2 call :MenuShortcutUsage
+	exit /b 1
+	)
 	if "%~x0"=="" (set "EXT=.bat") else set EXT=
 	Core\ansicon.exe "%~nx0!EXT!" --ansicon_on %*
 	exit /b
 	)
 popd
 
-if "%~1"=="/?" call :MenuShortcutUsage & exit /b
 for %%a in (%*) do (
 	if defined next (
 		call :MenuShortcutLaunch "%%a" || exit /b 1
@@ -125,7 +156,8 @@ call :Language))
 call :Var
 cls
 %Fn% Font 9
-@mode con cols=80 lines=30
+if /i "%FullScreen%"=="Y" (echo %__MenuFullScreen1%&echo %__MenuFullScreen3%&FSCREEN.EXE /smc)
+@%__mode% con cols=80 lines=30
 if defined launch (
 	%launch%
 	set launch=
@@ -281,7 +313,7 @@ set /a ColGet2=Col2+ColGet1+1
 set /a C=Cols/2 -14
 set TitleText=-= CreepyNinja_ Touch Menu =-
 set "A=ออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ"
-mode con cols=%Cols% lines=%Lines%
+%__mode% con cols=%Cols% lines=%Lines%
 goto Menu
 
 :MenuHybridAutoConfig
@@ -296,7 +328,7 @@ set "Line0=ฤ"
 for /l %%a in (1,1,%TextLines%) do set "Line%%a= "
 if !Col2! LSS 1 set Col2=1&set /a Cols=Col1+Col2+5&if !Cols! LSS 32 set Cols=32
 set "A=ฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤ"
-mode con cols=%Cols% lines=%Lines%
+%__mode% con cols=%Cols% lines=%Lines%
 goto MenuHybrid
 :: Koniec konfiguracji Menu ::
 
@@ -467,7 +499,7 @@ goto :EOF
 
 :MenuCreditsCreepyGames
 cls
-mode con cols=66 lines=29
+%__mode% con cols=66 lines=29
 for %%a in (%__Credits%) do echo.  %%~a
 if /i "%notouch%"=="YES" (echo.&echo   %__PressToContinue%&pause>nul&goto :EOF)
 echo.  ษออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
@@ -479,11 +511,11 @@ echo   ศออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ[0;1;40;37
 goto :EOF
 
 :MenuStatsCreepyGames
-mode con cols=66 lines=40
+%__mode% con cols=66 lines=40
 setlocal
 
 set /a ProgramCount=5+1+4+3+2
-set /a Versions=8
+set /a Versions=9
 set /a Length1=29
 set /a Length2=6
 
@@ -495,6 +527,7 @@ set Version_5=v1.4.0
 set Version_6=v1.4.1
 set Version_7=v1.4.2
 set Version_8=v1.4.3
+set Version_9=v1.4.4
 set Version_1C=37
 set Version_2C=32
 set Version_3C=36
@@ -503,6 +536,7 @@ set Version_5C=37
 set Version_6C=32
 set Version_7C=36
 set Version_8C=33
+set Version_9C=37
 
 set Program1=%__Menu1Name1_1%
 set Program2=%__Menu1Name2_1%
@@ -644,6 +678,22 @@ set Program13_8= v1.1
 set Program14_8=  v5
 set Program15_8=  v6
 
+set Program1_9=v1.3.0
+set Program2_9=v1.2.0
+set Program3_9=------
+set Program4_9=------
+set Program5_9=v1.6.0
+set Program6_9=------
+set Program7_9=v0.5.0
+set Program8_9=------
+set Program9_9=------
+set Program10_9=
+set Program11_9=v1.1.0
+set Program12_9= v0.6
+set Program13_9= v1.2
+set Program14_9=  v5
+set Program15_9=  v7
+
 :: Auto-config ::
 	set "A=                                                  "
 	set "B=ออออออออออออออออออออออออออออออออออออออออออออออออออ"
@@ -688,7 +738,7 @@ goto MenuStats2CreepyGames
 
 :MenuSettings
 cls
-mode con cols=66 lines=28
+%__mode% con cols=66 lines=28
 echo.[0;1;40;37m
 echo  %__MenuSettings01%
 echo  %__MenuSettings02%
@@ -701,17 +751,22 @@ echo  [ ] %__MenuSettings4%
 echo.
 echo  [ ] %__MenuSettings5%
 echo.
+echo  [0;1;40;36m[ ] %__MenuSettings7%
+echo.
 echo  [0;1;40;32m[ ] %__MenuSettings6%
 echo.
 echo.
-echo  [0;1;40;33m[ ] %__MenuSettings7%[0;1;40;37m
+echo  [0;1;40;33m[ ] %__MenuSettings8%[0;1;40;37m
 	if defined DefaultMenu (if /i "%DefaultMenu%"=="Touch" (set /p "=[5;3H*" <nul) else if /i "%DefaultMenu%"=="Hybrid" (set /p "=[6;3H*" <nul) else set /p "=[7;3H*" <nul) else set /p "=[7;3H*" <nul
 	if /i "%NoLoadAnim%"=="Y" set /p "=[9;3H*" <nul
 	if /i "%NoIntro%"=="Y" set /p "=[11;3H*" <nul
-	
-for /f "tokens=1,2,3 delims=:" %%a in ('%BX% /m') do set /a X=%%a+1&set /a Y=%%b+1&set /a Z=%%c
 
-if %X%==3 (
+for /f "tokens=1,2,3 delims= " %%a in ('%Fn% mouse') do (
+	set /a Y=%%a+1
+	set /a X=%%b+1
+)
+
+if %X% GTR 2 if %X% LSS 6 (
 if %Y%==5 set DefaultMenu=Touch&set notouch=NO
 if %Y%==6 set DefaultMenu=Hybrid&set notouch=YES
 if %Y%==7 set DefaultMenu=None
@@ -720,15 +775,27 @@ if %Y%==9 (
 	call :Var
 )
 if %Y%==11 if /i "%NoIntro%"=="Y" (set NoIntro=) else set NoIntro=Y
-if %Y%==13 call :Language & call :Var
-if %Y%==16 ((
+if %Y%==13 call :MenuFullScreen
+if %Y%==15 call :Language & call :Var
+if %Y%==18 ((
 	echo DefaultMenu=!DefaultMenu!
 	echo NoLoadAnim=!NoLoadAnim!
 	echo NoIntro=!NoIntro!
+	echo FullScreen=!FullScreen!
 	echo __CGLanguage=!__CGLanguage!
 )>Settings.ini ) & exit /b
 )
 goto MenuSettings
+:MenuFullScreen
+cls
+echo.
+echo %__MenuFullScreen1%
+echo %__MenuFullScreen2%
+FSCREEN.EXE /smc
+set __mode=rem
+set FullScreen=Y
+goto :EOF
+
 
 :MenuUpdateCreepyGames
 setlocal
@@ -799,7 +866,7 @@ goto :EOF
 
 :Language
 cls
-mode con cols=80 lines=30
+%__mode% con cols=80 lines=30
 echo.[2;20H[0;1;40;33mWitaj w CreepyGames^^! [0;1;40;37m/[0;1;40;36m Welcome to CreepyGames^^!
 echo.[4;15H[0;1;40;33mWybierz preferowany jฉzyk [0;1;40;37m/[0;1;40;36m Select preferred language
 
@@ -883,9 +950,15 @@ for %%a in (
 	"- Poprawiono pewne bฉdy w kodzie"
 	""
 	""
-	"CreepyGames v1.4.3 (aktualna)"
+	"CreepyGames v1.4.3"
 	"- Zaktualizowano [0;40;33mCraftBatcher[0;1;40;37m by Sucharowiec"
-	"- Poprawiono kilka bฉdขw, np. w CreepyCrafcie."
+	"- Poprawiono kilka bฉdขw, np. w CreepyCrafcie"
+	""
+	""
+	"CreepyGames v1.4.4 (aktualna)"
+	"- Dodano tryb [0;1;40;36mFullScreen[0;1;40;37m. Aby go uruchomi, przejdซ do ustawieไ"
+	"- Dodano tryb [0;40;32m"CPU-Saver"[0;1;40;37m do CreepyCrafta"
+	"-- Dziฉki temu powinna gra dziaa znacznie szybciej"
 ) do set "__ChangeLog=!__ChangeLog! %%a")
 set __About=
 for %%a in (
@@ -983,7 +1056,11 @@ set "__MenuSettings3=Brak ustawieไ domylnych"
 set "__MenuSettings4=Wyฅcz animacje uruchamiania"
 set "__MenuSettings5=Nie pokazuj intra"
 set "__MenuSettings6=Zmieไ jฉzyk"
-set "__MenuSettings7=Zapisz i wrข do menu"
+set "__MenuSettings7=Wฅcz tryb FullScreen"
+set "__MenuSettings8=Zapisz i wrข do menu"
+set "__MenuFullScreen1=Trwa uruchamianie trybu Full-Screen..."
+set "__MenuFullScreen2=Jeพeli program siฉ zawiesi, to znaczy พe twขj system nie lubi tego trybu :("
+set "__MenuFullScreen3=Jeพeli program siฉ zawiesi, wyฅcz tryb usuwajฅc plik Settings.ini"
 set "__Prompt=Wybขr: "
 set "__MenuExit=Do zobaczenia"
 
@@ -1383,6 +1460,11 @@ set "__CB_Settings2=czuo moduu od myszki."
 set "__CB_Settings3=Klawiszami od 0-9 zmieniaj czuo"
 set "__CB_Settings4=Wcinij ESC aby wyj."
 
+set "__CB_CPUSaver1=    "CPU Saver" jest"
+set "__CB_CPUSaver2=   Wcinij 'S' aby zmieni stan."
+set "__CB_CPUSaver3=Wฅczony"
+set "__CB_CPUSaver4=Wyฅczony"
+
 set "__CB_Start1=Wybierz wiat"
 set "__CB_Start2=Podaj nazwฉ dla nowego wiata"
 set "__CB_Start3=Podczas pisania nie ruszaj myszkฅ"
@@ -1463,9 +1545,15 @@ for %%a in (
 	"- Fixed some mistakes in code"
 	""
 	""
-	"CreepyGames v1.4.3 (actual)"
+	"CreepyGames v1.4.3"
 	"- Updated [0;40;33mCraftBatcher[0;1;40;37m by Sucharowiec"
 	"- Fixed some bugs, ex. in CreepyCraft."
+	""
+	""
+	"CreepyGames v1.4.4 (actual)"
+	"- Added [0;1;40;36mFull-Screen mode[0;1;40;37m. Go to Settings to enable this function"
+	"- Added [0;40;32m"CPU-Saver"[0;1;40;37m mode to CreepyCraft"
+	"-- With this option the game should run better"
 ) do set "__ChangeLog=!__ChangeLog! %%a")
 set __About=
 for %%a in (
@@ -1561,7 +1649,11 @@ set "__MenuSettings3=No defaults"
 set "__MenuSettings4=Turn off launch animations"
 set "__MenuSettings5=Do not view intro"
 set "__MenuSettings6=Change language"
-set "__MenuSettings7=Save and return to menu"
+set "__MenuSettings7=Turn on Full-Screen mode"
+set "__MenuSettings8=Save and return to menu"
+set "__MenuFullScreen1=Launching Full-Screen mode..."
+set "__MenuFullScreen2=If the program halted, it means that your system don't like this mode :("
+set "__MenuFullScreen3=If the program halted, disable this mode by deleting Settings.ini"
 set "__Prompt=Choice: "
 set "__MenuExit=See ya later"
 
@@ -1962,6 +2054,11 @@ set "__CB_Settings2=an accuracy of a mouse module."
 set "__CB_Settings3=With keys 0-9 adjust accuracy."
 set "__CB_Settings4=Click ESC to exit."
 
+set "__CB_CPUSaver1=      "CPU Saver" is"
+set "__CB_CPUSaver2=    Press 'S' to change status."
+set "__CB_CPUSaver3=Enabled"
+set "__CB_CPUSaver4=Disabled"
+
 set "__CB_Start1=Select world"
 set "__CB_Start2=Set the name of new world"
 set "__CB_Start3=Don't move the mouse while typing"
@@ -2035,7 +2132,7 @@ cls
 endlocal
 color 07
 title %comspec%
-mode 80,30
+%__mode% 80,30
 exit /b
 
 :: Dodatkowe etykiety/ustawienia ::
@@ -2051,7 +2148,7 @@ set /a color1=0,color2=7
 color %color1%%color2%
 
 :MS_Resize
-mode con cols=75 lines=40&title %Program% v1.3.0 by CreepyNinja
+%__mode% con cols=75 lines=40&title %Program% v1.3.0 by CreepyNinja
 
 :MS_Menu
 cls
@@ -2193,7 +2290,7 @@ set /a PlayX=PlayX*2-1
 set /a PlayY=PlayY*2-1
 set /a cols=PlayX+23
 set /a lines=PlayY+3
-mode con cols=%cols% lines=%lines%
+%__mode% con cols=%cols% lines=%lines%
 :MS_Set
 setlocal
 cls
@@ -2368,7 +2465,7 @@ if /i not exist Wisielec_Files call :WS_Warning
 if exist Wisielec_Files/Stats.ini (for /f %%# in (Wisielec_Files/Stats.ini) do set /a %%#)
 
 :WS_Resize
-mode con cols=41 lines=33&title %title%
+%__mode% con cols=41 lines=33&title %title%
 if exist Wisielec_Files/Cheats.ini (for /f %%# in (Wisielec_Files/Cheats.ini) do set %%#)
 if %Wins% GTR 9999 set Wins=9999
 if %Loses% GTR 9999 set Loses=9999
@@ -2418,7 +2515,7 @@ goto WS_Menu
 
 :WS_Cheats
 cls
-mode con cols=41 lines=13
+%__mode% con cols=41 lines=13
 echo.
 echo  ษอออออออออออออออออออออออออออออออออออออป
 echo  บ%__WS_Menu01_2%บ
@@ -2451,7 +2548,7 @@ goto :EOF
 
 :WS_Select
 cls
-mode con cols=41 lines=20
+%__mode% con cols=41 lines=20
 echo.
 echo       ษออออออออออออออออออออออออออหออป
 echo       บ%__WS_Menu0_3%บ  บ
@@ -2546,7 +2643,7 @@ set "Dialog= "
 set "Guesses= "
 set X=#
 set PvPMode=OFF
-mode con cols=70 lines=29
+%__mode% con cols=70 lines=29
 setlocal
 
 :WS_LetterSet
@@ -2747,7 +2844,7 @@ goto WS_Guess
 
 :WS_Select9
 cls
-mode con cols=70 lines=30
+%__mode% con cols=70 lines=30
 echo %__WS_PvP1%
 echo %__WS_PvP2%
 echo %__WS_PvP3%
@@ -2826,7 +2923,7 @@ goto WS_Restart
 
 :WS_Select8
 set Route=
-mode con cols=70 lines=30
+%__mode% con cols=70 lines=30
 set DownloadTip0=%__WS_DownloadTip0%
 set DownloadTip1=%__WS_DownloadTip1%
 set DownloadTip2=%__WS_DownloadTip2%
@@ -2913,7 +3010,7 @@ pause>nul
 goto WS_Select
 
 :WS_SlownikHelp
-mode con cols=76 lines=13
+%__mode% con cols=76 lines=13
 chcp 852>nul
 set /p "="<nul >slownik.txt
 for %%a in (%__WS_Warning2%) do echo.%%~a
@@ -2945,7 +3042,7 @@ if exist Batch#.exe color 07&goto CC_begin1
 exit /b 1
 
 :CC_begin
-set "str5=mode con cols=33 lines=12&color 17&echo  ===============================&echo %__CC_Error01%&echo %__CC_Error02%&echo %__CC_Error03%&echo %__CC_Error04%&echo  ===============================&echo."
+set "str5=%__mode% con cols=33 lines=12&color 17&echo  ===============================&echo %__CC_Error01%&echo %__CC_Error02%&echo %__CC_Error03%&echo %__CC_Error04%&echo  ===============================&echo."
 if not exist Batch#.exe goto CC_errorbatch#
 :CC_begin1
 set max_osob=100
@@ -2960,7 +3057,7 @@ if %max_osob% LSS 3 set max_osob=50
 set skip_osob=%__CC_NotSet%
 set skip_rund=%__CC_NotSet%
 :CC_begin2
-set ver=v1.5.2
+set ver=v1.6.0
 set str1=%__CC_str1%
 set str2=%__CC_str2%
 set str3=%__CC_str3%
@@ -2975,7 +3072,7 @@ set "scc2=/osob"
 set "scc3=/rund"
 set "scc4=/ini"
 
-mode con cols=93 lines=28
+%__mode% con cols=93 lines=28
 cls
 title %title%
 if defined skip_title goto CC_intro
@@ -3102,7 +3199,7 @@ for /L %%i in (%b%,1,%osob%) do (
 	batch# /move_ 2 7&set /p "n%%i= > "
 )
 set /a lines=%osob%+14
-mode con cols=93 lines=%lines%
+%__mode% con cols=93 lines=%lines%
 
 :CC_setup5
 cls
@@ -3144,7 +3241,7 @@ batch# /lenght "%osob%"
 set /a cols=cols*2+42+%errorlevel%*2
 set /a lines=%osob%+14
 if %cols% LSS 51 set cols=51
-mode con cols=%cols% lines=%lines%
+%__mode% con cols=%cols% lines=%lines%
 set /a runda=1,errorcount=0,stoly=osob/2
 if "%print_on%"=="ON" call :CC_print "%__CC_ListName%.txt" "%__CC_ListName%"
 batch# /box 2 2 %__CC_Complete%
@@ -3532,7 +3629,7 @@ if defined check set /a runda+=1&goto CC_punkty
 
 :CC_koniec
 cls
-mode con cols=55 lines=15
+%__mode% con cols=55 lines=15
 batch# /box 2 2 "%str12%" "%str9%" "" "%str10%" "%str11%" "" "%str9%" "" %__CC_ByeText%
 batch# /sleep 5000
 endlocal
@@ -3591,7 +3688,7 @@ goto CC_menu
 
 :: Poczนtek programu BatchOfPi ::
 :PI_BatchOfPi
-mode con cols=81 lines=20
+%__mode% con cols=81 lines=20
 :PI_BatchOfPi1
 cls
 echo.
@@ -3793,7 +3890,7 @@ goto :EOF
 :: Poczนtek gry BatCraft ::
 :XX_BatCraft
 title BatCraft
-if /i "%batcraft_loaded%"=="y" goto XX_BatCraftLoop
+setlocal
 set x=0
 set y=0
 set i=1
@@ -3840,7 +3937,7 @@ if /i "!o!"=="w" (
 	set m=3
 ) else if /i "!o!"=="e" (
 	set /a i+=1&if !i! gtr 2 set i=1
-) else if /i "!o!"=="q" exit /b
+) else if /i "!o!"=="q" endlocal&exit /b
 if !t!==1 (
 	for /l %%y in (!vy!,1,!vy!) do for /l %%x in (!vx!,1,!vx!) do if !m!==1 (
 		if "!x%%xy%%y!"==" " (
@@ -3877,16 +3974,16 @@ title Administrative Tools
 cd /d "%MDIR%"
 if not exist %BX% call :BatBox
 cls
-mode con cols=80 lines=30
+%__mode% con cols=80 lines=30
 set ParameterStatus=-
 :AT_Start
 set Params=
 %BX% /g 0 0
 echo [0;1;40;37m[0;0H                           -= Administrative Tools =-                           [0;1;40;33mออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ taskmgr ^| dxdiag ^| regedit ^| resmon ^| netplwiz ^| devmgmt.msc ^| netstat  ^| sfc  ออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ cls ^| cmd ^| help ^| systeminfo ^| netstat -a ^| ftp ^| chkdsk ^| Parameters%ParameterStatus% ^| EXIT ออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ[0;1;40;37m[28;0H
 set X=&set Y=
-for /f "tokens=1,2,3 delims=:" %%a in ('%BX% /m') do (
-	set X=%%a
-	set Y=%%b
+for /f "tokens=1,2,3 delims= " %%a in ('%Fn% mouse') do (
+	set Y=%%a
+	set X=%%b
 )
 set Result=
 set NoParams=
@@ -3938,7 +4035,7 @@ set "NoLogo=echo.&echo.&echo.&echo.&echo.&echo.&echo.&echo."
 
 :DB_DBstart
 cd /d "%MDIR%"
-mode con cols=80 lines=30
+%__mode% con cols=80 lines=30
 :DB_Menu
 cls
 color 0C
@@ -4026,7 +4123,7 @@ goto DB_Menu
 
 :DB_DBDelete
 cls
-mode con cols=80 lines=30
+%__mode% con cols=80 lines=30
 %Fn% Cursor 1
 %Logo%
 echo %__DB_Menu1_2%
@@ -4064,7 +4161,7 @@ goto DB_DBDelete
 :: Gณ๓wna sekcja bazy danych ::
 :DB_DBLoad
 cls
-mode con cols=80 lines=30
+%__mode% con cols=80 lines=30
 %Fn% Cursor 1
 %Logo%
 echo %__DB_Menu3_2%
@@ -4688,7 +4785,7 @@ if %FormAct% GTR %EntityCount% set FormAct=1
 if %FormAct% LSS 1 set FormAct=%EntityCount%
 set /a Lines=2*ItemCount+11
 cls
-mode con cols=80 lines=%Lines%
+%__mode% con cols=80 lines=%Lines%
 chcp 852>nul
 echo  /%__DB_Form%\
 echo.
@@ -4730,7 +4827,7 @@ goto DB_FormKeyStroke
 set Cols=3
 for /l %%a in (1,1,%ItemCount%) do ((if "!Item%%aLength!"=="" set Item%%aLength=20)&(if !Item%%aLength! GTR 50 set Item%%aLength=50)&(if !Item%%aLength! LSS 9 set Item%%aLength=9))&set /a Cols+=!Item%%aLength!+1
 if %Cols% LSS 46 set Cols=46
-mode con cols=%cols% lines=32
+%__mode% con cols=%cols% lines=32
 set /a Length=(Cols-40)/2
 goto :EOF
 
@@ -5127,7 +5224,7 @@ if [%1]==[pen] (
 	goto PE_main
 :PE_var
 	md "!cd!\PicEditor_Files\Sprites\" 2>nul
-	mode con cols=70 lines=30
+	%__mode% con cols=70 lines=30
 	set "xxz=.::{Pic Editor: Map & Sprite Editor in Batch By Honguito98}::."
 	title !xxz!
 	set mode=color
@@ -5153,18 +5250,18 @@ if [%1]==[pen] (
 	%bs% 1 f & %bs% 3 b
 	for %%c in (
 	"[24;1H[;m"
-	"ฺฤฤฤฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤฟฺฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฟ"
-	"ณColors:       ณBrightnessณณBrushes:[#]                              ณ"
-	"ณBG:        [ ]ณ[ ][ ][ ] ณณÛ ฒ ฑ ฐ Ü ฿    ฺ ฤ ฟ ภ ู ฉ ธ ษ อ ป ฮ ศณ"
-	"ณFG:        [ ]ณ[ ][ ][ ] ณณ         ม ย ร ล ด ณ ฎ ฏ น บ ผ สณ"
-	"ณBF:-  -  - [ ]ณ 0  1  5  ณณ þ ุ     ช     ๗ ๎ ๏ ๐ ๙ ๚ ฯ ฬ หณ"
+	"ฺฤฤฤฤฤฤฤฤฤฤฤฤฤฤยฤฤฤฤฤฤฤฤฤฤฟฺฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฟ[25;1H"
+	"ณColors:       ณBrightnessณณBrushes:[#]                              ณ[26;1H"
+	"ณBG:        [ ]ณ[ ][ ][ ] ณณÛ ฒ ฑ ฐ Ü ฿    ฺ ฤ ฟ ภ ู ฉ ธ ษ อ ป ฮ ศณ[27;1H"
+	"ณFG:        [ ]ณ[ ][ ][ ] ณณ         ม ย ร ล ด ณ ฎ ฏ น บ ผ สณ[28;1H"
+	"ณBF:-  -  - [ ]ณ 0  1  5  ณณ þ ุ     ช     ๗ ๎ ๏ ๐ ๙ ๚ ฯ ฬ หณ[29;1H"
 	"ภฤฤฤฤฤฤฤฤฤฤฤฤฤฤมฤฤฤฤฤฤฤฤฤฤูภฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤู"
 	) do set "p2=!p2!%%~c"
 	set "bar.color=[26;5H!bar.cl![27;5H!bar.cl!"
-	for /l %%a in (1,1,19) do set "sp=!sp!ณ                                                                    ณ"
+	for /l %%a in (5,1,23) do set "sp=!sp!ณ                                                                    ณ[%%a;1H"
 	for %%a in (
 	"[3;1H[0;1;40;32m"
-	"ฺฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฟ"
+	"ฺฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฟ[4;1H"
 	"!sp!"
 	"ภฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤู"
 	) do set "mc.ds=!mc.ds!%%~a"
@@ -5205,7 +5302,7 @@ if [%1]==[pen] (
 setlocal enabledelayedexpansion
 set Program=%__SZ_Name%
 %Macro_Loading:@=!%
-mode con cols=80 lines=30
+%__mode% con cols=80 lines=30
 set ver=wersja 1.1
 set ABName1=%__SZ_ABType1%
 set ABName2=%__SZ_ABType2%
@@ -5711,7 +5808,7 @@ goto :EOF
 :: Poczนtek programu K๓ณko i Krzyฟyk ::
 :KK_Init
 setlocal enabledelayedexpansion
-mode con cols=43 lines=31
+%__mode% con cols=43 lines=31
 title %__KK_Name% by Szagajew
 set ansicolor=37
 set playerX=0
@@ -5851,10 +5948,15 @@ exit /b 0
 :CB_Init
 set Program=CreepyCraft by Creepy
 %Macro_Loading:@=!%
+set Saver=1
+set SaverStatus=[0;1;40;32m%__CB_CPUSaver3%
+set SaverSwitch=0
+:CB_Init2
+if "%SaverSwitch%"=="1" (if "%Saver%"=="0" (set Saver=1&set SaverStatus=[0;1;40;32m%__CB_CPUSaver3%) else (set Saver=0&set SaverStatus=[0;1;40;31m%__CB_CPUSaver4%))&set SaverSwitch=0
 cd /d "%MDIR%"
 title CraftBatcher Remake by CreepyNinja_
 	Setlocal DisableDelayedExpansion EnableExtensions
-	set Ver=v1.1
+	Set Ver=v1.1
 	Set "Game=%~nx0"
 	Set disp=echo.
 	Set Accuracy=400
@@ -5863,20 +5965,26 @@ title CraftBatcher Remake by CreepyNinja_
 	Set LF=^
 
 
+	Set "MouseForce="
+	For /F "Skip=3 Tokens=1* Delims=:" %%a in ('Find "@1:" "%Game%"') Do (
+	Call Set "MouseForce=%%MouseForce%%%%b[#LineFeed#]"
+	)
+	if "%Saver%"=="0" (set SaverMacro=1) else (set SaverMacro=2)
 	Set "Mouse="
-	For /F "Skip=3 Tokens=1,* Delims=:" %%a in ('Find "@1:" "%Game%"') Do (
+	For /F "Skip=3 Tokens=1* Delims=:" %%a in ('Find "@%SaverMacro%:" "%Game%"') Do (
 	Call Set "Mouse=%%Mouse%%%%b[#LineFeed#]"
 	)
 
 	SetLocal EnableDelayedExpansion EnableExtensions
 	Set ^"Mouse=!Mouse:[#LineFeed#]=^%LF%%LF%!"
+	Set ^"MouseForce=!MouseForce:[#LineFeed#]=^%LF%%LF%!"
 
 if not exist %Saves% md %Saves%
 
 color 0F&cls
 %Fn% Enablem
 %Fn% Cursor 0
-mode 35,31
+%__mode% 35,31
 
 :CB_Menu
 call :CB_Shade
@@ -5897,11 +6005,16 @@ set Print4=[16;11H%MBar1%[17;11H%MBar5%[18;11H%MBar7%
 set Print5=[20;11H%MBar1%[21;11H%MBar6%[22;11H%MBar7%
 for /l %%a in (1,1,5) do set HL%%a=0
 %disp%!Print1!!Print2!!Print3!!Print4!!Print5!
+%disp%[29;1H%__CB_CPUSaver1% %SaverStatus%[0;1;40;37m.
+%disp%[30;1H%__CB_CPUSaver2%[0;1H
 set /a X=1,Y=1
 :CB_MenuDisplay
 (
 %Mouse%
 )
+If "%KeyCode%"=="83" set SaverSwitch=1&goto :CB_Exit
+If "%KeyCode%"=="115" set SaverSwitch=1&goto :CB_Exit
+
 for /l %%a in (1,1,5) do set Err%%a=0
 
 	If !X! Geq 11 If !X! Leq 25 (
@@ -6027,6 +6140,7 @@ goto :CB_Settings2
 Call :CB_Shade
 cls
 color 07
+If "%SaverSwitch%"=="1" endlocal&endlocal&set SaverSwitch=1&goto CB_Init2
 endlocal
 endlocal
 exit /b
@@ -6174,11 +6288,13 @@ goto CB_PlayDisplay
 
 :CB_New
 call :CB_Shade
+
 cls
 %disp%[5;4H%__CB_Start2%
 %disp%[6;4Hษอออออออออออออออออออออออออออป
 %disp%[7;4Hบ                           บ
 %disp%[8;4Hศอออออออออออออออออออออออออออผ
+if "%Saver%"=="1" goto :CB_NewDisplay1
 set Print1=[10;4Hษออออป[11;4HบBackบ[12;4Hศออออผ
 set Print2=[10;24Hษออออออป[11;24HบCreateบ[12;24Hศออออออผ
 %disp%[14;2H%__CB_Start3%
@@ -6189,9 +6305,10 @@ set HL1=0
 set HL2=0
 set /a Accuracy=(10-%AccuracyBar%)*10
 set /a X=1,Y=1
+:CB_NewDisplay0
 :CB_NewDisplay
 (
-%Mouse%
+%MouseForce%
 )
 set Err1=0
 set Err2=0
@@ -6224,6 +6341,12 @@ for /f "delims=][/\?<>:;'}{}" %%a in ("%KeyChar%") do set "NewName=!NewName!%%a"
 	Set HL2=0
 	)
 goto CB_NewDisplay
+:CB_NewDisplay1
+%disp%[7;4Hบ                           บ
+set NewName=
+set /p "NewName=[7;5H"
+if "%NewName%"=="" goto :CB_Play
+goto :CB_NewCreate
 
 :CB_Delete
 %disp%[1;37;25;40m[17;9HAre you sure? (Y/N) 
@@ -6362,7 +6485,7 @@ goto :EOF
 
 :CB_NewCreate
 set Name=%NewName%
-if /i exist "%Saves%/%Name%" %disp%[16;5H%__CB_Start4%^^!&goto :CB_NewDisplay
+if /i exist "%Saves%/%Name%" %disp%[16;5H%__CB_Start4%^^!&goto :CB_NewDisplay%Saver%
 md "%Saves%/%Name%"
 echo World already not saved.>"%Saves%/%Name%/world.cfg"
 echo World already not saved.>"%Saves%/%Name%/config.cfg"
@@ -6472,19 +6595,25 @@ goto :CB_GameInput
 %Mouse%
 )
 if defined KeyCode (
-if "%KeyCode%"=="27" goto :CB_Pause
-for /f "delims=][/\?<>:;'}{}" %%a in ("%KeyChar%") do (
-	if /i "%%a"=="P" goto :CB_Pause
-	if /i "%%a"=="W" set /a NY1=Y1-2,NYMin=YMin-2,NX1=X1,NXMin=XMin&goto :CB_GameDo
-	if /i "%%a"=="A" set /a NX1=X1-3,NXMin=XMin-3,NY1=Y1,NYMin=YMin&goto :CB_GameDo
-	if /i "%%a"=="S" set /a NY1=Y1+2,NYMin=YMin+2,NX1=X1,NXMin=XMin&goto :CB_GameDo
-	if /i "%%a"=="D" set /a NX1=X1+3,NXMin=XMin+3,NY1=Y1,NYMin=YMin&goto :CB_GameDo
-	if /i "%%a"=="E" goto :CB_Inventory
-	if "%%a"=="1" set /a ActiveItem=1,ActiveToolbarItem=1&call :CB_ToolBar
-	if "%%a"=="2" set /a ActiveItem=2,ActiveToolbarItem=2&call :CB_ToolBar
-	if "%%a"=="3" set /a ActiveItem=3,ActiveToolbarItem=3&call :CB_ToolBar
-	if "%%a"=="4" set /a ActiveItem=4,ActiveToolbarItem=4&call :CB_ToolBar
-	if "%%a"=="5" set /a ActiveItem=5,ActiveToolbarItem=5&call :CB_ToolBar
+for  %%a in (%KeyCode%) do (
+	if "%KeyCode%"=="27" goto :CB_Pause
+	if "%%a"=="80" goto :CB_Pause
+	if "%%a"=="112" goto :CB_Pause
+	if "%%a"=="87" set /a NY1=Y1-2,NYMin=YMin-2,NX1=X1,NXMin=XMin&goto :CB_GameDo
+	if "%%a"=="119" set /a NY1=Y1-2,NYMin=YMin-2,NX1=X1,NXMin=XMin&goto :CB_GameDo
+	if "%%a"=="65" set /a NX1=X1-3,NXMin=XMin-3,NY1=Y1,NYMin=YMin&goto :CB_GameDo
+	if "%%a"=="97" set /a NX1=X1-3,NXMin=XMin-3,NY1=Y1,NYMin=YMin&goto :CB_GameDo
+	if "%%a"=="83" set /a NY1=Y1+2,NYMin=YMin+2,NX1=X1,NXMin=XMin&goto :CB_GameDo
+	if "%%a"=="115" set /a NY1=Y1+2,NYMin=YMin+2,NX1=X1,NXMin=XMin&goto :CB_GameDo
+	if "%%a"=="68" set /a NX1=X1+3,NXMin=XMin+3,NY1=Y1,NYMin=YMin&goto :CB_GameDo
+	if "%%a"=="100" set /a NX1=X1+3,NXMin=XMin+3,NY1=Y1,NYMin=YMin&goto :CB_GameDo
+	if "%%a"=="101" goto :CB_Inventory
+	if "%%a"=="69" goto :CB_Inventory
+	if "%%a"=="49" set /a ActiveItem=1,ActiveToolbarItem=1&call :CB_ToolBar
+	if "%%a"=="50" set /a ActiveItem=2,ActiveToolbarItem=2&call :CB_ToolBar
+	if "%%a"=="51" set /a ActiveItem=3,ActiveToolbarItem=3&call :CB_ToolBar
+	if "%%a"=="52" set /a ActiveItem=4,ActiveToolbarItem=4&call :CB_ToolBar
+	if "%%a"=="53" set /a ActiveItem=5,ActiveToolbarItem=5&call :CB_ToolBar
 ))
 If not !M! Equ 0 If !X! Geq 2 If !X! Leq 34 (
 	If !Y! Geq 2 If !Y! Leq 23 (
@@ -6765,6 +6894,19 @@ cls
 color 0F
 goto :EOF
 
+:CB_Macro2
+Set X=0&Set Y=0&Set KeyCode=0
+KMSTICK.exe
+If !errorlevel! LSS 0 (
+	Set /a "Y=-!errorlevel!>>0x10"
+	Set /a "X=-!errorlevel!&0xFFFF"
+	Set M=1
+) Else If !errorlevel! GTR 0 (
+	Set KeyCode=!errorlevel!
+
+)
+goto :EOF
+
 // Macro \\
 @1:Set M=0&Set KeyCode=&Set KeyChar=
 @1:For /F "Tokens=1-4" %%W in ('!Fn! Inputhit !Accuracy!') Do (
@@ -6776,6 +6918,9 @@ goto :EOF
 @1:If %%W Equ MOUSE (
 @1: Set/a X=%%Y+1,Y=%%X+1,M=%%Z
 @1:))
+
+@2:REM
+@2:call :CB_Macro2
 \\ End Macro //
 :: Koniec program CreepyCraft ::
 

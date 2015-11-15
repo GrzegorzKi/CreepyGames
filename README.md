@@ -24,10 +24,11 @@ narodził się program obejmujący wszelkie inne prace przeze mnie stworzone,
 i nie tylko.  Podobnie jak przy CreepyChess, nazwa CreepyGames wywodzi się od
 nicku — **Creepy**Ninja_.
 
-Prace nad programem rozpoczęły się jeszcze w okolicach marca 2015, gdy
-CreepyChess był w pewnym stopniu ukończony.  Będąc programem zbierającym inne
-programy w jedno, należało oprócz ich kompatybilności między sobą zadbać
-również o takie detale jak menu wyboru i najlepiej łatwy w obsłudze interfejs.
+Prace nad programem rozpoczęły się jeszcze w 2012, choć wersja v1.0 ukazała się
+w okolicach kwietnia 2015, gdy CreepyChess był w pewnym stopniu ukończony.
+Będąc programem zbierającym inne programy w jedno, należało oprócz ich
+kompatybilności między sobą zadbać również o takie detale jak menu wyboru
+i najlepiej łatwy w obsłudze interfejs.
 
 Na pewno nie było to łatwe przedsięwzięcie.  Ubicie całości w jeden plik nie
 jest (aktualnie) dobrą praktyką.  W 2015, przy „małym” projekcie widocznie nie
@@ -52,3 +53,25 @@ Podziękowania
 - CraftBatcher - by Sucharowiec (oryginalny kod nie znaleziono)
 - Pic Editor & Fn.dll - [Honguito98](https://github.com/Honguito98/pic-editor-batch) -
   program; moduł myszki, inputu klawiatury, usypiania
+- FSCREEN.EXE & KMSTICK.EXE - [ConsoleSoft](https://web.archive.org/web/20180919053840/http://consolesoft.com/)
+
+Licencjonowanie
+---------------
+
+Niniejszy program jest wolnym oprogramowaniem; możesz go
+rozprowadzać dalej i/lub modyfikować na warunkach Powszechnej
+Licencji Publicznej GNU, wydanej przez Fundację Wolnego
+Oprogramowania - według wersji 3 tej Licencji lub (według twojego
+wyboru) którejś z późniejszych wersji.
+
+Niniejszy program rozpowszechniany jest z nadzieją, iż będzie on
+użyteczny - jednak BEZ JAKIEJKOLWIEK GWARANCJI, nawet domyślnej
+gwarancji PRZYDATNOŚCI HANDLOWEJ albo PRZYDATNOŚCI DO OKREŚLONYCH
+ZASTOSOWAŃ. W celu uzyskania bliższych informacji sięgnij do
+Powszechnej Licencji Publicznej GNU.
+
+Z pewnością wraz z niniejszym programem otrzymałeś też egzemplarz
+Powszechnej Licencji Publicznej GNU (GNU General Public License);
+jeśli nie - zobacz <http://www.gnu.org/licenses/>.
+
+CreepyGames (C) 2021 Grzegorz Kita
